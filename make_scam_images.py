@@ -1,17 +1,13 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
-# Open our QR code
-qr = Image.open("test_images/test_qr.png")
+qr = Image.open("test_qr.png")
 
-# Resize QR
 qr = qr.resize((250, 250))
 
-# Create a white image
 image = Image.new("RGB", (800, 700), "white")
 
 draw = ImageDraw.Draw(image)
 
-# Write our fake scam message
 draw.text(
     (50, 50),
     "URGENT!",
@@ -36,10 +32,8 @@ draw.text(
     fill="black"
 )
 
-# Put QR code on the image
 image.paste(qr, (275, 330))
 
-# Save
-image.save("test_images/scam_combined.png")
+image.save("scam_combined.png")
 
 print("Combined scam image created!")
