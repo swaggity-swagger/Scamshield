@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.api.routes import analysis
 
 app = FastAPI(
     title="ScamSense API",
@@ -8,6 +9,8 @@ app = FastAPI(
     ),
     version="1.0.0",
 )
+
+app.include_router(analysis.router)
 
 
 @app.get("/")
