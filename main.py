@@ -1,27 +1,14 @@
 import cv2
 import pytesseract
 
-
-# ==========================================
-# TESSERACT SETUP
-# ==========================================
-
 pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
 
+# Load image
+image = cv2.imread("scam_combined.png")
 
-# ==========================================
-# LOAD IMAGE
-# ==========================================
-
-image = cv2.imread("test_images/scam_combined.png")
-
-
-# ==========================================
 # OCR
-# ==========================================
-
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 gray = cv2.resize(
@@ -40,20 +27,12 @@ _, threshold = cv2.threshold(
 
 text = pytesseract.image_to_string(threshold)
 
-
-# ==========================================
-# QR DETECTION
-# ==========================================
-
+# QR detection
 detector = cv2.QRCodeDetector()
 
 data, points, _ = detector.detectAndDecode(image)
 
-
-# ==========================================
-# DISPLAY RESULTS
-# ==========================================
-
+# Results
 print("\n================================")
 print("       SCAMSHIELD ANALYSIS")
 print("================================")
