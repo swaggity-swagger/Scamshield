@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Environment secrets
+.env
+.env.*
+
+# Node / frontend
+node_modules/
+dist/
+
+# Editor / operating system
+.vscode/settings.json
+.DS_Store
+Thumbs.db
+
+# Local-only Git publisher (contains author configuration)
+configure_and_publish_local.bat

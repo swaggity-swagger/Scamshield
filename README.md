@@ -1,16 +1,49 @@
-# React + Vite
+# ScamSense - AI/NLP Module
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This repository currently contains the AI/NLP service for ScamSense. It accepts a message (or OCR-extracted text) and returns an explainable risk assessment in English, Hindi, or Marathi.
 
-Currently, two official plugins are available:
+## Included
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Multilingual signal detection (English, Hindi, Marathi)
+- Explainable evidence for every matched scam indicator
+- Risk score, risk level, scam categories, and user-safe next steps
+- FastAPI endpoint ready for React or OCR/QR integrations
+- Automated tests with legitimate and scam-message examples
 
-## React Compiler
+## Run locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The ready-to-run local environment is already present. Easiest option: double-click `backend/run_backend.bat`, or open a terminal in `backend` and run:
 
-## Expanding the Oxlint configuration
+```powershell
+.\run_backend.bat
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Keep that terminal open while testing. If the environment is ever deleted, recreate it with:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+Open `http://127.0.0.1:8000/docs` to test the API interactively.
+
+Example request body:
+
+```json
+{
+  "text": "Urgent! Send your OTP and pay the processing fee now.",
+  "preferred_language": "en"
+}
+```
+
+## API contract
+
+`POST /api/v1/analyze/text`
+
+The response includes `risk_score`, `risk_level`, `confidence`, `scam_categories`, `evidence`, and `recommended_actions`. The frontend should display evidence directly so users understand *why* a warning was raised.
+
+## Next integration points
+
+- OCR service sends extracted screenshot text to this endpoint.
+- QR/URL service sends decoded URLs or UPI-payment text to this endpoint.
+- React uses the response to render the risk dashboard and incident guidance.
