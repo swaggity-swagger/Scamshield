@@ -4,6 +4,6 @@ url = "https://example.com"
 
 qr = qrcode.make(url)
 
-qr.save("test_images/test_qr.png")
+qr.save("test_qr.png")
 
 print("QR code created!")
