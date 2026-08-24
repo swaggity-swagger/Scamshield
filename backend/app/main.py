@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from app.api.routes import analysis
+from app.api.routes import upload
+from app.api.routes import qr
 
 app = FastAPI(
     title="ScamSense API",
@@ -11,6 +13,8 @@ app = FastAPI(
 )
 
 app.include_router(analysis.router)
+app.include_router(upload.router)
+app.include_router(qr.router)
 
 
 @app.get("/")

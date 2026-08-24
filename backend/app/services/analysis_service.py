@@ -1,16 +1,10 @@
-def analyze_message(message: str) -> dict:
-    """
-    Temporary analysis function.
+from app.services.ai_service import classify_message
 
-    This is only a placeholder until the AI/NLP model
-    is connected.
-    """
+
+def analyze_message(message: str, language: str = "en") -> dict:
+    result = classify_message(message)
 
     return {
-        "risk_level": "UNKNOWN",
-        "category": "NOT_ANALYZED",
-        "confidence": None,
-        "indicators": [],
-        "explanation": "AI analysis is not connected yet.",
-        "recommended_actions": []
+        "language": language,
+        **result,
     }
