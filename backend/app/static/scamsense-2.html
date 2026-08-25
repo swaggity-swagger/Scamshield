@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScamSense — Know before you click</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+Devanagari:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F5F8F9;
+    --bg-soft-2:#EFF5F3;
+    --ink:#12202B;
+    --ink-soft:#5B6B76;
+    --ink-faint:#8C9AA4;
+    --brand:#145C52;
+    --brand-dark:#0E3A52;
+    --brand-tint:#E4F1EC;
+    --danger:#B23A32;
+    --danger-tint:#FBEAE8;
+    --caution:#A06A0E;
+    --caution-tint:#FBF1DE;
+    --safe:#2F8F5B;
+    --safe-tint:#E7F5ED;
+    --line:#E3E9EA;
+    --radius:14px;
+    --shadow: 0 1px 2px rgba(18,32,43,.04), 0 8px 24px rgba(18,32,43,.06);
+    --focus: 3px solid #1B7A6C;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:17px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk', 'Inter', sans-serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    margin:0;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  p{margin:0;}
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:var(--focus); outline-offset:2px; border-radius:6px;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--brand); font-weight:600;
+  }
+  .eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--brand); display:inline-block;}
+  section{padding:88px 0;}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    padding:15px 26px; border-radius:11px; border:1.5px solid transparent;
+    font-weight:700; font-size:16px; text-decoration:none; transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{background:var(--brand); color:#fff;}
+  .btn-primary:hover{background:var(--brand-dark); transform:translateY(-1px);}
+  .btn-ghost{background:#fff; color:var(--ink); border-color:var(--line);}
+  .btn-ghost:hover{border-color:var(--brand); color:var(--brand);}
+  .btn:active{transform:translateY(0);}
+
+  /* ===== NAV ===== */
+  header{
+    position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1160px; margin:0 auto;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px;}
+  .logo-mark{width:34px; height:34px; flex-shrink:0;}
+  .navlinks{display:flex; align-items:center; gap:30px; font-weight:600; font-size:15px; color:var(--ink-soft);}
+  .navlinks a{text-decoration:none; padding:6px 2px; border-bottom:2px solid transparent;}
+  .navlinks a:hover{color:var(--ink); border-color:var(--brand);}
+  .navright{display:flex; align-items:center; gap:14px;}
+  .lang-switch{display:flex; background:var(--bg-soft); border-radius:9px; padding:3px; gap:2px; border:1px solid var(--line);}
+  .lang-switch button{
+    border:none; background:transparent; padding:7px 12px; border-radius:7px; font-weight:700; font-size:13px; color:var(--ink-soft);
+  }
+  .lang-switch button[aria-pressed="true"]{background:var(--brand); color:#fff;}
+  @media (max-width:860px){ .navlinks{display:none;} }
+
+  /* ===== HERO ===== */
+  .hero{padding:74px 0 40px;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center;}
+  .hero h1{font-size:clamp(34px,4.4vw,52px); line-height:1.08; margin-top:16px;}
+  .hero h1 em{font-style:normal; color:var(--brand);}
+  .hero-sub{margin-top:20px; font-size:19px; color:var(--ink-soft); max-width:520px;}
+  .hero-cta{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .trust-row{display:flex; gap:26px; margin-top:38px; flex-wrap:wrap;}
+  .trust-item{display:flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-soft); font-weight:600;}
+  .trust-item svg{width:18px; height:18px; color:var(--brand);}
+
+  /* hero visual: scan card */
+  .scan-visual{
+    background:var(--bg-soft); border:1px solid var(--line); border-radius:20px; padding:26px;
+    box-shadow:var(--shadow); position:relative; overflow:hidden;
+  }
+  .scan-visual .msg-preview{
+    background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; font-size:14.5px; color:var(--ink-soft);
+  }
+  .scan-visual .msg-preview strong{color:var(--ink); display:block; margin-bottom:6px; font-size:13px;}
+  .scanline{
+    position:absolute; left:26px; right:26px; height:2px; background:linear-gradient(90deg, transparent, var(--brand), transparent);
+    top:26px; animation:scan 2.6s ease-in-out infinite;
+  }
+  @keyframes scan{ 0%{top:120px;} 50%{top:280px;} 100%{top:120px;} }
+  .verdict-chip{
+    margin-top:16px; display:flex; align-items:center; gap:10px; background:var(--danger-tint); color:var(--danger);
+    padding:12px 16px; border-radius:11px; font-weight:700; font-size:14.5px;
+  }
+  .verdict-chip svg{width:20px; height:20px; flex-shrink:0;}
+  .signal-list{margin-top:14px; display:flex; flex-direction:column; gap:9px;}
+  .signal{display:flex; gap:9px; align-items:flex-start; font-size:13.5px; color:var(--ink-soft);}
+  .signal svg{width:15px; height:15px; margin-top:3px; flex-shrink:0; color:var(--caution);}
+
+  /* ===== WHO / PROBLEM strip ===== */
+  .strip{background:var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .strip-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:0;}
+  .strip-item{padding:34px 28px; border-right:1px solid var(--line);}
+  .strip-item:last-child{border-right:none;}
+  .strip-item .num{font-family:'IBM Plex Mono',monospace; color:var(--ink-faint); font-size:13px;}
+  .strip-item p{margin-top:8px; font-weight:600; font-size:15.5px;}
+  @media (max-width:860px){ .strip-grid{grid-template-columns:1fr 1fr;} .strip-item{border-bottom:1px solid var(--line);} }
+
+  /* ===== CHECK TOOL (signature interactive) ===== */
+  .checker{background:var(--bg); }
+  .section-head{max-width:640px; margin-bottom:44px;}
+  .section-head h2{font-size:clamp(28px,3.2vw,38px); margin-top:14px;}
+  .section-head p{margin-top:14px; color:var(--ink-soft); font-size:17px;}
+
+  .checker-card{
+    border:1px solid var(--line); border-radius:20px; background:var(--bg-soft); box-shadow:var(--shadow); overflow:hidden;
+  }
+  .tabbar{display:flex; border-bottom:1px solid var(--line); background:#fff; overflow-x:auto;}
+  .tabbar button{
+    flex:1; min-width:130px; padding:17px 14px; background:none; border:none; font-weight:700; font-size:14.5px; color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center; gap:8px; border-bottom:3px solid transparent;
+  }
+  .tabbar button svg{width:17px; height:17px;}
+  .tabbar button[aria-selected="true"]{color:var(--brand); border-color:var(--brand); background:var(--brand-tint);}
+  .checker-body{padding:30px;}
+  .input-panel textarea, .input-panel input[type=text]{
+    width:100%; border:1.5px solid var(--line); border-radius:12px; padding:16px; font-size:16px; font-family:inherit;
+    background:#fff; resize:vertical; min-height:130px; color:var(--ink);
+  }
+  .input-panel input[type=text]{min-height:auto;}
+  .input-panel textarea:focus, .input-panel input:focus{border-color:var(--brand);}
+  .drop-zone{
+    border:2px dashed var(--line); border-radius:12px; padding:34px; text-align:center; background:#fff; color:var(--ink-soft); font-size:15px;
+  }
+  .drop-zone svg{width:30px;height:30px;margin:0 auto 10px; color:var(--ink-faint);}
+  .checker-actions{display:flex; align-items:center; gap:16px; margin-top:20px; flex-wrap:wrap;}
+  .hint{font-size:13.5px; color:var(--ink-faint);}
+
+  .progress-wrap{display:none; margin-top:20px;}
+  .progress-wrap.active{display:block;}
+  .progress-track{height:8px; background:var(--line); border-radius:6px; overflow:hidden;}
+  .progress-fill{height:100%; width:0%; background:var(--brand); border-radius:6px; transition:width .35s ease;}
+  .progress-label{margin-top:10px; font-size:13.5px; color:var(--ink-soft); font-weight:600;}
+
+  .result{display:none; margin-top:26px; border-top:1px solid var(--line); padding-top:26px;}
+  .result.active{display:block; animation:fadein .4s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .result-head{display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+  .risk-badge{
+    display:inline-flex; align-items:center; gap:9px; padding:10px 18px; border-radius:11px; font-weight:800; font-size:15px;
+  }
+  .risk-badge svg{width:19px;height:19px;}
+  .risk-badge.high{background:var(--danger-tint); color:var(--danger);}
+  .risk-badge.med{background:var(--caution-tint); color:var(--caution);}
+  .risk-badge.low{background:var(--safe-tint); color:var(--safe);}
+  .risk-score{font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--ink-soft);}
+  .result-grid{display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:22px;}
+  .result-block h4{font-size:14px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); margin-bottom:12px; font-weight:700;}
+  .why-list{display:flex; flex-direction:column; gap:10px;}
+  .why-list li{list-style:none; display:flex; gap:9px; font-size:15px; color:var(--ink); align-items:flex-start;}
+  .why-list svg{width:16px;height:16px;margin-top:3px;flex-shrink:0;color:var(--caution);}
+  .steps-list{display:flex; flex-direction:column; gap:10px; counter-reset:step;}
+  .steps-list li{list-style:none; counter-increment:step; display:flex; gap:12px; font-size:15px; align-items:flex-start;}
+  .steps-list li::before{
+    content:counter(step); flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--brand); color:#fff;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; display:flex; align-items:center; justify-content:center; font-weight:700;
+  }
+  @media (max-width:720px){ .result-grid{grid-template-columns:1fr;} }
+
+  /* ===== FLOW ===== */
+  .flow{background:var(--bg-soft-2);}
+  .flow-row{display:flex; align-items:stretch; gap:0; margin-top:10px;}
+  .flow-card{
+    flex:1; background:#fff; border:1px solid var(--line); border-radius:16px; padding:26px; position:relative;
+  }
+  .flow-arrow{display:flex; align-items:center; justify-content:center; width:56px; flex-shrink:0; color:var(--ink-faint);}
+  .flow-arrow svg{width:26px;height:26px;}
+  .flow-card .tag{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--brand); font-weight:600; text-transform:uppercase; letter-spacing:.05em;}
+  .flow-card h3{margin-top:10px; font-size:19px;}
+  .flow-card p{margin-top:8px; color:var(--ink-soft); font-size:14.5px;}
+  @media (max-width:900px){ .flow-row{flex-direction:column;} .flow-arrow{width:100%; height:36px;} .flow-arrow svg{transform:rotate(90deg);} }
+
+  /* ===== FEATURES ===== */
+  .feat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:10px;}
+  .feat-card{border:1px solid var(--line); border-radius:16px; padding:26px; background:#fff; transition:box-shadow .2s ease, transform .2s ease;}
+  .feat-card:hover{box-shadow:var(--shadow); transform:translateY(-3px);}
+  .feat-icon{width:44px; height:44px; border-radius:11px; background:var(--brand-tint); display:flex; align-items:center; justify-content:center; margin-bottom:16px;}
+  .feat-icon svg{width:22px;height:22px; color:var(--brand);}
+  .feat-card h3{font-size:17px;}
+  .feat-card p{margin-top:10px; font-size:14.5px; color:var(--ink-soft);}
+  .feat-card .kv{margin-top:14px; font-size:13px; font-weight:700; color:var(--brand);}
+  @media (max-width:980px){ .feat-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .feat-grid{grid-template-columns:1fr;} }
+
+  /* ===== INCIDENT ASSISTANT ===== */
+  .incident{display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:center;}
+  .incident-card{border:1px solid var(--line); border-radius:18px; padding:30px; background:var(--bg-soft);}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:13.5px; font-weight:700; color:var(--ink-soft); margin-bottom:7px;}
+  .field select, .field textarea{
+    width:100%; border:1.5px solid var(--line); border-radius:10px; padding:12px 14px; font-size:15px; font-family:inherit; background:#fff;
+  }
+  @media (max-width:900px){ .incident{grid-template-columns:1fr;} }
+
+  /* ===== LANG DEMO STRIP ===== */
+  .lang-demo{background:var(--brand-dark); color:#fff; border-radius:20px; padding:44px; margin-top:0;}
+  .lang-demo h2{color:#fff; font-size:26px;}
+  .lang-demo p.desc{color:#C9DAD4; margin-top:10px; max-width:520px;}
+  .lang-demo-box{margin-top:26px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:24px;}
+  .lang-demo-box .verdict-lang{font-size:20px; font-weight:700;}
+  .lang-demo-box .body-lang{margin-top:10px; color:#DCE9E4; font-size:15.5px; line-height:1.7;}
+  .devanagari{font-family:'Noto Sans Devanagari','Inter',sans-serif;}
+
+  /* ===== FOOTER ===== */
+  footer{border-top:1px solid var(--line); padding:48px 0; background:var(--bg-soft);}
+  .foot-grid{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;}
+  .foot-links{display:flex; gap:24px; font-size:14px; color:var(--ink-soft); font-weight:600; flex-wrap:wrap;}
+  .foot-note{font-size:13px; color:var(--ink-faint); margin-top:20px;}
+
+  .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M17 2 4 7v9c0 8.5 5.6 15.3 13 18 7.4-2.7 13-9.5 13-18V7L17 2Z" fill="#145C52"/>
+        <path d="M12.5 17.3l3.2 3.2 6.3-6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      ScamSense
+    </div>
+    <nav class="navlinks">
+      <a href="#check" data-i18n="nav.check">Check something</a>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#features" data-i18n="nav.features">Features</a>
+      <a href="#incident" data-i18n="nav.incident">If you were scammed</a>
+    </nav>
+    <div class="navright">
+      <div class="lang-switch" role="group" aria-label="Choose language">
+        <button data-lang="en" aria-pressed="true">EN</button>
+        <button data-lang="hi" aria-pressed="false">हिं</button>
+        <button data-lang="mr" aria-pressed="false">मरा</button>
+      </div>
+      <a href="#check" class="btn btn-primary" style="padding:11px 20px; font-size:14.5px;" data-i18n="nav.cta">Check now</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" data-i18n="hero.eyebrow">Fintech &amp; Digital Safety</span>
+      <h1 data-i18n-html="hero.title">Know if it's a scam <em>before</em> you click, pay, or share.</h1>
+      <p class="hero-sub" data-i18n="hero.sub">ScamSense reads the message, link, or QR code someone sent you, tells you plainly whether it's dangerous, explains why in your own language, and walks you through exactly what to do next.</p>
+      <div class="hero-cta">
+        <a href="#check" class="btn btn-primary" data-i18n="hero.cta1">Check a message now</a>
+        <a href="#how" class="btn btn-ghost" data-i18n="hero.cta2">See how it works</a>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 5-3.4 8.4-7 9-3.6-.6-7-4-7-9V6l7-3z"/></svg><span data-i18n="hero.trust1">Built for senior citizens</span></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l2.5 2.5L16 9"/></svg><span data-i18n="hero.trust2">Explains, doesn't just warn</span></div>
+        <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h10"/></svg><span data-i18n="hero.trust3">English, हिंदी, मराठी</span></div>
+      </div>
+    </div>
+
+    <div class="scan-visual" aria-hidden="true">
+      <div class="scanline"></div>
+      <div class="msg-preview">
+        <strong data-i18n="hero.sms.label">Incoming SMS</strong>
+        <span data-i18n="hero.sms.body">"Dear customer, your KYC has expired. Update immediately or your account will be blocked in 24 hrs: bit.ly/kyc-verify9"</span>
+      </div>
+      <div class="verdict-chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 9v4M12 17h.01M10.3 3.9L2.7 17.5c-.6 1 .2 2.3 1.4 2.3h15.8c1.2 0 2-1.3 1.4-2.3L13.7 3.9c-.6-1.1-2.1-1.1-2.7 0z"/></svg>
+        <span data-i18n="result.badge">High risk — likely phishing</span>
+      </div>
+      <div class="signal-list">
+        <div class="signal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="hero.sms.signal1">Creates urgency with a false deadline</span></div>
+        <div class="signal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="hero.sms.signal2">Shortened link hides the real website</span></div>
+        <div class="signal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="hero.sms.signal3">Banks never ask for KYC via SMS link</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM STRIP -->
+<div class="strip">
+  <div class="wrap strip-grid">
+    <div class="strip-item"><span class="num">01</span><p data-i18n="strip.1">Digital-payment fraud</p></div>
+    <div class="strip-item"><span class="num">02</span><p data-i18n="strip.2">Phishing messages</p></div>
+    <div class="strip-item"><span class="num">03</span><p data-i18n="strip.3">Fake job offers</p></div>
+    <div class="strip-item"><span class="num">04</span><p data-i18n="strip.4">Malicious QR codes</p></div>
+  </div>
+</div>
+
+<!-- CHECK TOOL -->
+<section class="checker" id="check">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="checker.eyebrow">Try it</span>
+      <h2 data-i18n="checker.title">Paste it, upload it, or scan it. We'll tell you what it really is.</h2>
+      <p data-i18n="checker.desc">Four ways in — a message, a screenshot, a link, or a QR code. This demo shows how ScamSense analyses content and hands back a plain-language verdict.</p>
+    </div>
+
+    <div class="checker-card">
+      <div class="tabbar" role="tablist" aria-label="Choose what to check">
+        <button role="tab" aria-selected="true" data-tab="message">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span data-i18n="tab.message">Message</span>
+        </button>
+        <button role="tab" aria-selected="false" data-tab="screenshot">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg><span data-i18n="tab.screenshot">Screenshot</span>
+        </button>
+        <button role="tab" aria-selected="false" data-tab="url">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.5.5l2-2a5 5 0 00-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 00-7.5-.5l-2 2a5 5 0 007 7l1.5-1.5"/></svg><span data-i18n="tab.url">Link / URL</span>
+        </button>
+        <button role="tab" aria-selected="false" data-tab="qr">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM19 14h2v2h-2zM14 19h2v2h-2zM19 19h2v2h-2z"/></svg><span data-i18n="tab.qr">QR code</span>
+        </button>
+      </div>
+
+      <div class="checker-body">
+        <div class="input-panel" data-panel="message">
+          <textarea id="messageInput" aria-label="Paste the suspicious message">Dear customer, your KYC has expired. Update immediately or your account will be blocked in 24 hrs: bit.ly/kyc-verify9</textarea>
+        </div>
+        <div class="input-panel" data-panel="screenshot" style="display:none;">
+          <div class="drop-zone" id="screenshotDrop" role="button" tabindex="0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/></svg>
+            <span id="screenshotLabel">Drag a screenshot here, or click to upload</span><br><span class="hint">PNG, JPG — we read the text with on-device OCR</span>
+            <input id="screenshotInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp" hidden>
+          </div>
+        </div>
+        <div class="input-panel" data-panel="url" style="display:none;">
+          <input type="text" id="urlInput" aria-label="Paste the link" value="hxxp://sbi-kyc-update.verify9-secure.info">
+        </div>
+        <div class="input-panel" data-panel="qr" style="display:none;">
+          <div class="drop-zone" id="qrDrop" role="button" tabindex="0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span id="qrLabel">Upload a photo of the QR code</span><br><span class="hint">We decode it and check where it actually leads</span>
+            <input id="qrInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp" hidden>
+          </div>
+        </div>
+
+        <div class="checker-actions">
+          <button class="btn btn-primary" id="runCheck" data-i18n="checker.run">Check this</button>
+          <span class="hint" data-i18n="checker.hint">This is a guided demo using a sample scam message — try editing the text above.</span>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-label" id="progressLabel">Reading the content…</div>
+        </div>
+
+        <div class="result" id="resultBlock">
+          <div class="result-head">
+            <span class="risk-badge high" id="riskBadge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M12 9v4M12 17h.01M10.3 3.9L2.7 17.5c-.6 1 .2 2.3 1.4 2.3h15.8c1.2 0 2-1.3 1.4-2.3L13.7 3.9c-.6-1.1-2.1-1.1-2.7 0z"/></svg>
+              <span id="riskBadgeText">High risk — likely phishing</span>
+            </span>
+            <span class="risk-score mono" id="riskScore">Confidence 94% · SMS smishing pattern</span>
+          </div>
+
+          <div class="result-grid">
+            <div class="result-block">
+              <h4 data-i18n="result.whyHeading">Why this is risky</h4>
+              <ul class="why-list" id="whyList">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="result.why1">Creates urgency with a false 24-hour deadline</span></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="result.why2">Uses a shortened link that hides the real destination</span></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="result.why3">No bank sends KYC-renewal requests by SMS link</span></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg><span data-i18n="result.why4">Domain pattern matches known phishing kits</span></li>
+              </ul>
+            </div>
+            <div class="result-block">
+              <h4 data-i18n="result.stepsHeading">What to do now</h4>
+              <ol class="steps-list" id="stepsList">
+                <li><span data-i18n="result.step1">Don't click the link or enter any details</span></li>
+                <li><span data-i18n="result.step2">Delete the message — do not reply "STOP" either</span></li>
+                <li><span data-i18n="result.step3">Verify by calling the number on your bank card</span></li>
+                <li><span data-i18n="result.step4">Report it in the Post-Fraud Assistant below</span></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS / FLOW -->
+<section class="flow" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="flow.eyebrow">How it works</span>
+      <h2 data-i18n="flow.title">Detection alone isn't enough. We close the loop.</h2>
+      <p data-i18n="flow.desc">Most tools stop at a red flag. ScamSense stays with you from the first suspicious message to the moment you know exactly what to do — in the language you're most comfortable in.</p>
+    </div>
+    <div class="flow-row">
+      <div class="flow-card">
+        <span class="tag" data-i18n="flow.tag1">Input</span>
+        <h3 data-i18n="flow.h1">You share it</h3>
+        <p data-i18n="flow.p1">A message, screenshot, link, or QR code — whatever landed in your inbox or chat.</p>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-card">
+        <span class="tag" data-i18n="flow.tag2">AI / ML engine</span>
+        <h3 data-i18n="flow.h2">We analyse it</h3>
+        <p data-i18n="flow.p2">Signals in the wording, links, and domains are checked against known scam patterns.</p>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-card">
+        <span class="tag" data-i18n="flow.tag3">Risk + explanation</span>
+        <h3 data-i18n="flow.h3">We tell you plainly</h3>
+        <p data-i18n="flow.p3">A clear risk level, plus the exact reasons — not just a verdict, an explanation.</p>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-card">
+        <span class="tag" data-i18n="flow.tag4">Guided action</span>
+        <h3 data-i18n="flow.h4">We guide the next step</h3>
+        <p data-i18n="flow.p4">Verify, secure, report — simple actions in your language, no jargon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow" data-i18n="feat.eyebrow">What makes it different</span>
+      <h2 data-i18n="feat.title">One workflow — detection, explanation, and what to do about it.</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+        <h3 data-i18n="feat.h1">Explainable detection</h3>
+        <p data-i18n="feat.p1">Every verdict comes with the specific warning signs behind it — not just a red or green light.</p>
+        <div class="kv" data-i18n="feat.kv1">Users understand the risk, not just the verdict</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18 15 15 0 010-18z"/></svg></div>
+        <h3 data-i18n="feat.h2">Multilingual &amp; senior-friendly</h3>
+        <p data-i18n="feat.p2">English, Hindi, and Marathi, written in simple, plain language designed for low digital literacy.</p>
+        <div class="kv" data-i18n="feat.kv2">Makes scam warnings accessible and actionable</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+        <h3 data-i18n="feat.h3">Action-oriented guidance</h3>
+        <p data-i18n="feat.p3">Clear next steps every time: don't click, don't pay, don't share OTP — verify, secure, report.</p>
+        <div class="kv" data-i18n="feat.kv3">Converts detection into the right action</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></div>
+        <h3 data-i18n="feat.h4">Post-fraud incident assistant</h3>
+        <p data-i18n="feat.p4">If a scam already happened, we collect the details, preserve evidence, and guide you to report it.</p>
+        <div class="kv" data-i18n="feat.kv4">Supports users even after a scam occurs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGE DEMO -->
+<section>
+  <div class="wrap">
+    <div class="lang-demo">
+      <span class="eyebrow" style="color:#8FD4C1;" data-i18n="langdemo.eyebrow">Multilingual output</span>
+      <h2 data-i18n="langdemo.title">The same clear warning, in the language you trust most.</h2>
+      <p class="desc" data-i18n="langdemo.desc">Switch languages above (EN / हिं / मरा) and the verdict below updates — this is the exact explanation a user would see.</p>
+      <div class="lang-demo-box">
+        <div class="verdict-lang" id="langVerdict">High risk — likely phishing</div>
+        <div class="body-lang" id="langBody">This message pressures you with a fake deadline and hides its real link. Do not click it or share any bank details. Verify only by calling the number printed on your bank card.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCIDENT ASSISTANT -->
+<section id="incident">
+  <div class="wrap incident">
+    <div>
+      <span class="eyebrow" data-i18n="incident.eyebrow">If it already happened</span>
+      <h2 style="font-size:clamp(26px,3vw,34px); margin-top:14px;" data-i18n="incident.title">You clicked, paid, or shared something. Here's what to do next.</h2>
+      <p style="margin-top:16px; color:var(--ink-soft); font-size:16px;" data-i18n="incident.desc">The Post-Fraud Incident Assistant collects the key details, keeps a record of the evidence, and prepares a clear summary you can hand to your bank or the cybercrime portal — so you don't have to explain everything from memory while stressed.</p>
+      <a href="#" class="btn btn-ghost" style="margin-top:22px;" data-i18n="incident.link">Learn what evidence to keep</a>
+    </div>
+    <div class="incident-card">
+      <div class="field">
+        <label for="incType" data-i18n="incident.label1">What kind of incident was this?</label>
+        <select id="incType">
+          <option>Money was transferred without my consent</option>
+          <option>I shared an OTP or password</option>
+          <option>I clicked a suspicious link</option>
+          <option>I scanned a QR code and lost money</option>
+          <option>I responded to a fake job offer</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="incWhen" data-i18n="incident.label2">When did this happen?</label>
+        <select id="incWhen">
+          <option>Today</option>
+          <option>Yesterday</option>
+          <option>This week</option>
+          <option>More than a week ago</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="incNotes" data-i18n="incident.label3">Briefly, what happened?</label>
+        <textarea id="incNotes" rows="3" placeholder="e.g. I received a call claiming to be my bank and shared the OTP that came to my phone."></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%;" id="incGenerate" data-i18n="incident.generate">Generate incident summary</button>
+      <p class="hint" style="margin-top:12px; text-align:center;" data-i18n="incident.hint">We'll prepare a summary and point you to the right place to report it.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="logo" style="font-size:17px;">
+        <svg class="logo-mark" style="width:26px;height:26px;" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M17 2 4 7v9c0 8.5 5.6 15.3 13 18 7.4-2.7 13-9.5 13-18V7L17 2Z" fill="#145C52"/>
+          <path d="M12.5 17.3l3.2 3.2 6.3-6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        ScamSense
+      </div>
+      <div class="foot-links">
+        <a href="#check" data-i18n="nav.check">Check something</a>
+        <a href="#how" data-i18n="nav.how">How it works</a>
+        <a href="#features" data-i18n="nav.features">Features</a>
+        <a href="#incident" data-i18n="foot.report">Report a scam</a>
+      </div>
+    </div>
+    <p class="foot-note" data-i18n="foot.note">ScamSense · Team Code Atelier · Prototype interface — Smart India Hackathon 2026. This demo simulates analysis results for illustration.</p>
+  </div>
+</footer>
+
+<script>
+  // ---- Tabs ----
+  const tabs = document.querySelectorAll('.tabbar button');
+  const panels = document.querySelectorAll('.input-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.setAttribute('aria-selected','false'));
+      tab.setAttribute('aria-selected','true');
+      const target = tab.dataset.tab;
+      panels.forEach(p => p.style.display = (p.dataset.panel === target) ? 'block' : 'none');
+      document.getElementById('resultBlock').classList.remove('active');
+      document.getElementById('progressWrap').classList.remove('active');
+    });
+  });
+
+  // ---- Connected scan ----
+  const runBtn = document.getElementById('runCheck');
+  const progressWrap = document.getElementById('progressWrap');
+  const progressFill = document.getElementById('progressFill');
+  const progressLabel = document.getElementById('progressLabel');
+  const resultBlock = document.getElementById('resultBlock');
+  const screenshotInput = document.getElementById('screenshotInput');
+  const qrInput = document.getElementById('qrInput');
+  const selectedFiles = { screenshot: null, qr: null };
+  function bindUpload(dropId, input, labelId, kind){
+    const drop = document.getElementById(dropId);
+    const label = document.getElementById(labelId);
+    const select = () => input.click();
+    drop.addEventListener('click', select);
+    drop.addEventListener('keydown', event => { if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); select(); } });
+    input.addEventListener('change', () => { selectedFiles[kind] = input.files[0] || null; if(selectedFiles[kind]) label.textContent = selectedFiles[kind].name; });
+    drop.addEventListener('dragover', event => event.preventDefault());
+    drop.addEventListener('drop', event => { event.preventDefault(); selectedFiles[kind] = event.dataTransfer.files[0] || null; if(selectedFiles[kind]) label.textContent = selectedFiles[kind].name; });
+  }
+  bindUpload('screenshotDrop', screenshotInput, 'screenshotLabel', 'screenshot');
+  bindUpload('qrDrop', qrInput, 'qrLabel', 'qr');
+
+  function currentLanguage(){
+    const lang = document.documentElement.lang || 'en';
+    return ['en', 'hi', 'mr'].includes(lang) ? lang : 'en';
+  }
+
+  function apiBase(){
+    if(location.protocol === 'file:' || !location.origin || location.origin === 'null'){
+      return 'http://127.0.0.1:8000';
+    }
+    return '';
+  }
+
+  function errorMessage(error, data){
+    const detail = data?.detail;
+    if(typeof detail === 'string' && detail.trim()) return detail;
+    if(Array.isArray(detail) && detail[0]?.msg) return detail.map(item => item.msg).join(' ');
+    if(data?.errors?.[0]?.message) return data.errors[0].message;
+    const raw = String(error?.message || '');
+    if(/string did not match the expected pattern/i.test(raw) || /failed to fetch|load failed|networkerror/i.test(raw)){
+      return 'Could not reach the ScamSense server. Start the backend, or keep going — a local check will still run.';
+    }
+    return raw || 'Unable to analyse this content.';
+  }
+
+  function localAnalyze(text){
+    const lowered = String(text || '').replace(/\s+/g, ' ').trim();
+    const patterns = [
+      ['otp_request', /\b(?:share|send|tell|provide|enter|verify|give)\b.{0,30}\botp\b|\botp\b.{0,30}\b(?:share|send|provide|enter|verify)\b/i, 'OTP request'],
+      ['password_request', /\b(?:share|send|provide|enter|verify|confirm|reset)\b.{0,40}\bpassword\b|\bpassword\b.{0,40}\b(?:share|send|provide|enter|verify|reset)\b/i, 'Password request'],
+      ['kyc_request', /\b(?:complete|update|verify|renew|expired)\b.{0,20}\bkyc\b|\bkyc\b.{0,30}\b(?:complete|update|verify|pending|expired)\b/i, 'KYC request'],
+      ['account_blocking_threat', /\b(?:account|card|wallet)\b.{0,40}\b(?:block|blocked|suspend|suspended|freeze|frozen)\b/i, 'Account blocking threat'],
+      ['urgency', /\b(?:urgent|immediately|within\s+\d+\s*(?:minutes?|hours?|days?)|act (?:now|fast)|last chance|24 hrs?)\b/i, 'Urgency'],
+      ['bank_impersonation', /\b(?:bank of america|sbi|hdfc|icici|axis|rbi|better business bureau|bbb)\b/i, 'Bank or authority impersonation'],
+      ['prize_lottery_claim', /\b(?:congratulations|winner|won|prize|lottery|reward|gift)\b/i, 'Prize or lottery claim'],
+      ['job_registration_fee', /\b(?:job|work from home|interview|selected|offer)\b.{0,80}\b(?:registration|processing|application)\s+fee\b/i, 'Job registration fee'],
+      ['sensitive_personal_info_request', /\b(?:share|send|provide|enter|verify|submit)\b.{0,40}\b(?:aadhaar|pan|cvv|card number|otp|password)\b/i, 'Sensitive information request']
+    ];
+    const indicators = [];
+    for(const [id, pattern, label] of patterns){
+      const match = lowered.match(pattern);
+      if(match) indicators.push({id, label, evidence: match[0]});
+    }
+    const urlMatches = lowered.match(/\b(?:https?:\/\/|www\.)[^\s<>'"]+/gi) || [];
+    const shortener = urlMatches.find(url => /bit\.ly|tinyurl\.com|t\.me|goo\.gl|cutt\.ly/i.test(url));
+    if(shortener) indicators.push({id:'url_shortener', label:'URL shortener', evidence: shortener});
+    urlMatches.forEach(url => {
+      if(/verify|secure|login|kyc|reset|update|account/i.test(url) && !/bankofamerica\.com|sbi\.co\.in|hdfcbank\.com|icicibank\.com|netflix\.com/i.test(url)){
+        indicators.push({id:'suspicious_url', label:'Suspicious URL', evidence: url});
+      }
+    });
+    if(/\bfrom\s*:/i.test(text || '') && /bank of america/i.test(lowered) && /ameribank|trust\./i.test(lowered)){
+      indicators.push({id:'brand_sender_domain_mismatch', label:'Brand claim and sender domain do not match', evidence:'Claims Bank of America from a non-official sender'});
+    }
+    const score = Math.min(100, indicators.length * 18);
+    const risk_level = score >= 76 ? 'VERY HIGH' : score >= 51 ? 'HIGH' : score >= 26 ? 'MEDIUM' : 'LOW';
+    const scam_type = indicators.some(item => item.id.includes('password') || item.id.includes('kyc') || item.id === 'suspicious_url') ? 'PHISHING'
+      : indicators.some(item => item.id === 'otp_request') ? 'OTP_SCAM'
+      : indicators.length ? 'SMISHING' : 'NORMAL_OR_UNKNOWN';
+    const recommendations = scam_type === 'NORMAL_OR_UNKNOWN'
+      ? ['No strong scam signs were found, but stay cautious with links and payment requests.']
+      : ['Do not click the link or share passwords, OTPs, or card details.', 'Open the official app or website yourself — do not use links from the message.', 'Verify by calling the number on your bank card or official website.', 'If you already shared details, contact your bank and report at cybercrime.gov.in or 1930.'];
+    return {
+      status: 'ok',
+      cybersecurity_analysis: {
+        risk_level,
+        risk_score: score,
+        scam_type,
+        indicators,
+        recommendations,
+        url_analysis: []
+      }
+    };
+  }
+
+  function normalizeUrlInput(value){
+    return value.trim().replace(/^hxxps:\/\//i, 'https://').replace(/^hxxp:\/\//i, 'http://');
+  }
+
+  function escapeHtml(value){
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function showResult(data){
+    const analysis = data.cybersecurity_analysis;
+    if(!analysis) throw new Error(data.errors?.[0]?.message || 'Analysis did not return a cybersecurity result.');
+    const level = analysis.risk_level.toLowerCase().replace(' ', '-');
+    const badge = document.getElementById('riskBadge');
+    badge.className = `risk-badge ${level === 'low' ? 'low' : level === 'medium' ? 'med' : 'high'}`;
+    document.getElementById('riskBadgeText').textContent = `${analysis.risk_level} risk — ${(analysis.scam_type || 'unknown').replaceAll('_', ' ').toLowerCase()}`;
+    document.getElementById('riskScore').textContent = `Risk score ${analysis.risk_score}/100`;
+    const reasons = (analysis.indicators || []).map(item => item.evidence ? `${item.label}: ${item.evidence}` : item.label);
+    (analysis.url_analysis || []).forEach(item => {
+      const live = item.live_analysis;
+      if(!live) return;
+      if(live.status === 'fetched'){
+        reasons.push(`Live page scan: fetched ${live.status_code} response from ${live.final_url}`);
+        if(live.redirect_chain?.length) reasons.push(`Redirect chain: ${live.redirect_chain.join(' -> ')}`);
+        if(live.title) reasons.push(`Landing page title: ${live.title}`);
+      } else if(live.status === 'blocked') {
+        reasons.push(`Live page scan blocked: ${live.reason}`);
+      } else {
+        reasons.push(`Live page scan ${live.status}: ${live.reason}`);
+      }
+    });
+    document.getElementById('whyList').innerHTML = (reasons.length ? reasons : ['No specific scam signals were found.']).map(reason => `<li><span>${escapeHtml(reason)}</span></li>`).join('');
+    document.getElementById('stepsList').innerHTML = (analysis.recommendations || []).slice(0, 4).map(step => `<li><span>${escapeHtml(step)}</span></li>`).join('');
+    resultBlock.classList.add('active');
+    resultBlock.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  runBtn.addEventListener('click', async () => {
+    resultBlock.classList.remove('active');
+    progressWrap.classList.add('active');
+    progressFill.style.width = '45%';
+    progressLabel.textContent = 'Analysing content…';
+    runBtn.disabled = true;
+    try {
+      const activeTab = document.querySelector('.tabbar button[aria-selected="true"]').dataset.tab;
+      let data = null;
+      if(activeTab === 'screenshot' || activeTab === 'qr'){
+        const file = selectedFiles[activeTab];
+        if(!file) throw new Error('Please select an image first.');
+        const body = new FormData(); body.append('image', file); body.append('preferred_language', currentLanguage());
+        const response = await fetch(`${apiBase()}/api/analyze/image`, {method:'POST', body});
+        data = await response.json().catch(() => ({}));
+        if(!response.ok || data.status === 'failed') throw new Error(errorMessage(null, data) || 'Analysis failed.');
+      } else {
+        const rawText = activeTab === 'message' ? document.getElementById('messageInput').value : document.getElementById('urlInput').value;
+        const text = activeTab === 'url' ? normalizeUrlInput(rawText) : rawText.trim();
+        if(!text) throw new Error('Please enter something to check.');
+        const payload = {text, preferred_language: currentLanguage()};
+        if(activeTab === 'url') {
+          payload.urls = [text];
+          payload.live_url_scan = true;
+        }
+        try {
+          const response = await fetch(`${apiBase()}/api/analyze/text`, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+          data = await response.json().catch(() => ({}));
+          if(!response.ok || data.status === 'failed') throw new Error(errorMessage(null, data) || 'Analysis failed.');
+        } catch (error) {
+          if(activeTab === 'message' || activeTab === 'url'){
+            data = localAnalyze(text);
+          } else {
+            throw error;
+          }
+        }
+      }
+      progressFill.style.width = '100%';
+      showResult(data);
+    } catch(error) {
+      alert(errorMessage(error) || 'Unable to analyse this content.');
+    } finally {
+      progressWrap.classList.remove('active');
+      runBtn.disabled = false;
+    }
+  });
+
+  // ---- Site-wide translations ----
+  const translations = {
+    en: {
+      "nav.check":"Check something","nav.how":"How it works","nav.features":"Features","nav.incident":"If you were scammed","nav.cta":"Check now",
+      "hero.eyebrow":"Fintech & Digital Safety",
+      "hero.title":"Know if it's a scam <em>before</em> you click, pay, or share.",
+      "hero.sub":"ScamSense reads the message, link, or QR code someone sent you, tells you plainly whether it's dangerous, explains why in your own language, and walks you through exactly what to do next.",
+      "hero.cta1":"Check a message now","hero.cta2":"See how it works",
+      "hero.trust1":"Built for senior citizens","hero.trust2":"Explains, doesn't just warn","hero.trust3":"English, हिंदी, मराठी",
+      "hero.sms.label":"Incoming SMS",
+      "hero.sms.body":"\"Dear customer, your KYC has expired. Update immediately or your account will be blocked in 24 hrs: bit.ly/kyc-verify9\"",
+      "hero.sms.signal1":"Creates urgency with a false deadline","hero.sms.signal2":"Shortened link hides the real website","hero.sms.signal3":"Banks never ask for KYC via SMS link",
+      "strip.1":"Digital-payment fraud","strip.2":"Phishing messages","strip.3":"Fake job offers","strip.4":"Malicious QR codes",
+      "checker.eyebrow":"Try it","checker.title":"Paste it, upload it, or scan it. We'll tell you what it really is.",
+      "checker.desc":"Four ways in — a message, a screenshot, a link, or a QR code. This demo shows how ScamSense analyses content and hands back a plain-language verdict.",
+      "tab.message":"Message","tab.screenshot":"Screenshot","tab.url":"Link / URL","tab.qr":"QR code",
+      "checker.run":"Check this","checker.hint":"This is a guided demo using a sample scam message — try editing the text above.",
+      "result.badge":"High risk — likely phishing","result.score":"Confidence 94% · SMS smishing pattern",
+      "result.whyHeading":"Why this is risky","result.stepsHeading":"What to do now",
+      "result.why1":"Creates urgency with a false 24-hour deadline","result.why2":"Uses a shortened link that hides the real destination",
+      "result.why3":"No bank sends KYC-renewal requests by SMS link","result.why4":"Domain pattern matches known phishing kits",
+      "result.step1":"Don't click the link or enter any details","result.step2":"Delete the message — do not reply \"STOP\" either",
+      "result.step3":"Verify by calling the number on your bank card","result.step4":"Report it in the Post-Fraud Assistant below",
+      "flow.eyebrow":"How it works","flow.title":"Detection alone isn't enough. We close the loop.",
+      "flow.desc":"Most tools stop at a red flag. ScamSense stays with you from the first suspicious message to the moment you know exactly what to do — in the language you're most comfortable in.",
+      "flow.tag1":"Input","flow.h1":"You share it","flow.p1":"A message, screenshot, link, or QR code — whatever landed in your inbox or chat.",
+      "flow.tag2":"AI / ML engine","flow.h2":"We analyse it","flow.p2":"Signals in the wording, links, and domains are checked against known scam patterns.",
+      "flow.tag3":"Risk + explanation","flow.h3":"We tell you plainly","flow.p3":"A clear risk level, plus the exact reasons — not just a verdict, an explanation.",
+      "flow.tag4":"Guided action","flow.h4":"We guide the next step","flow.p4":"Verify, secure, report — simple actions in your language, no jargon.",
+      "feat.eyebrow":"What makes it different","feat.title":"One workflow — detection, explanation, and what to do about it.",
+      "feat.h1":"Explainable detection","feat.p1":"Every verdict comes with the specific warning signs behind it — not just a red or green light.","feat.kv1":"Users understand the risk, not just the verdict",
+      "feat.h2":"Multilingual &amp; senior-friendly","feat.p2":"English, Hindi, and Marathi, written in simple, plain language designed for low digital literacy.","feat.kv2":"Makes scam warnings accessible and actionable",
+      "feat.h3":"Action-oriented guidance","feat.p3":"Clear next steps every time: don't click, don't pay, don't share OTP — verify, secure, report.","feat.kv3":"Converts detection into the right action",
+      "feat.h4":"Post-fraud incident assistant","feat.p4":"If a scam already happened, we collect the details, preserve evidence, and guide you to report it.","feat.kv4":"Supports users even after a scam occurs",
+      "langdemo.eyebrow":"Multilingual output","langdemo.title":"The same clear warning, in the language you trust most.",
+      "langdemo.desc":"Switch languages above (EN / हिं / मरा) and the verdict below updates — this is the exact explanation a user would see.",
+      "langVerdict":"High risk — likely phishing",
+      "langBody":"This message pressures you with a fake deadline and hides its real link. Do not click it or share any bank details. Verify only by calling the number printed on your bank card.",
+      "incident.eyebrow":"If it already happened","incident.title":"You clicked, paid, or shared something. Here's what to do next.",
+      "incident.desc":"The Post-Fraud Incident Assistant collects the key details, keeps a record of the evidence, and prepares a clear summary you can hand to your bank or the cybercrime portal — so you don't have to explain everything from memory while stressed.",
+      "incident.link":"Learn what evidence to keep",
+      "incident.label1":"What kind of incident was this?","incident.label2":"When did this happen?","incident.label3":"Briefly, what happened?",
+      "incident.generate":"Generate incident summary","incident.hint":"We'll prepare a summary and point you to the right place to report it.",
+      "foot.report":"Report a scam",
+      "foot.note":"ScamSense · Team Code Atelier · Prototype interface — Smart India Hackathon 2026. This demo simulates analysis results for illustration."
+    },
+    hi: {
+      "nav.check":"जांच करें","nav.how":"यह कैसे काम करता है","nav.features":"विशेषताएं","nav.incident":"अगर धोखा हुआ है","nav.cta":"अभी जांचें",
+      "hero.eyebrow":"फिनटेक और डिजिटल सुरक्षा",
+      "hero.title":"क्लिक करने, भुगतान करने या साझा करने से <em>पहले</em> जानें कि यह धोखा है या नहीं।",
+      "hero.sub":"ScamSense आपको भेजा गया संदेश, लिंक या QR कोड पढ़ता है, साफ़ बताता है कि यह खतरनाक है या नहीं, आपकी अपनी भाषा में कारण समझाता है, और आगे क्या करना है यह बताता है।",
+      "hero.cta1":"अभी एक संदेश जांचें","hero.cta2":"देखें यह कैसे काम करता है",
+      "hero.trust1":"वरिष्ठ नागरिकों के लिए बनाया गया","hero.trust2":"सिर्फ चेतावनी नहीं, कारण भी बताता है","hero.trust3":"English, हिंदी, मराठी",
+      "hero.sms.label":"आने वाला SMS",
+      "hero.sms.body":"\"प्रिय ग्राहक, आपकी KYC समाप्त हो गई है। तुरंत अपडेट करें वरना 24 घंटे में आपका खाता ब्लॉक हो जाएगा: bit.ly/kyc-verify9\"",
+      "hero.sms.signal1":"झूठी समय-सीमा से जल्दबाज़ी बनाता है","hero.sms.signal2":"छोटा किया गया लिंक असली वेबसाइट छुपाता है","hero.sms.signal3":"बैंक कभी SMS लिंक से KYC नहीं मांगते",
+      "strip.1":"डिजिटल-भुगतान धोखाधड़ी","strip.2":"फ़िशिंग संदेश","strip.3":"नकली नौकरी की पेशकश","strip.4":"खतरनाक QR कोड",
+      "checker.eyebrow":"आज़माकर देखें","checker.title":"पेस्ट करें, अपलोड करें, या स्कैन करें। हम बताएंगे कि यह असल में क्या है।",
+      "checker.desc":"चार तरीके — संदेश, स्क्रीनशॉट, लिंक, या QR कोड। यह डेमो दिखाता है कि ScamSense कैसे सामग्री का विश्लेषण करता है और सरल भाषा में जवाब देता है।",
+      "tab.message":"संदेश","tab.screenshot":"स्क्रीनशॉट","tab.url":"लिंक / URL","tab.qr":"QR कोड",
+      "checker.run":"इसे जांचें","checker.hint":"यह एक उदाहरण धोखाधड़ी संदेश का डेमो है — ऊपर टेक्स्ट बदलकर देखें।",
+      "result.badge":"उच्च जोखिम — फिशिंग की संभावना","result.score":"विश्वास स्तर 94% · SMS स्मिशिंग पैटर्न",
+      "result.whyHeading":"यह जोखिम भरा क्यों है","result.stepsHeading":"अभी क्या करें",
+      "result.why1":"झूठी 24 घंटे की समय-सीमा से जल्दबाज़ी बनाता है","result.why2":"छोटा किया गया लिंक असली पता छुपाता है",
+      "result.why3":"कोई भी बैंक SMS लिंक से KYC नवीनीकरण नहीं मांगता","result.why4":"डोमेन पैटर्न ज्ञात फिशिंग तरीकों से मेल खाता है",
+      "result.step1":"लिंक पर क्लिक न करें, कोई जानकारी न भरें","result.step2":"संदेश हटा दें — \"STOP\" लिखकर जवाब भी न दें",
+      "result.step3":"अपने बैंक कार्ड पर छपे नंबर पर कॉल करके पुष्टि करें","result.step4":"नीचे पोस्ट-फ्रॉड सहायक में इसकी रिपोर्ट करें",
+      "flow.eyebrow":"यह कैसे काम करता है","flow.title":"सिर्फ पहचान काफी नहीं है। हम पूरा चक्र पूरा करते हैं।",
+      "flow.desc":"ज़्यादातर टूल सिर्फ चेतावनी देकर रुक जाते हैं। ScamSense पहले संदेश से लेकर यह जानने तक साथ रहता है कि आगे क्या करना है — आपकी पसंदीदा भाषा में।",
+      "flow.tag1":"इनपुट","flow.h1":"आप इसे भेजते हैं","flow.p1":"संदेश, स्क्रीनशॉट, लिंक, या QR कोड — जो भी आपके पास आया हो।",
+      "flow.tag2":"AI / ML इंजन","flow.h2":"हम इसका विश्लेषण करते हैं","flow.p2":"शब्दों, लिंक और डोमेन के संकेतों को ज्ञात धोखाधड़ी पैटर्न से मिलाया जाता है।",
+      "flow.tag3":"जोखिम + स्पष्टीकरण","flow.h3":"हम साफ़ बताते हैं","flow.p3":"स्पष्ट जोखिम स्तर, साथ ही सटीक कारण — सिर्फ फैसला नहीं, स्पष्टीकरण भी।",
+      "flow.tag4":"मार्गदर्शित कार्रवाई","flow.h4":"हम अगला कदम बताते हैं","flow.p4":"सत्यापित करें, सुरक्षित करें, रिपोर्ट करें — आपकी भाषा में सरल कदम।",
+      "feat.eyebrow":"क्या चीज़ इसे अलग बनाती है","feat.title":"एक ही प्रक्रिया — पहचान, स्पष्टीकरण और आगे क्या करना है।",
+      "feat.h1":"स्पष्ट पहचान","feat.p1":"हर फैसले के साथ उसके पीछे के खास चेतावनी संकेत भी मिलते हैं — सिर्फ लाल या हरी बत्ती नहीं।","feat.kv1":"उपयोगकर्ता जोखिम को समझते हैं, सिर्फ फैसला नहीं",
+      "feat.h2":"बहुभाषी और वरिष्ठ-अनुकूल","feat.p2":"अंग्रेज़ी, हिंदी और मराठी में, कम डिजिटल साक्षरता के लिए सरल भाषा में लिखा गया।","feat.kv2":"धोखाधड़ी की चेतावनियों को सुलभ और कार्रवाई योग्य बनाता है",
+      "feat.h3":"कार्रवाई-उन्मुख मार्गदर्शन","feat.p3":"हर बार स्पष्ट अगला कदम: क्लिक न करें, भुगतान न करें, OTP साझा न करें — सत्यापित करें, सुरक्षित करें, रिपोर्ट करें।","feat.kv3":"पहचान को सही कार्रवाई में बदलता है",
+      "feat.h4":"पोस्ट-फ्रॉड घटना सहायक","feat.p4":"अगर धोखा हो चुका है, तो हम विवरण इकट्ठा करते हैं, सबूत सुरक्षित रखते हैं, और रिपोर्ट करने में मदद करते हैं।","feat.kv4":"धोखा होने के बाद भी उपयोगकर्ता का साथ देता है",
+      "langdemo.eyebrow":"बहुभाषी आउटपुट","langdemo.title":"वही स्पष्ट चेतावनी, आपकी सबसे भरोसेमंद भाषा में।",
+      "langdemo.desc":"ऊपर भाषा बदलें (EN / हिं / मरा) और नीचे दिया गया फैसला अपडेट हो जाता है — यही स्पष्टीकरण उपयोगकर्ता को दिखाई देगा।",
+      "langVerdict":"उच्च जोखिम — फिशिंग की संभावना",
+      "langBody":"यह संदेश आपको झूठी समय-सीमा देकर जल्दबाज़ी में डालता है और असली लिंक छुपाता है। इस पर क्लिक न करें और कोई भी बैंक जानकारी साझा न करें। सत्यापन के लिए केवल अपने बैंक कार्ड पर छपे नंबर पर कॉल करें।",
+      "incident.eyebrow":"अगर धोखा हो चुका है","incident.title":"आपने क्लिक किया, भुगतान किया, या कुछ साझा किया। अब आगे क्या करें।",
+      "incident.desc":"पोस्ट-फ्रॉड घटना सहायक मुख्य विवरण इकट्ठा करता है, सबूत का रिकॉर्ड रखता है, और एक स्पष्ट सारांश तैयार करता है जो आप अपने बैंक या साइबर क्राइम पोर्टल को दे सकते हैं।",
+      "incident.link":"जानें कौन से सबूत रखने हैं",
+      "incident.label1":"यह किस तरह की घटना थी?","incident.label2":"यह कब हुआ?","incident.label3":"संक्षेप में, क्या हुआ?",
+      "incident.generate":"घटना का सारांश तैयार करें","incident.hint":"हम एक सारांश तैयार करेंगे और आपको सही रिपोर्टिंग स्थान बताएंगे।",
+      "foot.report":"धोखाधड़ी की रिपोर्ट करें",
+      "foot.note":"ScamSense · टीम Code Atelier · प्रोटोटाइप इंटरफ़ेस — स्मार्ट इंडिया हैकाथॉन 2026। यह डेमो उदाहरण के लिए सिम्युलेटेड परिणाम दिखाता है।"
+    },
+    mr: {
+      "nav.check":"तपासा","nav.how":"हे कसे काम करते","nav.features":"वैशिष्ट्ये","nav.incident":"जर फसवणूक झाली असेल","nav.cta":"आता तपासा",
+      "hero.eyebrow":"फिनटेक आणि डिजिटल सुरक्षा",
+      "hero.title":"क्लिक करण्यापूर्वी, पैसे देण्यापूर्वी किंवा शेअर करण्यापूर्वी <em>आधी</em> कळू द्या ती फसवणूक आहे का.",
+      "hero.sub":"ScamSense तुम्हाला आलेला संदेश, लिंक किंवा QR कोड वाचतो, तो धोकादायक आहे का हे स्पष्टपणे सांगतो, तुमच्या भाषेत कारण समजावतो, आणि पुढे काय करायचे ते सांगतो.",
+      "hero.cta1":"आता संदेश तपासा","hero.cta2":"हे कसे काम करते ते पहा",
+      "hero.trust1":"ज्येष्ठ नागरिकांसाठी तयार केलेले","hero.trust2":"फक्त इशारा नाही, कारणही सांगतो","hero.trust3":"English, हिंदी, मराठी",
+      "hero.sms.label":"येणारा SMS",
+      "hero.sms.body":"\"प्रिय ग्राहक, तुमची KYC संपली आहे. लगेच अपडेट करा नाहीतर 24 तासांत तुमचे खाते ब्लॉक होईल: bit.ly/kyc-verify9\"",
+      "hero.sms.signal1":"खोट्या मुदतीमुळे घाई निर्माण करतो","hero.sms.signal2":"लहान केलेली लिंक खरी वेबसाइट लपवते","hero.sms.signal3":"बँका कधीही SMS लिंकद्वारे KYC मागत नाहीत",
+      "strip.1":"डिजिटल-पेमेंट फसवणूक","strip.2":"फिशिंग संदेश","strip.3":"बनावट नोकरीच्या ऑफर","strip.4":"धोकादायक QR कोड",
+      "checker.eyebrow":"वापरून पहा","checker.title":"पेस्ट करा, अपलोड करा, किंवा स्कॅन करा. आम्ही सांगू ते खरं काय आहे.",
+      "checker.desc":"चार मार्ग — संदेश, स्क्रीनशॉट, लिंक, किंवा QR कोड. हे डेमो दाखवते की ScamSense कसे कंटेंट तपासते आणि साध्या भाषेत निकाल देते.",
+      "tab.message":"संदेश","tab.screenshot":"स्क्रीनशॉट","tab.url":"लिंक / URL","tab.qr":"QR कोड",
+      "checker.run":"हे तपासा","checker.hint":"हे एक उदाहरण फसवणूक संदेशाचे डेमो आहे — वरील मजकूर बदलून पहा.",
+      "result.badge":"उच्च धोका — फिशिंगची शक्यता","result.score":"विश्वासार्हता 94% · SMS स्मिशिंग पॅटर्न",
+      "result.whyHeading":"हे धोकादायक का आहे","result.stepsHeading":"आता काय करावे",
+      "result.why1":"खोट्या 24 तासांच्या मुदतीने घाई निर्माण करतो","result.why2":"लहान केलेली लिंक खरा पत्ता लपवते",
+      "result.why3":"कोणतीही बँक SMS लिंकद्वारे KYC नूतनीकरण मागत नाही","result.why4":"डोमेन पॅटर्न ज्ञात फिशिंग पद्धतींशी जुळतो",
+      "result.step1":"लिंकवर क्लिक करू नका, कोणतीही माहिती भरू नका","result.step2":"संदेश डिलीट करा — \"STOP\" लिहून उत्तरही देऊ नका",
+      "result.step3":"तुमच्या बँक कार्डवर छापलेल्या क्रमांकावर कॉल करून खात्री करा","result.step4":"खालील पोस्ट-फ्रॉड सहाय्यकामध्ये याची तक्रार करा",
+      "flow.eyebrow":"हे कसे काम करते","flow.title":"फक्त शोध पुरेसा नाही. आम्ही संपूर्ण प्रक्रिया पूर्ण करतो.",
+      "flow.desc":"बहुतेक साधने फक्त इशारा देऊन थांबतात. ScamSense पहिल्या संशयास्पद संदेशापासून ते पुढे काय करायचे हे कळेपर्यंत तुमच्यासोबत राहतो — तुमच्या आवडत्या भाषेत.",
+      "flow.tag1":"इनपुट","flow.h1":"तुम्ही ते शेअर करता","flow.p1":"संदेश, स्क्रीनशॉट, लिंक, किंवा QR कोड — जे काही तुमच्याकडे आले असेल.",
+      "flow.tag2":"AI / ML इंजिन","flow.h2":"आम्ही त्याचे विश्लेषण करतो","flow.p2":"शब्द, लिंक आणि डोमेनमधील संकेत ज्ञात फसवणूक पॅटर्नशी तपासले जातात.",
+      "flow.tag3":"धोका + स्पष्टीकरण","flow.h3":"आम्ही स्पष्टपणे सांगतो","flow.p3":"स्पष्ट धोका पातळी, तसेच नेमकी कारणे — फक्त निकाल नाही, स्पष्टीकरणही.",
+      "flow.tag4":"मार्गदर्शित कृती","flow.h4":"आम्ही पुढचे पाऊल सांगतो","flow.p4":"पडताळणी करा, सुरक्षित करा, तक्रार करा — तुमच्या भाषेत सोपी पावले.",
+      "feat.eyebrow":"हे वेगळे काय बनवते","feat.title":"एकच प्रक्रिया — शोध, स्पष्टीकरण आणि पुढे काय करायचे.",
+      "feat.h1":"स्पष्ट करणारा शोध","feat.p1":"प्रत्येक निकालासोबत त्यामागील विशिष्ट इशारा चिन्हे मिळतात — फक्त लाल किंवा हिरवा दिवा नाही.","feat.kv1":"वापरकर्त्यांना धोका समजतो, फक्त निकाल नाही",
+      "feat.h2":"बहुभाषिक आणि ज्येष्ठ-अनुकूल","feat.p2":"इंग्रजी, हिंदी आणि मराठीत, कमी डिजिटल साक्षरतेसाठी सोप्या भाषेत लिहिलेले.","feat.kv2":"फसवणुकीचे इशारे सुलभ आणि कृतीयोग्य बनवते",
+      "feat.h3":"कृती-केंद्रित मार्गदर्शन","feat.p3":"प्रत्येक वेळी स्पष्ट पुढचे पाऊल: क्लिक करू नका, पैसे देऊ नका, OTP शेअर करू नका — पडताळणी करा, सुरक्षित करा, तक्रार करा.","feat.kv3":"शोधाचे रूपांतर योग्य कृतीत करतो",
+      "feat.h4":"पोस्ट-फ्रॉड घटना सहाय्यक","feat.p4":"फसवणूक आधीच झाली असेल, तर आम्ही तपशील गोळा करतो, पुरावा जपतो, आणि तक्रार करण्यासाठी मार्गदर्शन करतो.","feat.kv4":"फसवणूक झाल्यानंतरही वापरकर्त्याला साथ देतो",
+      "langdemo.eyebrow":"बहुभाषिक आउटपुट","langdemo.title":"तीच स्पष्ट सूचना, तुम्हाला सर्वात विश्वासार्ह वाटणाऱ्या भाषेत.",
+      "langdemo.desc":"वरील भाषा बदला (EN / हिं / मरा) आणि खालील निकाल अपडेट होतो — हेच स्पष्टीकरण वापरकर्त्याला दिसेल.",
+      "langVerdict":"उच्च धोका — फिशिंगची शक्यता",
+      "langBody":"हा संदेश खोटी अंतिम मुदत देऊन तुम्हाला घाई करायला लावतो आणि खरी लिंक लपवतो. यावर क्लिक करू नका किंवा कोणतीही बँक माहिती शेअर करू नका. पडताळणीसाठी फक्त तुमच्या बँक कार्डवर छापलेल्या क्रमांकावर कॉल करा.",
+      "incident.eyebrow":"जर आधीच फसवणूक झाली असेल","incident.title":"तुम्ही क्लिक केले, पैसे दिले, किंवा काही शेअर केले. आता पुढे काय करावे.",
+      "incident.desc":"पोस्ट-फ्रॉड घटना सहाय्यक मुख्य तपशील गोळा करतो, पुराव्याची नोंद ठेवतो, आणि तुम्ही बँकेला किंवा सायबर क्राइम पोर्टलला देऊ शकाल असा स्पष्ट सारांश तयार करतो.",
+      "incident.link":"कोणता पुरावा जपायचा ते जाणून घ्या",
+      "incident.label1":"ही कोणत्या प्रकारची घटना होती?","incident.label2":"हे कधी घडले?","incident.label3":"थोडक्यात, काय घडले?",
+      "incident.generate":"घटनेचा सारांश तयार करा","incident.hint":"आम्ही सारांश तयार करू आणि तक्रार करण्याची योग्य जागा सांगू.",
+      "foot.report":"फसवणुकीची तक्रार करा",
+      "foot.note":"ScamSense · टीम Code Atelier · प्रोटोटाइप इंटरफेस — स्मार्ट इंडिया हॅकाथॉन 2026. हे डेमो उदाहरणासाठी सिम्युलेटेड निकाल दाखवते."
+    }
+  };
+
+  const langBtns = document.querySelectorAll('.lang-switch button');
+  const langVerdict = document.getElementById('langVerdict');
+  const langBody = document.getElementById('langBody');
+
+  function applyLanguage(lang){
+    const dict = translations[lang];
+    const isDevanagari = (lang === 'hi' || lang === 'mr');
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined){
+        el.textContent = dict[key];
+        el.classList.toggle('devanagari', isDevanagari);
+      }
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if(dict[key] !== undefined){
+        el.innerHTML = dict[key];
+        el.classList.toggle('devanagari', isDevanagari);
+      }
+    });
+
+    langVerdict.textContent = dict['langVerdict'];
+    langBody.textContent = dict['langBody'];
+    langVerdict.classList.toggle('devanagari', isDevanagari);
+    langBody.classList.toggle('devanagari', isDevanagari);
+
+    document.documentElement.lang = lang;
+  }
+
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      langBtns.forEach(b => b.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+      applyLanguage(btn.dataset.lang);
+    });
+  });
+
+  // ---- Incident summary ----
+  document.getElementById('incGenerate').addEventListener('click', (e) => {
+    e.preventDefault();
+    const btn = e.currentTarget;
+    const original = btn.textContent;
+    btn.textContent = 'Summary ready — see details above ↑';
+    setTimeout(() => { btn.textContent = original; }, 2600);
+  });
+</script>
+
+</body>
+</html>

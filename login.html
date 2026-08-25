@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScamSense — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+Devanagari:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF;
+    --bg-soft:#F5F8F9;
+    --ink:#12202B;
+    --ink-soft:#5B6B76;
+    --ink-faint:#8C9AA4;
+    --brand:#145C52;
+    --brand-dark:#0E3A52;
+    --brand-tint:#E4F1EC;
+    --danger:#B23A32;
+    --danger-tint:#FBEAE8;
+    --safe:#2F8F5B;
+    --safe-tint:#E7F5ED;
+    --line:#E3E9EA;
+    --shadow: 0 1px 2px rgba(18,32,43,.04), 0 12px 32px rgba(18,32,43,.08);
+    --focus: 3px solid #1B7A6C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; background:var(--bg); color:var(--ink);
+    font-family:'Inter', system-ui, sans-serif; font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column;
+  }
+  h1,h2,.display{ font-family:'Space Grotesk','Inter',sans-serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink); margin:0; }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  p{margin:0;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:var(--focus); outline-offset:2px; border-radius:6px;}
+  .devanagari{font-family:'Noto Sans Devanagari','Inter',sans-serif;}
+
+  header{ border-bottom:1px solid var(--line); }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1160px; margin:0 auto;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px; text-decoration:none; color:var(--ink);}
+  .logo svg{width:32px;height:32px;flex-shrink:0;}
+  .lang-switch{display:flex; background:var(--bg-soft); border-radius:9px; padding:3px; gap:2px; border:1px solid var(--line);}
+  .lang-switch button{ border:none; background:transparent; padding:8px 13px; border-radius:7px; font-weight:700; font-size:13.5px; color:var(--ink-soft); }
+  .lang-switch button[aria-pressed="true"]{background:var(--brand); color:#fff;}
+
+  main{ flex:1; display:flex; align-items:center; justify-content:center; padding:48px 20px; }
+  .auth-shell{ width:100%; max-width:420px; }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace; font-size:12px;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--brand); font-weight:600; margin-bottom:10px;
+  }
+  .eyebrow::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--brand); display:inline-block;}
+  .auth-head{text-align:center; margin-bottom:28px;}
+  .auth-head h1{font-size:28px;}
+  .auth-head p{margin-top:10px; color:var(--ink-soft); font-size:15.5px;}
+
+  .mode-switch{
+    display:flex; background:var(--bg-soft); border:1px solid var(--line); border-radius:12px; padding:4px; margin-bottom:26px;
+  }
+  .mode-switch button{
+    flex:1; border:none; background:transparent; padding:12px; border-radius:9px; font-weight:700; font-size:15px; color:var(--ink-soft);
+  }
+  .mode-switch button[aria-pressed="true"]{background:#fff; color:var(--brand); box-shadow:var(--shadow);}
+
+  .card{ border:1px solid var(--line); border-radius:18px; padding:30px; background:#fff; box-shadow:var(--shadow); }
+
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:14.5px; font-weight:700; color:var(--ink); margin-bottom:8px;}
+  .field .hint{display:block; font-size:13px; color:var(--ink-faint); margin-top:7px; font-weight:400;}
+
+  .phone-row{display:flex; gap:10px;}
+  .cc{
+    width:84px; flex-shrink:0; border:1.5px solid var(--line); border-radius:11px; padding:14px 10px; font-size:16px;
+    font-family:'IBM Plex Mono',monospace; text-align:center; background:var(--bg-soft); color:var(--ink); font-weight:600;
+  }
+  input[type=tel], input[type=text]{
+    width:100%; border:1.5px solid var(--line); border-radius:11px; padding:14px 16px; font-size:17px; font-family:inherit; color:var(--ink); background:#fff;
+  }
+  input[type=tel]:focus, input[type=text]:focus, .cc:focus{border-color:var(--brand);}
+
+  .btn{
+    display:flex; align-items:center; justify-content:center; gap:9px; width:100%;
+    padding:15px 20px; border-radius:12px; border:none; font-weight:700; font-size:16.5px; background:var(--brand); color:#fff;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .btn:hover{background:var(--brand-dark);}
+  .btn:active{transform:scale(.99);}
+  .btn:disabled{background:var(--ink-faint); cursor:not-allowed;}
+  .btn-link{
+    background:none; color:var(--brand); font-weight:700; font-size:14.5px; padding:10px; width:auto; margin:0 auto; display:block;
+  }
+  .btn-link:disabled{color:var(--ink-faint); background:none;}
+
+  .otp-row{display:flex; gap:10px; justify-content:space-between;}
+  .otp-box{
+    width:100%; aspect-ratio:1/1; text-align:center; font-size:22px; font-weight:700; font-family:'IBM Plex Mono',monospace;
+    border:1.5px solid var(--line); border-radius:12px; color:var(--ink); background:var(--bg-soft);
+  }
+  .otp-box:focus{border-color:var(--brand); background:#fff;}
+
+  .sent-note{
+    display:flex; gap:10px; align-items:flex-start; background:var(--brand-tint); border-radius:11px; padding:14px 16px;
+    font-size:14px; color:var(--brand-dark); margin-bottom:22px; font-weight:600;
+  }
+  .sent-note svg{width:18px;height:18px;flex-shrink:0; margin-top:1px;}
+  .sent-note b{font-family:'IBM Plex Mono',monospace; font-weight:700;}
+
+  .resend-row{display:flex; align-items:center; justify-content:center; gap:6px; margin-top:18px; font-size:14px; color:var(--ink-soft);}
+
+  .step{display:none;}
+  .step.active{display:block; animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .success{display:none; text-align:center; padding:10px 0 4px;}
+  .success.active{display:block; animation:fadein .35s ease;}
+  .success .tick{
+    width:64px; height:64px; border-radius:50%; background:var(--safe-tint); color:var(--safe); display:flex; align-items:center;
+    justify-content:center; margin:0 auto 18px;
+  }
+  .success .tick svg{width:30px;height:30px;}
+  .success h2{font-size:22px;}
+  .success p{margin-top:10px; color:var(--ink-soft); font-size:15px;}
+
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:700; color:var(--ink-soft); margin-bottom:16px; background:none; border:none; padding:0;
+  }
+  .back-link svg{width:15px;height:15px;}
+  .back-link:hover{color:var(--brand);}
+
+  .foot-note{text-align:center; margin-top:24px; font-size:13px; color:var(--ink-faint); line-height:1.6;}
+  .foot-note a{color:var(--brand); font-weight:700; text-decoration:none;}
+
+  .trust-strip{display:flex; justify-content:center; gap:22px; margin-top:30px; flex-wrap:wrap;}
+  .trust-strip div{display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink-faint); font-weight:600;}
+  .trust-strip svg{width:15px;height:15px; color:var(--brand);}
+
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:.001ms !important;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="scamsense.html" class="logo">
+      <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M17 2 4 7v9c0 8.5 5.6 15.3 13 18 7.4-2.7 13-9.5 13-18V7L17 2Z" fill="#145C52"/>
+        <path d="M12.5 17.3l3.2 3.2 6.3-6.8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      ScamSense
+    </a>
+    <div class="lang-switch" role="group" aria-label="Choose language">
+      <button data-lang="en" aria-pressed="true">EN</button>
+      <button data-lang="hi" aria-pressed="false">हिं</button>
+      <button data-lang="mr" aria-pressed="false">मरा</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="auth-shell">
+
+    <!-- STEP 1: phone entry -->
+    <div class="step active" id="stepPhone">
+      <div class="auth-head">
+        <span class="eyebrow" data-i18n="eyebrow">Secure sign-in</span>
+        <h1 data-i18n="head.title">Welcome to ScamSense</h1>
+        <p data-i18n="head.sub">Sign in with your mobile number. We'll send a one-time code — no password to remember.</p>
+      </div>
+
+      <div class="mode-switch" role="group" aria-label="Choose sign in or create account">
+        <button aria-pressed="true" data-mode="signin" data-i18n="mode.signin">Sign in</button>
+        <button aria-pressed="false" data-mode="signup" data-i18n="mode.signup">Create account</button>
+      </div>
+
+      <div class="card">
+        <div class="field">
+          <label for="fullName" id="nameLabel" style="display:none;" data-i18n="field.name">Full name</label>
+          <input type="text" id="fullName" style="display:none; margin-bottom:18px;" data-i18n-placeholder="field.namePh" placeholder="e.g. Sunita Deshpande">
+
+          <label for="phoneInput" data-i18n="field.phone">Mobile number</label>
+          <div class="phone-row">
+            <input class="cc mono" type="text" value="+91" aria-label="Country code" readonly>
+            <input type="tel" id="phoneInput" inputmode="numeric" maxlength="10" data-i18n-placeholder="field.phonePh" placeholder="98765 43210" aria-describedby="phoneHint">
+          </div>
+          <span class="hint" id="phoneHint" data-i18n="field.phoneHint">We'll text a 6-digit code to this number.</span>
+        </div>
+
+        <button class="btn" id="sendOtpBtn" data-i18n="btn.sendOtp">Send OTP</button>
+      </div>
+
+      <div class="trust-strip">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 5-3.4 8.4-7 9-3.6-.6-7-4-7-9V6l7-3z"/></svg><span data-i18n="trust.private">Your number stays private</span></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span data-i18n="trust.free">Free for everyone</span></div>
+      </div>
+    </div>
+
+    <!-- STEP 2: OTP entry -->
+    <div class="step" id="stepOtp">
+      <button class="back-link" id="backBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+        <span data-i18n="btn.back">Back</span>
+      </button>
+
+      <div class="auth-head" style="text-align:left; margin-bottom:22px;">
+        <span class="eyebrow" data-i18n="otp.eyebrow">Verify it's you</span>
+        <h1 style="font-size:24px;" data-i18n="otp.title">Enter the 6-digit code</h1>
+      </div>
+
+      <div class="sent-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <span data-i18n="otp.sentPrefix">Code sent by SMS to</span> <b id="phoneDisplay" class="mono">+91 XXXXX XXXXX</b>
+      </div>
+
+      <div class="card">
+        <div class="otp-row" role="group" aria-label="Enter 6 digit OTP">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+          <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+        </div>
+
+        <button class="btn" id="verifyBtn" style="margin-top:22px;" data-i18n="btn.verify">Verify &amp; continue</button>
+
+        <div class="resend-row">
+          <span data-i18n="otp.noCode">Didn't get a code?</span>
+          <button class="btn-link" id="resendBtn" disabled data-i18n="btn.resend">Resend in <span id="timer">30</span>s</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: success -->
+    <div class="success" id="stepSuccess">
+      <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 13l4 4L19 7"/></svg></div>
+      <h2 data-i18n="success.title">You're verified</h2>
+      <p data-i18n="success.sub">Your account is ready. You can now check messages, links, and QR codes for scams anytime.</p>
+      <a href="scamsense.html" class="btn" style="margin-top:24px; text-decoration:none;" data-i18n="success.cta">Go to ScamSense</a>
+    </div>
+
+    <p class="foot-note" data-i18n="foot.terms">By continuing, you agree to ScamSense's Terms of Use and Privacy Policy.</p>
+  </div>
+</main>
+
+<script>
+  // ---------- Translations ----------
+  const translations = {
+    en: {
+      "eyebrow":"Secure sign-in",
+      "head.title":"Welcome to ScamSense",
+      "head.sub":"Sign in with your mobile number. We'll send a one-time code — no password to remember.",
+      "mode.signin":"Sign in","mode.signup":"Create account",
+      "field.name":"Full name","field.namePh":"e.g. Sunita Deshpande",
+      "field.phone":"Mobile number","field.phonePh":"98765 43210","field.phoneHint":"We'll text a 6-digit code to this number.",
+      "btn.sendOtp":"Send OTP",
+      "trust.private":"Your number stays private","trust.free":"Free for everyone",
+      "btn.back":"Back",
+      "otp.eyebrow":"Verify it's you","otp.title":"Enter the 6-digit code",
+      "otp.sentPrefix":"Code sent by SMS to",
+      "btn.verify":"Verify &amp; continue",
+      "otp.noCode":"Didn't get a code?",
+      "resendIn":"Resend in","resendNow":"Resend code",
+      "success.title":"You're verified",
+      "success.sub":"Your account is ready. You can now check messages, links, and QR codes for scams anytime.",
+      "success.cta":"Go to ScamSense",
+      "foot.terms":"By continuing, you agree to ScamSense's Terms of Use and Privacy Policy.",
+      "err.phone":"Please enter a valid 10-digit mobile number.",
+      "err.otp":"Please enter all 6 digits."
+    },
+    hi: {
+      "eyebrow":"सुरक्षित साइन-इन",
+      "head.title":"ScamSense में आपका स्वागत है",
+      "head.sub":"अपने मोबाइल नंबर से साइन इन करें। हम एक बार का कोड भेजेंगे — कोई पासवर्ड याद रखने की ज़रूरत नहीं।",
+      "mode.signin":"साइन इन करें","mode.signup":"खाता बनाएं",
+      "field.name":"पूरा नाम","field.namePh":"जैसे सुनीता देशपांडे",
+      "field.phone":"मोबाइल नंबर","field.phonePh":"98765 43210","field.phoneHint":"हम इस नंबर पर 6 अंकों का कोड भेजेंगे।",
+      "btn.sendOtp":"OTP भेजें",
+      "trust.private":"आपका नंबर निजी रहता है","trust.free":"सभी के लिए मुफ़्त",
+      "btn.back":"वापस",
+      "otp.eyebrow":"पुष्टि करें कि यह आप हैं","otp.title":"6 अंकों का कोड डालें",
+      "otp.sentPrefix":"SMS द्वारा कोड भेजा गया",
+      "btn.verify":"पुष्टि करें और जारी रखें",
+      "otp.noCode":"कोड नहीं मिला?",
+      "resendIn":"दोबारा भेजें","resendNow":"कोड दोबारा भेजें",
+      "success.title":"आप सत्यापित हो गए हैं",
+      "success.sub":"आपका खाता तैयार है। अब आप कभी भी संदेश, लिंक और QR कोड की जांच कर सकते हैं।",
+      "success.cta":"ScamSense पर जाएं",
+      "foot.terms":"जारी रखकर, आप ScamSense की उपयोग की शर्तों और गोपनीयता नीति से सहमत होते हैं।",
+      "err.phone":"कृपया 10 अंकों का सही मोबाइल नंबर डालें।",
+      "err.otp":"कृपया सभी 6 अंक डालें।"
+    },
+    mr: {
+      "eyebrow":"सुरक्षित साइन-इन",
+      "head.title":"ScamSense मध्ये आपले स्वागत आहे",
+      "head.sub":"तुमच्या मोबाईल नंबरने साइन इन करा. आम्ही एक-वेळचा कोड पाठवू — पासवर्ड लक्षात ठेवण्याची गरज नाही.",
+      "mode.signin":"साइन इन करा","mode.signup":"खाते तयार करा",
+      "field.name":"पूर्ण नाव","field.namePh":"उदा. सुनीता देशपांडे",
+      "field.phone":"मोबाईल नंबर","field.phonePh":"98765 43210","field.phoneHint":"आम्ही या नंबरवर 6 अंकी कोड पाठवू.",
+      "btn.sendOtp":"OTP पाठवा",
+      "trust.private":"तुमचा नंबर खाजगी राहतो","trust.free":"सर्वांसाठी मोफत",
+      "btn.back":"मागे",
+      "otp.eyebrow":"हे तुम्हीच आहात याची खात्री करा","otp.title":"6 अंकी कोड टाका",
+      "otp.sentPrefix":"SMS द्वारे कोड पाठवला",
+      "btn.verify":"पडताळणी करा आणि पुढे जा",
+      "otp.noCode":"कोड मिळाला नाही?",
+      "resendIn":"पुन्हा पाठवा","resendNow":"कोड पुन्हा पाठवा",
+      "success.title":"तुमची पडताळणी झाली",
+      "success.sub":"तुमचे खाते तयार आहे. आता तुम्ही कधीही संदेश, लिंक आणि QR कोड तपासू शकता.",
+      "success.cta":"ScamSense वर जा",
+      "foot.terms":"पुढे जाऊन, तुम्ही ScamSense च्या वापर अटी आणि गोपनीयता धोरणाशी सहमत आहात.",
+      "err.phone":"कृपया 10 अंकी योग्य मोबाईल नंबर टाका.",
+      "err.otp":"कृपया सर्व 6 अंक टाका."
+    }
+  };
+
+  let currentLang = 'en';
+  let resendSeconds = 30;
+  let resendTimerId = null;
+
+  function t(key){ return translations[currentLang][key] ?? key; }
+
+  function applyLanguage(lang){
+    currentLang = lang;
+    const isDev = (lang === 'hi' || lang === 'mr');
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const dict = translations[lang];
+      if(dict[key] !== undefined){
+        el.innerHTML = dict[key];
+        el.classList.toggle('devanagari', isDev);
+      }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      const dict = translations[lang];
+      if(dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+    });
+    document.body.classList.toggle('devanagari', false); // keep base font Inter; only translated nodes get devanagari
+    updateResendLabel();
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lang-switch button').forEach(b => b.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+      applyLanguage(btn.dataset.lang);
+    });
+  });
+
+  // ---------- Sign in / create account toggle ----------
+  const modeBtns = document.querySelectorAll('.mode-switch button');
+  const nameLabel = document.getElementById('nameLabel');
+  const nameInput = document.getElementById('fullName');
+  modeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modeBtns.forEach(b => b.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+      const isSignup = btn.dataset.mode === 'signup';
+      nameLabel.style.display = isSignup ? 'block' : 'none';
+      nameInput.style.display = isSignup ? 'block' : 'none';
+    });
+  });
+
+  // ---------- Step navigation ----------
+  const stepPhone = document.getElementById('stepPhone');
+  const stepOtp = document.getElementById('stepOtp');
+  const stepSuccess = document.getElementById('stepSuccess');
+  const phoneInput = document.getElementById('phoneInput');
+  const phoneDisplay = document.getElementById('phoneDisplay');
+  const otpBoxes = Array.from(document.querySelectorAll('.otp-box'));
+  const resendBtn = document.getElementById('resendBtn');
+  const timerSpan = document.getElementById('timer');
+
+  function goToStep(step){
+    [stepPhone, stepOtp].forEach(s => s.classList.remove('active'));
+    stepSuccess.classList.remove('active');
+    step.classList.add('active');
+  }
+
+  function startResendTimer(){
+    resendSeconds = 30;
+    resendBtn.disabled = true;
+    updateResendLabel();
+    clearInterval(resendTimerId);
+    resendTimerId = setInterval(() => {
+      resendSeconds--;
+      if(resendSeconds <= 0){
+        clearInterval(resendTimerId);
+        resendBtn.disabled = false;
+      }
+      updateResendLabel();
+    }, 1000);
+  }
+
+  function updateResendLabel(){
+    if(resendBtn.disabled){
+      resendBtn.innerHTML = `${t('resendIn')} ${resendSeconds}s`;
+    } else {
+      resendBtn.textContent = t('resendNow');
+    }
+  }
+
+  document.getElementById('sendOtpBtn').addEventListener('click', () => {
+    const digits = phoneInput.value.replace(/\D/g,'');
+    if(digits.length !== 10){
+      phoneInput.style.borderColor = 'var(--danger)';
+      phoneInput.focus();
+      return;
+    }
+    phoneInput.style.borderColor = '';
+    phoneDisplay.textContent = '+91 ' + digits.slice(0,5) + ' ' + digits.slice(5);
+    goToStep(stepOtp);
+    otpBoxes.forEach(b => b.value = '');
+    otpBoxes[0].focus();
+    startResendTimer();
+  });
+
+  document.getElementById('backBtn').addEventListener('click', () => goToStep(stepPhone));
+
+  resendBtn.addEventListener('click', () => {
+    if(resendBtn.disabled) return;
+    startResendTimer();
+  });
+
+  // OTP box behavior: auto-advance, backspace, paste
+  otpBoxes.forEach((box, i) => {
+    box.addEventListener('input', () => {
+      box.value = box.value.replace(/\D/g,'').slice(0,1);
+      if(box.value && i < otpBoxes.length - 1) otpBoxes[i+1].focus();
+    });
+    box.addEventListener('keydown', (e) => {
+      if(e.key === 'Backspace' && !box.value && i > 0) otpBoxes[i-1].focus();
+    });
+    box.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const paste = (e.clipboardData.getData('text') || '').replace(/\D/g,'').slice(0,6);
+      paste.split('').forEach((ch, idx) => { if(otpBoxes[idx]) otpBoxes[idx].value = ch; });
+      const next = Math.min(paste.length, otpBoxes.length - 1);
+      otpBoxes[next].focus();
+    });
+  });
+
+  document.getElementById('verifyBtn').addEventListener('click', () => {
+    const code = otpBoxes.map(b => b.value).join('');
+    if(code.length !== 6){
+      otpBoxes.forEach(b => { if(!b.value) b.style.borderColor = 'var(--danger)'; });
+      return;
+    }
+    otpBoxes.forEach(b => b.style.borderColor = '');
+    clearInterval(resendTimerId);
+    goToStep(stepSuccess);
+    stepSuccess.classList.add('active');
+  });
+
+  applyLanguage('en');
+</script>
+
+</body>
+</html>
