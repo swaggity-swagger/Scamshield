@@ -23,6 +23,7 @@ from app.services.chat_ai import (
 
 from app.services.chat_context import (
     build_incident_context,
+    extract_chat_risk_context,
 )
 
 from app.services.chat_service import (
@@ -42,15 +43,25 @@ router = APIRouter(
 )
 
 
+# ============================================================
+# CREATE CONVERSATION
+# ============================================================
+
 @router.post(
     "/conversations",
     response_model=ChatConversationResponse,
 )
 def create_chat_conversation(
     data: ChatConversationCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        get_current_user
+    ),
     db: Session = Depends(get_db),
 ):
+    """
+    Create a new chatbot conversation.
+    """
+
     return create_conversation(
         db,
         current_user.id,
@@ -59,19 +70,34 @@ def create_chat_conversation(
     )
 
 
+# ============================================================
+# LIST CONVERSATIONS
+# ============================================================
+
 @router.get(
     "/conversations",
     response_model=list[ChatConversationResponse],
 )
 def get_chat_conversations(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        get_current_user
+    ),
     db: Session = Depends(get_db),
 ):
+    """
+    Return all conversations belonging to
+    the authenticated user.
+    """
+
     return list_conversations(
         db,
         current_user.id,
     )
 
+
+# ============================================================
+# CHANGE CONVERSATION LANGUAGE
+# ============================================================
 
 @router.patch(
     "/conversations/{conversation_id}/language",
@@ -80,9 +106,15 @@ def get_chat_conversations(
 def change_language(
     conversation_id: int,
     data: ChatLanguageUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        get_current_user
+    ),
     db: Session = Depends(get_db),
 ):
+    """
+    Change the language of a conversation.
+    """
+
     conversation = update_language(
         db,
         conversation_id,
@@ -99,14 +131,24 @@ def change_language(
     return conversation
 
 
+# ============================================================
+# GET CONVERSATION + MESSAGES
+# ============================================================
+
 @router.get(
     "/conversations/{conversation_id}",
 )
 def get_chat_conversation(
     conversation_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        get_current_user
+    ),
     db: Session = Depends(get_db),
 ):
+    """
+    Return one conversation and its message history.
+    """
+
     conversation = get_conversation(
         db,
         conversation_id,
@@ -142,14 +184,25 @@ def get_chat_conversation(
     }
 
 
+# ============================================================
+# DELETE CONVERSATION
+# ============================================================
+
 @router.delete(
     "/conversations/{conversation_id}",
 )
 def remove_chat_conversation(
     conversation_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        get_current_user
+    ),
     db: Session = Depends(get_db),
 ):
+    """
+    Delete a conversation belonging to the
+    authenticated user.
+    """
+
     deleted = delete_conversation(
         db,
         conversation_id,
@@ -167,6 +220,10 @@ def remove_chat_conversation(
     }
 
 
+# ============================================================
+# SEND CHAT MESSAGE
+# ============================================================
+
 @router.post(
     "/message",
     response_model=ChatMessageResponse,
@@ -174,9 +231,30 @@ def remove_chat_conversation(
 def send_chat_message(
     conversation_id: int,
     data: ChatMessageRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(
+        get_current_user
+    ),
     db: Session = Depends(get_db),
 ):
+    """
+    Send a user message to the ScamShield assistant.
+
+    When an incident_id is supplied, the assistant receives
+    the authenticated user's incident context, including:
+
+        - incident details
+        - latest analysis
+        - analysis history
+        - evidence
+        - threat findings
+        - timeline
+        - recommended actions
+    """
+
+    # ---------------------------------------------------------
+    # Verify conversation ownership
+    # ---------------------------------------------------------
+
     conversation = get_conversation(
         db,
         conversation_id,
@@ -188,6 +266,10 @@ def send_chat_message(
             status_code=404,
             detail="Conversation not found.",
         )
+
+    # ---------------------------------------------------------
+    # Get recent conversation history
+    # ---------------------------------------------------------
 
     messages = get_messages(
         db,
@@ -206,20 +288,39 @@ def send_chat_message(
         }
     ]
 
+    # ---------------------------------------------------------
+    # Build incident context
+    # ---------------------------------------------------------
+
     incident_context = None
+    risk_context = None
+    suggested_actions: list[str] = []
 
     if data.incident_id is not None:
+
         incident_context = build_incident_context(
-            db,
-            data.incident_id,
-            current_user.id,
+            db=db,
+            incident_id=data.incident_id,
+            user_id=current_user.id,
         )
 
+        # Prevent access to another user's incident.
         if incident_context is None:
             raise HTTPException(
                 status_code=404,
                 detail="Incident not found.",
             )
+
+        (
+            risk_context,
+            suggested_actions,
+        ) = extract_chat_risk_context(
+            incident_context
+        )
+
+    # ---------------------------------------------------------
+    # Save user message
+    # ---------------------------------------------------------
 
     save_message(
         db,
@@ -227,6 +328,10 @@ def send_chat_message(
         "user",
         data.message,
     )
+
+    # ---------------------------------------------------------
+    # Generate AI response
+    # ---------------------------------------------------------
 
     try:
         reply = generate_chat_response(
@@ -247,7 +352,11 @@ def send_chat_message(
                 "The AI assistant is temporarily "
                 "unavailable. Please try again."
             ),
-        )
+        ) from exc
+
+    # ---------------------------------------------------------
+    # Save assistant response
+    # ---------------------------------------------------------
 
     save_message(
         db,
@@ -256,9 +365,15 @@ def send_chat_message(
         reply,
     )
 
+    # ---------------------------------------------------------
+    # Return complete chatbot response
+    # ---------------------------------------------------------
+
     return ChatMessageResponse(
         conversation_id=conversation_id,
         reply=reply,
         language=conversation.language,
         incident_id=data.incident_id,
+        risk_context=risk_context,
+        suggested_actions=suggested_actions,
     )

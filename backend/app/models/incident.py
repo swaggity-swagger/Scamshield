@@ -15,7 +15,7 @@ class Incident(Base):
     )
 
     user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"),
+        ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
         index=True,
     )
@@ -50,8 +50,40 @@ class Incident(Base):
         nullable=True,
     )
 
+    # Incident lifecycle.
+    # draft -> in_progress -> completed/partial -> reported -> closed
+    status: Mapped[str] = mapped_column(
+        String(50),
+        default="draft",
+        nullable=False,
+        index=True,
+    )
+
+    # Latest high-level result from ScamShield analysis.
+    analysis_category: Mapped[str | None] = mapped_column(
+        String(100),
+        nullable=True,
+    )
+
+    analysis_risk_level: Mapped[str | None] = mapped_column(
+        String(50),
+        nullable=True,
+    )
+
+    analysis_summary: Mapped[str | None] = mapped_column(
+        Text,
+        nullable=True,
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
         default=datetime.utcnow,
+        nullable=False,
+    )
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
         nullable=False,
     )

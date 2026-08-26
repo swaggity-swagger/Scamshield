@@ -26,3 +26,8 @@ typing_extensions==4.16.0
 tzdata==2026.3
 uvicorn==0.52.4
 openai== 3.3.1
+alembic== 1.19.1
+pytesseract
+Pillow
+opencv-python
+numpy

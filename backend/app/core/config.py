@@ -1,10 +1,25 @@
+from __future__ import annotations
+
 import os
+
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-JWT_SECRET = os.getenv("JWT_SECRET")
+
+# ============================================================
+# APPLICATION CONFIGURATION
+# ============================================================
+
+DATABASE_URL = os.getenv(
+    "DATABASE_URL"
+)
+
+JWT_SECRET = os.getenv(
+    "JWT_SECRET"
+)
+
 OPENAI_API_KEY = os.getenv(
     "OPENAI_API_KEY"
 )
@@ -21,17 +36,27 @@ ABUSEIPDB_API_KEY = os.getenv(
     "ABUSEIPDB_API_KEY"
 )
 
+
+# ============================================================
+# REQUIRED CONFIGURATION VALIDATION
+# ============================================================
+
 if not DATABASE_URL:
-    raise ValueError("DATABASE_URL is not configured")
+    raise ValueError(
+        "DATABASE_URL is not configured."
+    )
 
 if not JWT_SECRET:
-    raise ValueError("JWT_SECRET is not configured")
+    raise ValueError(
+        "JWT_SECRET is not configured."
+    )
+
 if not OPENAI_API_KEY:
     raise ValueError(
-        "OPENAI_API_KEY is not configured"
+        "OPENAI_API_KEY is not configured."
     )
 
 if not OPENAI_MODEL:
     raise ValueError(
-        "OPENAI_MODEL is not configured"
+        "OPENAI_MODEL is not configured."
     )

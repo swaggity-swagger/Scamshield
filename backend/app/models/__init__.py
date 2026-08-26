@@ -6,6 +6,7 @@ from app.models.threat_finding import ThreatFinding
 from app.models.report import Report
 from app.models.chat_conversation import ChatConversation
 from app.models.chat_message import ChatMessage
+from app.models.timeline import Timeline
 
 __all__ = [
     "User",
@@ -16,4 +17,5 @@ __all__ = [
     "Report",
     "ChatConversation",
     "ChatMessage",
+    "Timeline",
 ]

@@ -12,6 +12,8 @@ from app.services.auth_service import (
     create_user,
     get_user_by_email,
 )
+
+
 router = APIRouter(
     prefix="/auth",
     tags=["Authentication"],
@@ -30,7 +32,7 @@ def register(
 
     if existing_user:
         raise HTTPException(
-            status_code=409,
+            status_code=status.HTTP_409_CONFLICT,
             detail="Email already registered.",
         )
 
@@ -63,13 +65,11 @@ def login(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password.",
             headers={
-                "WWW-Authenticate": "Bearer"
+                "WWW-Authenticate": "Bearer",
             },
         )
 
-    token = create_access_token(
-    {"sub": str(user.id)}
-)
+    token = create_access_token(user.id)
 
     return {
         "access_token": token,

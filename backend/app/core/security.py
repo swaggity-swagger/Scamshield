@@ -13,19 +13,18 @@ from app.core.config import JWT_SECRET
 # JWT CONFIGURATION
 # ============================================================
 
-# HS256 is used with your existing JWT_SECRET.
 ALGORITHM = "HS256"
 
-# Default JWT lifetime.
-ACCESS_TOKEN_EXPIRE_HOURS = 60
+# JWT lifetime: 60 minutes for the current project MVP.
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 
 # ============================================================
 # PASSWORD HASHING
 # ============================================================
 
-# PBKDF2-HMAC-SHA256 uses Python's standard library.
-# This avoids Argon2 DLL problems on your Windows machine.
+# PBKDF2-HMAC-SHA256 avoids native Argon2 dependency issues
+# on Windows and uses Python's standard library.
 PBKDF2_ITERATIONS = 600_000
 SALT_LENGTH = 16
 KEY_LENGTH = 32
@@ -38,6 +37,9 @@ def hash_password(password: str) -> str:
     Stored format:
         pbkdf2_sha256$iterations$salt$key
     """
+
+    if not password:
+        raise ValueError("Password cannot be empty.")
 
     salt = secrets.token_bytes(SALT_LENGTH)
 
@@ -68,7 +70,7 @@ def verify_password(
     stored_hash: str,
 ) -> bool:
     """
-    Verify a password against a PBKDF2-HMAC-SHA256 hash.
+    Verify a password against a stored PBKDF2-HMAC-SHA256 hash.
     """
 
     try:
@@ -80,6 +82,11 @@ def verify_password(
         ) = stored_hash.split("$")
 
         if algorithm != "pbkdf2_sha256":
+            return False
+
+        iterations = int(iterations)
+
+        if iterations <= 0:
             return False
 
         salt = base64.urlsafe_b64decode(
@@ -94,7 +101,7 @@ def verify_password(
             "sha256",
             password.encode("utf-8"),
             salt,
-            int(iterations),
+            iterations,
             dklen=len(expected_key),
         )
 
@@ -116,26 +123,28 @@ def verify_password(
 # ============================================================
 
 def create_access_token(
-    data: dict,
+    user_id: int,
     expires_delta: timedelta | None = None,
 ) -> str:
     """
-    Create a signed JWT access token.
-    """
+    Create a JWT access token for an authenticated user.
 
-    payload = data.copy()
+    The user ID is stored in the `sub` claim.
+    """
 
     if expires_delta is None:
         expires_delta = timedelta(
-            hours=ACCESS_TOKEN_EXPIRE_HOURS
+            minutes=ACCESS_TOKEN_EXPIRE_MINUTES
         )
 
-    expire = (
-        datetime.now(timezone.utc)
-        + expires_delta
-    )
+    now = datetime.now(timezone.utc)
+    expire = now + expires_delta
 
-    payload["exp"] = expire
+    payload = {
+        "sub": str(user_id),
+        "iat": now,
+        "exp": expire,
+    }
 
     return jwt.encode(
         payload,
@@ -154,7 +163,9 @@ def decode_access_token(
     """
     Decode and validate a JWT access token.
 
-    Raises jwt.InvalidTokenError when invalid/expired.
+    Raises:
+        jwt.InvalidTokenError:
+            When the token is invalid or expired.
     """
 
     return jwt.decode(
