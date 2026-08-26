@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verification History - ScamSense</title>
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================================
+         TAILWIND CONFIGURATION
+    ========================================================== -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#1e1244",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4f4574",
+                        "surface-tint": "#635e56",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#cdc5bc",
+                        "surface": "#fff8f4",
+                        "surface-container-low": "#fbf2eb",
+                        "on-primary-fixed": "#1e1b15",
+                        "surface-variant": "#eae1da",
+                        "surface-dim": "#e1d8d2",
+                        "on-surface-variant": "#4b463f",
+                        "secondary": "#466368",
+                        "primary-container": "#f2eae0",
+                        "inverse-on-surface": "#f8efe8",
+                        "secondary-fixed": "#c9e8ee",
+                        "secondary-fixed-dim": "#adccd2",
+                        "on-primary-container": "#6e6961",
+                        "primary": "#635e56",
+                        "inverse-surface": "#34302b",
+                        "primary-fixed": "#e9e1d7",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#6e6298",
+                        "surface-bright": "#fff8f4",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1f1b17",
+                        "surface-container-highest": "#eae1da",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "outline": "#7c766e",
+                        "on-background": "#1f1b17",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "secondary-container": "#c6e5eb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e7deff",
+                        "surface-container-high": "#f0e7df",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "outline-variant": "#cdc5bc",
+                        "background": "#fff8f4",
+                        "tertiary-container": "#efe7ff",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "on-secondary-container": "#4a676d",
+                        "surface-container": "#f5ece5"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+                    },
+
+                    spacing: {
+                        "stack-lg": "56px",
+                        "margin-mobile": "24px",
+                        "stack-md": "32px",
+                        "margin-desktop": "72px",
+                        unit: "10px",
+                        "stack-sm": "16px",
+                        gutter: "28px",
+                        "container-max": "1320px"
+                    }
+                }
+            }
+        };
+    </script>
+
+
+    <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: #F2EAE0;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        .icon-filled {
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+
+        /* =========================================================
+           SHADOWS
+        ========================================================== */
+
+        .ambient-card {
+            box-shadow: 0 4px 24px rgba(74, 69, 64, 0.06);
+
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+        }
+
+        .ambient-card:hover {
+            box-shadow: 0 20px 48px rgba(98, 87, 140, 0.16);
+            transform: translateY(-6px);
+        }
+
+
+        /* =========================================================
+           CHIPS
+        ========================================================== */
+
+        .chip-safe {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .chip-suspicious {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border: 1px solid #ffe0b2;
+        }
+
+        .chip-dangerous {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+
+        /* =========================================================
+           BUTTONS
+        ========================================================== */
+
+        .btn-interactive {
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease,
+                border-color 0.35s ease;
+        }
+
+        .btn-interactive:hover {
+            border-radius: 1.25rem;
+            transform: translateY(-2px) scale(1.025);
+        }
+
+        .btn-interactive:active {
+            transform: scale(0.97);
+        }
+
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes floatSlow {
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(2deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(98, 87, 140, 0.45);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 28px 8px rgba(98, 87, 140, 0.22);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes pulseAlert {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+
+        .animate-page-load {
+            animation:
+                pageFadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-slide-top {
+            animation:
+                slideFromTop 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-bottom {
+            animation:
+                slideFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-left {
+            animation:
+                slideFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-right {
+            animation:
+                slideFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-float {
+            animation:
+                floatSlow 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation:
+                pulseGlow 2.8s infinite ease-in-out;
+        }
+
+        .animate-pulse-alert {
+            animation:
+                pulseAlert 2s infinite ease-in-out;
+        }
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        .mobile-menu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+
+            transition:
+                max-height 0.35s ease,
+                opacity 0.25s ease;
+        }
+
+        .mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+
+        /* =========================================================
+           MODAL
+        ========================================================== */
+
+        .modal-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .modal-visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card-hidden {
+            transform: scale(0.95);
+        }
+
+        .modal-card-visible {
+            transform: scale(1);
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================== */
+
+        .hidden-record {
+            display: none !important;
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITY
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+
+        @media (max-width: 767px) {
+
+            body {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="bg-primary-container text-on-surface min-h-screen antialiased flex flex-col pt-20 animate-page-load"
+>
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <header
+        class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b-2 border-secondary-container shadow-sm animate-slide-top"
+    >
+
+        <div
+            class="h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex justify-between items-center"
+        >
+
+            <!-- Logo -->
+
+            <a
+                href="index.html"
+                class="flex items-center gap-2 group"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180 group-hover:scale-110"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight"
+                >
+                    ScamSense
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Navigation -->
+
+            <nav
+                class="hidden lg:flex items-center gap-2"
+                aria-label="Main navigation"
+            >
+
+                <a
+                    href="home.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness .html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    href="history.html"
+                    class="text-base font-bold text-primary bg-primary-container/50 border-b-2 border-tertiary px-3 py-2 rounded-xl"
+                    aria-current="page"
+                >
+                    History
+                </a>
+
+            </nav>
+
+
+            <!-- Right Controls -->
+
+            <div class="flex items-center gap-3">
+
+                <label
+                    for="language-selector"
+                    class="sr-only"
+                >
+                    Select language
+                </label>
+
+                <select
+                    id="language-selector"
+                    class="hidden md:block bg-transparent border-0 text-primary font-semibold focus:ring-0 cursor-pointer"
+                    aria-label="Select language"
+                >
+                    <option value="en">EN</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="mr">मराठी</option>
+                </select>
+
+
+                <a
+                    href="login.html"
+                    class="btn-interactive hidden sm:flex bg-tertiary hover:bg-secondary text-white px-7 py-3 rounded-full font-bold shadow-md"
+                >
+                    Login
+                </a>
+
+
+                <button
+                    id="mobile-menu-btn"
+                    type="button"
+                    class="lg:hidden p-2 rounded-xl text-primary hover:bg-surface-variant"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                >
+
+                    <span
+                        id="mobile-menu-icon"
+                        class="material-symbols-outlined text-3xl"
+                    >
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Mobile Menu -->
+
+        <div
+            id="mobile-menu"
+            class="mobile-menu lg:hidden border-t border-surface-variant bg-surface"
+        >
+
+            <nav
+                class="px-margin-mobile py-4 flex flex-col gap-2"
+                aria-label="Mobile navigation"
+            >
+
+                <a
+                    href="index.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    href="history.html"
+                    class="px-4 py-3 rounded-xl font-bold text-primary bg-primary-container"
+                >
+                    History
+                </a>
+
+                <a
+                    href="login.html"
+                    class="mt-2 text-center bg-tertiary text-white px-5 py-3 rounded-full font-bold"
+                >
+                    Login
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main
+        class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-stack-lg"
+    >
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative animate-slide-top"
+        >
+
+            <div
+                class="absolute -top-12 -left-12 w-96 h-96 bg-tertiary/10 rounded-full blur-3xl -z-10"
+            ></div>
+
+
+            <div class="space-y-3">
+
+                <div
+                    class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 shadow-sm backdrop-blur-sm"
+                >
+
+                    <span class="relative flex h-3 w-3">
+
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                        ></span>
+
+                        <span
+                            class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                        ></span>
+
+                    </span>
+
+                    <span
+                        class="text-xs md:text-sm font-bold text-on-surface-variant tracking-wider uppercase"
+                    >
+                        Personal Security History
+                    </span>
+
+                </div>
+
+
+                <h1
+                    class="text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight"
+                >
+                    Your Verification History
+                </h1>
+
+
+                <p
+                    class="text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed"
+                >
+                    Review previous ScamSense checks, revisit risk findings,
+                    and keep track of suspicious content you have analyzed.
+                </p>
+
+            </div>
+
+
+            <!-- Actions -->
+
+            <div
+                class="flex flex-wrap items-center gap-3"
+            >
+
+                <button
+                    id="export-btn"
+                    type="button"
+                    class="btn-interactive px-6 py-3 rounded-full bg-surface-container-lowest border-2 border-[#B4D3D9] hover:border-tertiary text-on-surface font-bold text-sm flex items-center gap-2 shadow-sm"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-xl text-tertiary"
+                    >
+                        download
+                    </span>
+
+                    Export History
+
+                </button>
+
+
+                <a
+                    href="index.html"
+                    class="btn-interactive px-6 py-3 rounded-full bg-tertiary hover:bg-secondary text-white font-bold text-sm flex items-center gap-2 shadow-md"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-xl"
+                    >
+                        add
+                    </span>
+
+                    New Scan
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             NOTICE
+        ====================================================== -->
+
+        <section
+            class="bg-secondary-container/40 border border-secondary-container rounded-2xl p-4 md:p-5 flex items-start gap-3"
+        >
+
+            <span
+                class="material-symbols-outlined text-secondary text-2xl mt-0.5"
+            >
+                info
+            </span>
+
+
+            <div>
+
+                <p
+                    class="font-bold text-on-secondary-container"
+                >
+                    Preview Mode
+                </p>
+
+
+                <p
+                    class="text-sm text-on-surface-variant mt-1 leading-relaxed"
+                >
+                    The records shown below are sample frontend records.
+                    Your real verification history will appear here after
+                    the History API is connected to your ScamSense backend.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FILTER / SEARCH
+        ====================================================== -->
+
+        <section
+            class="ambient-card bg-surface-container-lowest rounded-3xl p-6 border border-surface-variant flex flex-col lg:flex-row justify-between items-center gap-5 animate-slide-bottom"
+        >
+
+            <!-- Search -->
+
+            <div
+                class="relative w-full lg:w-[430px] group"
+            >
+
+                <span
+                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-tertiary transition-colors"
+                >
+                    search
+                </span>
+
+
+                <input
+                    id="history-search"
+                    class="w-full h-12 pl-12 pr-4 rounded-2xl bg-surface-container-low border-2 border-transparent focus:border-tertiary focus:bg-white text-base text-on-surface outline-none transition-all duration-300"
+                    placeholder="Search scans, URLs, messages..."
+                    type="search"
+                >
+
+            </div>
+
+
+            <!-- Filter Buttons -->
+
+            <div
+                class="flex flex-wrap items-center justify-center lg:justify-end gap-2.5 w-full lg:w-auto"
+                role="group"
+                aria-label="Filter history"
+            >
+
+                <button
+                    type="button"
+                    class="filter-btn btn-interactive px-4 py-2 rounded-full bg-tertiary text-white font-bold text-xs uppercase tracking-wider shadow-sm"
+                    data-filter="all"
+                >
+                    All
+                    <span data-count="all">(4)</span>
+                </button>
+
+
+                <button
+                    type="button"
+                    class="filter-btn btn-interactive px-4 py-2 rounded-full bg-surface-container-low hover:bg-error-container hover:text-error text-on-surface-variant font-bold text-xs uppercase tracking-wider"
+                    data-filter="dangerous"
+                >
+                    Dangerous
+                    <span data-count="dangerous">(1)</span>
+                </button>
+
+
+                <button
+                    type="button"
+                    class="filter-btn btn-interactive px-4 py-2 rounded-full bg-surface-container-low hover:bg-secondary-container hover:text-secondary text-on-surface-variant font-bold text-xs uppercase tracking-wider"
+                    data-filter="suspicious"
+                >
+                    Suspicious
+                    <span data-count="suspicious">(1)</span>
+                </button>
+
+
+                <button
+                    type="button"
+                    class="filter-btn btn-interactive px-4 py-2 rounded-full bg-surface-container-low hover:bg-emerald-100 hover:text-emerald-800 text-on-surface-variant font-bold text-xs uppercase tracking-wider"
+                    data-filter="safe"
+                >
+                    Safe
+                    <span data-count="safe">(2)</span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             HISTORY LIST
+        ====================================================== -->
+
+        <section
+            id="history-list"
+            class="flex flex-col gap-5"
+        >
+
+
+            <!-- =================================================
+                 RECORD 1
+            ================================================== -->
+
+            <article
+                class="history-record ambient-card bg-surface rounded-3xl p-6 md:p-8 border border-surface-variant border-l-8 border-l-error group animate-slide-left"
+                data-status="dangerous"
+                data-search="url scanner secure login update phishing banking credential"
+            >
+
+                <div
+                    class="flex flex-col lg:flex-row gap-6 justify-between lg:items-center"
+                >
+
+                    <div
+                        class="flex items-start gap-5"
+                    >
+
+                        <div
+                            class="h-16 w-16 rounded-2xl bg-error-container text-error flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl icon-filled"
+                            >
+                                link
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex flex-col gap-1.5 min-w-0"
+                        >
+
+                            <div
+                                class="flex flex-wrap items-center gap-2"
+                            >
+
+                                <span
+                                    class="font-bold text-base text-primary"
+                                >
+                                    URL Scanner
+                                </span>
+
+                                <span class="text-outline-variant">
+                                    •
+                                </span>
+
+                                <span
+                                    class="text-on-surface-variant text-sm font-medium"
+                                >
+                                    Recent scan
+                                </span>
+
+                                <span
+                                    class="text-xs bg-surface-variant/80 text-on-surface-variant px-2.5 py-0.5 rounded-full font-mono"
+                                >
+                                    Suspicious URL
+                                </span>
+
+                            </div>
+
+
+                            <p
+                                class="text-lg md:text-xl font-bold font-mono text-on-surface break-all group-hover:text-error transition-colors duration-200"
+                            >
+                                https://secure-login-update.example/verify
+                            </p>
+
+
+                            <p
+                                class="text-sm text-on-surface-variant"
+                            >
+                                Detected multiple suspicious URL characteristics
+                                in the sample analysis.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="flex flex-wrap items-center justify-between lg:justify-end gap-4 shrink-0"
+                    >
+
+                        <div
+                            class="chip-dangerous px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-base icon-filled"
+                            >
+                                warning
+                            </span>
+
+                            Dangerous
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="view-dossier btn-interactive px-6 py-3 rounded-full bg-surface-container-lowest border-2 border-[#B4D3D9] hover:border-error hover:bg-error hover:text-white font-bold text-sm shadow-sm"
+                            data-title="URL Scanner Result"
+                            data-type="URL"
+                            data-status="Dangerous"
+                            data-detail="The sample URL triggered multiple rule-based suspicious indicators. This is a frontend demonstration record."
+                        >
+                            View Dossier
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================================
+                 RECORD 2
+            ================================================== -->
+
+            <article
+                class="history-record ambient-card bg-surface rounded-3xl p-6 md:p-8 border border-surface-variant border-l-8 border-l-secondary group animate-slide-right"
+                data-status="suspicious"
+                data-search="message checker sms kyc account urgent phishing"
+            >
+
+                <div
+                    class="flex flex-col lg:flex-row gap-6 justify-between lg:items-center"
+                >
+
+                    <div
+                        class="flex items-start gap-5"
+                    >
+
+                        <div
+                            class="h-16 w-16 rounded-2xl bg-secondary-container text-secondary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl icon-filled"
+                            >
+                                chat
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex flex-col gap-1.5 min-w-0"
+                        >
+
+                            <div
+                                class="flex flex-wrap items-center gap-2"
+                            >
+
+                                <span
+                                    class="font-bold text-base text-primary"
+                                >
+                                    Message Checker
+                                </span>
+
+                                <span class="text-outline-variant">
+                                    •
+                                </span>
+
+                                <span
+                                    class="text-on-surface-variant text-sm font-medium"
+                                >
+                                    Recent scan
+                                </span>
+
+                                <span
+                                    class="text-xs bg-surface-variant/80 text-on-surface-variant px-2.5 py-0.5 rounded-full"
+                                >
+                                    SMS
+                                </span>
+
+                            </div>
+
+
+                            <p
+                                class="text-lg font-medium italic text-on-surface group-hover:text-secondary transition-colors"
+                            >
+                                "Urgent: your account needs verification..."
+                            </p>
+
+
+                            <p
+                                class="text-sm text-on-surface-variant"
+                            >
+                                The sample message contains urgency and
+                                account-verification language.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="flex flex-wrap items-center justify-between lg:justify-end gap-4 shrink-0"
+                    >
+
+                        <div
+                            class="chip-suspicious px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-base icon-filled"
+                            >
+                                error
+                            </span>
+
+                            Suspicious
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="view-dossier btn-interactive px-6 py-3 rounded-full bg-surface-container-lowest border-2 border-[#B4D3D9] hover:border-secondary hover:bg-secondary hover:text-white font-bold text-sm shadow-sm"
+                            data-title="Message Checker Result"
+                            data-type="Message"
+                            data-status="Suspicious"
+                            data-detail="The sample message contains urgency-based social engineering indicators. This is a frontend demonstration record."
+                        >
+                            View Dossier
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================================
+                 RECORD 3
+            ================================================== -->
+
+            <article
+                class="history-record ambient-card bg-surface rounded-3xl p-6 md:p-8 border border-surface-variant border-l-8 border-l-emerald-600 group animate-slide-left"
+                data-status="safe"
+                data-search="qr restaurant menu safe verified"
+            >
+
+                <div
+                    class="flex flex-col lg:flex-row gap-6 justify-between lg:items-center"
+                >
+
+                    <div
+                        class="flex items-start gap-5"
+                    >
+
+                        <div
+                            class="h-16 w-16 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl icon-filled"
+                            >
+                                qr_code_scanner
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex flex-col gap-1.5 min-w-0"
+                        >
+
+                            <div
+                                class="flex flex-wrap items-center gap-2"
+                            >
+
+                                <span
+                                    class="font-bold text-base text-primary"
+                                >
+                                    QR Code Safe
+                                </span>
+
+                                <span class="text-outline-variant">
+                                    •
+                                </span>
+
+                                <span
+                                    class="text-on-surface-variant text-sm font-medium"
+                                >
+                                    Recent scan
+                                </span>
+
+                                <span
+                                    class="text-xs bg-surface-variant/80 text-on-surface-variant px-2.5 py-0.5 rounded-full"
+                                >
+                                    QR
+                                </span>
+
+                            </div>
+
+
+                            <p
+                                class="text-lg font-bold text-on-surface group-hover:text-emerald-700 transition-colors"
+                            >
+                                Example restaurant menu destination
+                            </p>
+
+
+                            <p
+                                class="text-sm text-on-surface-variant"
+                            >
+                                No obvious suspicious characteristics detected
+                                in this sample record.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="flex flex-wrap items-center justify-between lg:justify-end gap-4 shrink-0"
+                    >
+
+                        <div
+                            class="chip-safe px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-base icon-filled"
+                            >
+                                check_circle
+                            </span>
+
+                            Verified Safe
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="view-dossier btn-interactive px-6 py-3 rounded-full bg-surface-container-lowest border-2 border-[#B4D3D9] hover:border-emerald-600 hover:bg-emerald-600 hover:text-white font-bold text-sm shadow-sm"
+                            data-title="QR Scanner Result"
+                            data-type="QR"
+                            data-status="Safe"
+                            data-detail="The sample QR record represents a low-risk frontend demonstration. Real results will come from the QR analysis API."
+                        >
+                            View Dossier
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- =================================================
+                 RECORD 4
+            ================================================== -->
+
+            <article
+                class="history-record ambient-card bg-surface rounded-3xl p-6 md:p-8 border border-surface-variant border-l-8 border-l-emerald-600 group animate-slide-right"
+                data-status="safe"
+                data-search="screenshot analyzer image ocr safe email"
+            >
+
+                <div
+                    class="flex flex-col lg:flex-row gap-6 justify-between lg:items-center"
+                >
+
+                    <div
+                        class="flex items-start gap-5"
+                    >
+
+                        <div
+                            class="h-16 w-16 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl icon-filled"
+                            >
+                                image
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            class="flex flex-col gap-1.5 min-w-0"
+                        >
+
+                            <div
+                                class="flex flex-wrap items-center gap-2"
+                            >
+
+                                <span
+                                    class="font-bold text-base text-primary"
+                                >
+                                    Screenshot Analyzer
+                                </span>
+
+                                <span class="text-outline-variant">
+                                    •
+                                </span>
+
+                                <span
+                                    class="text-on-surface-variant text-sm font-medium"
+                                >
+                                    Recent scan
+                                </span>
+
+                                <span
+                                    class="text-xs bg-surface-variant/80 text-on-surface-variant px-2.5 py-0.5 rounded-full"
+                                >
+                                    OCR
+                                </span>
+
+                            </div>
+
+
+                            <p
+                                class="text-lg font-bold text-on-surface group-hover:text-emerald-700 transition-colors"
+                            >
+                                Example screenshot analysis
+                            </p>
+
+
+                            <p
+                                class="text-sm text-on-surface-variant"
+                            >
+                                OCR demonstration record with no obvious
+                                high-risk indicators.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="flex flex-wrap items-center justify-between lg:justify-end gap-4 shrink-0"
+                    >
+
+                        <div
+                            class="chip-safe px-4 py-2 rounded-full font-bold text-sm flex items-center gap-2"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-base icon-filled"
+                            >
+                                check_circle
+                            </span>
+
+                            Verified Safe
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="view-dossier btn-interactive px-6 py-3 rounded-full bg-surface-container-lowest border-2 border-[#B4D3D9] hover:border-emerald-600 hover:bg-emerald-600 hover:text-white font-bold text-sm shadow-sm"
+                            data-title="Screenshot Analyzer Result"
+                            data-type="Screenshot"
+                            data-status="Safe"
+                            data-detail="This is a frontend demonstration record. Real OCR analysis results will be loaded from the ScamSense backend."
+                        >
+                            View Dossier
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- Empty State -->
+
+        <section
+            id="empty-state"
+            class="hidden ambient-card bg-surface rounded-3xl p-10 text-center border border-surface-variant"
+        >
+
+            <div
+                class="w-16 h-16 mx-auto rounded-2xl bg-tertiary-container text-tertiary flex items-center justify-center"
+            >
+
+                <span class="material-symbols-outlined text-4xl">
+                    search_off
+                </span>
+
+            </div>
+
+
+            <h2
+                class="mt-5 text-2xl font-bold text-primary"
+            >
+                No matching scans found
+            </h2>
+
+
+            <p
+                class="mt-2 text-on-surface-variant"
+            >
+                Try another search term or select a different history filter.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             PAGINATION / INFO
+        ====================================================== -->
+
+        <section
+            class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-5 border-t border-surface-variant"
+        >
+
+            <span
+                id="results-summary"
+                class="text-sm font-semibold text-on-surface-variant"
+            >
+                Showing 4 sample records
+            </span>
+
+
+            <div
+                class="flex items-center gap-3"
+            >
+
+                <button
+                    id="previous-btn"
+                    type="button"
+                    class="btn-interactive px-5 py-2.5 rounded-full bg-surface-container-lowest border-2 border-secondary-container text-on-surface font-bold text-sm opacity-50 cursor-not-allowed"
+                    disabled
+                >
+                    Previous
+                </button>
+
+
+                <span
+                    class="w-8 h-8 rounded-full bg-tertiary text-white flex items-center justify-center font-bold text-sm"
+                >
+                    1
+                </span>
+
+
+                <button
+                    id="next-btn"
+                    type="button"
+                    class="btn-interactive px-5 py-2.5 rounded-full bg-surface-container-lowest border-2 border-secondary-container hover:border-tertiary text-on-surface font-bold text-sm"
+                >
+                    Next
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         DOSSIER MODAL
+    ========================================================== -->
+
+    <div
+        id="dossier-modal"
+        class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm modal-hidden flex items-center justify-center p-4 transition-opacity duration-300"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+    >
+
+        <div
+            id="dossier-modal-card"
+            class="modal-card-hidden bg-surface-container-lowest max-w-2xl w-full rounded-3xl shadow-2xl border border-surface-variant p-6 md:p-8 transition-transform duration-300"
+        >
+
+            <div
+                class="flex items-center justify-between border-b border-surface-variant pb-4"
+            >
+
+                <div
+                    class="flex items-center gap-3"
+                >
+
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-tertiary-container text-tertiary flex items-center justify-center"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-2xl"
+                        >
+                            description
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2
+                            id="modal-title"
+                            class="text-2xl font-extrabold text-primary"
+                        >
+                            Verification Dossier
+                        </h2>
+
+
+                        <p
+                            id="modal-type"
+                            class="text-sm text-on-surface-variant"
+                        >
+                            Scan result
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="close-modal-btn"
+                    type="button"
+                    class="p-2 rounded-full hover:bg-surface-variant text-on-surface-variant"
+                    aria-label="Close dossier"
+                >
+
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="py-6 space-y-5"
+            >
+
+                <div
+                    class="flex items-center justify-between gap-4 bg-surface-container-high rounded-2xl p-4"
+                >
+
+                    <span
+                        class="font-semibold text-on-surface-variant"
+                    >
+                        Risk status
+                    </span>
+
+
+                    <span
+                        id="modal-status"
+                        class="px-4 py-2 rounded-full font-bold text-sm"
+                    >
+                        Safe
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <h3
+                        class="text-sm uppercase tracking-wider font-bold text-on-surface-variant"
+                    >
+                        Analysis Summary
+                    </h3>
+
+
+                    <p
+                        id="modal-detail"
+                        class="mt-2 text-base text-on-surface leading-relaxed"
+                    >
+                        Scan details will appear here.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="bg-secondary-container/40 border border-secondary-container rounded-2xl p-5"
+                >
+
+                    <div
+                        class="flex items-start gap-3"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-secondary text-xl"
+                        >
+                            info
+                        </span>
+
+
+                        <p
+                            class="text-sm text-on-surface-variant leading-relaxed"
+                        >
+                            This page is currently displaying frontend
+                            demonstration data. Once the History API is
+                            connected, this dossier will contain the actual
+                            stored result for the selected scan.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="flex justify-end gap-3 border-t border-surface-variant pt-4"
+            >
+
+                <button
+                    id="modal-close-action"
+                    type="button"
+                    class="btn-interactive px-6 py-3 rounded-full border-2 border-outline text-primary font-bold text-sm hover:bg-surface-variant"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop bg-surface-container-high border-t border-outline-variant/40"
+    >
+
+        <div
+            class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+        >
+
+            <div>
+
+                <div
+                    class="flex items-center gap-2"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-primary text-3xl"
+                    >
+                        shield
+                    </span>
+
+                    <span
+                        class="text-2xl font-bold text-primary"
+                    >
+                        ScamSense
+                    </span>
+
+                </div>
+
+
+                <p
+                    class="mt-2 text-sm text-on-surface-variant max-w-md"
+                >
+                    Built for security, transparency, and digital trust.
+                </p>
+
+            </div>
+
+
+            <nav
+                class="flex flex-wrap gap-x-7 gap-y-3"
+                aria-label="Footer navigation"
+            >
+
+                <a
+                    href="home.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness .html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    href="history.html"
+                    class="font-bold text-tertiary"
+                >
+                    History
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div
+            class="max-w-container-max mx-auto mt-6 pt-5 border-t border-outline-variant/30 text-sm text-on-surface-variant"
+        >
+            © 2026 ScamSense. All rights reserved. Built for security,
+            transparency, and digital trust.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+        /* =========================================================
+           LANGUAGE
+        ========================================================== */
+
+        const languageSelector =
+            document.getElementById("language-selector");
+
+
+        const savedLanguage =
+            localStorage.getItem("scamsense-language");
+
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(savedLanguage)
+        ) {
+
+            languageSelector.value =
+                savedLanguage;
+
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        const mobileMenuBtn =
+            document.getElementById("mobile-menu-btn");
+
+
+        const mobileMenu =
+            document.getElementById("mobile-menu");
+
+
+        const mobileMenuIcon =
+            document.getElementById("mobile-menu-icon");
+
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    mobileMenu.classList.toggle("open");
+
+
+                mobileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                );
+
+
+                mobileMenuIcon.textContent =
+                    isOpen
+                        ? "close"
+                        : "menu";
+
+            }
+        );
+
+
+        /* =========================================================
+           SEARCH + FILTER
+        ========================================================== */
+
+        const searchInput =
+            document.getElementById("history-search");
+
+
+        const filterButtons =
+            document.querySelectorAll(".filter-btn");
+
+
+        const historyRecords =
+            document.querySelectorAll(".history-record");
+
+
+        const emptyState =
+            document.getElementById("empty-state");
+
+
+        const resultsSummary =
+            document.getElementById("results-summary");
+
+
+        let activeFilter = "all";
+
+
+        function updateHistory() {
+
+            const searchTerm =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            let visibleCount = 0;
+
+
+            historyRecords.forEach(
+                (record) => {
+
+                    const status =
+                        record.dataset.status;
+
+
+                    const searchableText =
+                        record.dataset.search;
+
+
+                    const filterMatches =
+                        activeFilter === "all" ||
+                        status === activeFilter;
+
+
+                    const searchMatches =
+                        !searchTerm ||
+                        searchableText.includes(searchTerm);
+
+
+                    const visible =
+                        filterMatches &&
+                        searchMatches;
+
+
+                    record.classList.toggle(
+                        "hidden-record",
+                        !visible
+                    );
+
+
+                    if (visible) {
+                        visibleCount++;
+                    }
+
+                }
+            );
+
+
+            emptyState.classList.toggle(
+                "hidden",
+                visibleCount !== 0
+            );
+
+
+            resultsSummary.textContent =
+                `Showing ${visibleCount} of ${historyRecords.length} sample records`;
+
+        }
+
+
+        searchInput.addEventListener(
+            "input",
+            updateHistory
+        );
+
+
+        filterButtons.forEach(
+            (button) => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        activeFilter =
+                            button.dataset.filter;
+
+
+                        filterButtons.forEach(
+                            (btn) => {
+
+                                btn.classList.remove(
+                                    "bg-tertiary",
+                                    "text-white"
+                                );
+
+                                btn.classList.add(
+                                    "bg-surface-container-low",
+                                    "text-on-surface-variant"
+                                );
+
+                            }
+                        );
+
+
+                        button.classList.remove(
+                            "bg-surface-container-low",
+                            "text-on-surface-variant"
+                        );
+
+
+                        button.classList.add(
+                            "bg-tertiary",
+                            "text-white"
+                        );
+
+
+                        updateHistory();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           DOSSIER MODAL
+        ========================================================== */
+
+        const modal =
+            document.getElementById("dossier-modal");
+
+
+        const modalCard =
+            document.getElementById("dossier-modal-card");
+
+
+        const modalTitle =
+            document.getElementById("modal-title");
+
+
+        const modalType =
+            document.getElementById("modal-type");
+
+
+        const modalStatus =
+            document.getElementById("modal-status");
+
+
+        const modalDetail =
+            document.getElementById("modal-detail");
+
+
+        const closeModalBtn =
+            document.getElementById("close-modal-btn");
+
+
+        const modalCloseAction =
+            document.getElementById("modal-close-action");
+
+
+        const dossierButtons =
+            document.querySelectorAll(".view-dossier");
+
+
+        function openModal(button) {
+
+            modalTitle.textContent =
+                button.dataset.title ||
+                "Verification Dossier";
+
+
+            modalType.textContent =
+                button.dataset.type ||
+                "Scan result";
+
+
+            modalStatus.textContent =
+                button.dataset.status ||
+                "Unknown";
+
+
+            modalDetail.textContent =
+                button.dataset.detail ||
+                "No additional details available.";
+
+
+            modalStatus.className =
+                "px-4 py-2 rounded-full font-bold text-sm";
+
+
+            const status =
+                (button.dataset.status || "")
+                    .toLowerCase();
+
+
+            if (status === "dangerous") {
+
+                modalStatus.classList.add(
+                    "chip-dangerous"
+                );
+
+            } else if (
+                status === "suspicious"
+            ) {
+
+                modalStatus.classList.add(
+                    "chip-suspicious"
+                );
+
+            } else {
+
+                modalStatus.classList.add(
+                    "chip-safe"
+                );
+
+            }
+
+
+            modal.classList.remove(
+                "modal-hidden"
+            );
+
+            modal.classList.add(
+                "modal-visible"
+            );
+
+
+            modalCard.classList.remove(
+                "modal-card-hidden"
+            );
+
+            modalCard.classList.add(
+                "modal-card-visible"
+            );
+
+        }
+
+
+        function closeModal() {
+
+            modal.classList.remove(
+                "modal-visible"
+            );
+
+            modal.classList.add(
+                "modal-hidden"
+            );
+
+
+            modalCard.classList.remove(
+                "modal-card-visible"
+            );
+
+            modalCard.classList.add(
+                "modal-card-hidden"
+            );
+
+        }
+
+
+        dossierButtons.forEach(
+            (button) => {
+
+                button.addEventListener(
+                    "click",
+                    () => openModal(button)
+                );
+
+            }
+        );
+
+
+        closeModalBtn.addEventListener(
+            "click",
+            closeModal
+        );
+
+
+        modalCloseAction.addEventListener(
+            "click",
+            closeModal
+        );
+
+
+        modal.addEventListener(
+            "click",
+            (event) => {
+
+                if (
+                    event.target === modal
+                ) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           EXPORT HISTORY
+        ========================================================== */
+
+        const exportBtn =
+            document.getElementById("export-btn");
+
+
+        exportBtn.addEventListener(
+            "click",
+            () => {
+
+                const records = [];
+
+
+                historyRecords.forEach(
+                    (record) => {
+
+                        if (
+                            record.classList.contains(
+                                "hidden-record"
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        records.push({
+                            type:
+                                record.querySelector(
+                                    ".font-bold.text-base"
+                                )?.textContent.trim() || "",
+                            status:
+                                record.dataset.status || "",
+                            details:
+                                record.dataset.search || ""
+                        });
+
+                    }
+                );
+
+
+                const exportData = {
+                    exported_at:
+                        new Date().toISOString(),
+                    mode:
+                        "frontend-demo",
+                    records
+                };
+
+
+                const blob =
+                    new Blob(
+                        [
+                            JSON.stringify(
+                                exportData,
+                                null,
+                                2
+                            )
+                        ],
+                        {
+                            type:
+                                "application/json"
+                        }
+                    );
+
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+
+                link.href =
+                    url;
+
+
+                link.download =
+                    "scamsense-history.json";
+
+
+                document.body.appendChild(
+                    link
+                );
+
+
+                link.click();
+
+
+                link.remove();
+
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           PAGINATION DEMO
+        ========================================================== */
+
+        const nextBtn =
+            document.getElementById("next-btn");
+
+
+        nextBtn.addEventListener(
+            "click",
+            () => {
+
+                alert(
+                    "Additional history pages will be loaded from the backend History API."
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           INITIAL STATE
+        ========================================================== */
+
+        updateHistory();
+
+    </script>
+
+</body>
+
+</html>

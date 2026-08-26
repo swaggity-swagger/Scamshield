@@ -1,0 +1,2926 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>URL Scanner - ScamSense</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#466368",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "outline-variant": "#cdc5bc",
+                        "primary-container": "#f2eae0",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#635e56",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "on-surface-variant": "#4b463f",
+                        "background": "#fff8f4",
+                        "on-tertiary-container": "#6e6298",
+                        "on-surface": "#1f1b17",
+                        "on-secondary-fixed": "#001f24",
+                        "primary": "#635e56",
+                        "surface-container": "#f5ece5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#1e1b15",
+                        "secondary-container": "#c6e5eb",
+                        "surface-container-high": "#f0e7df",
+                        "on-error": "#ffffff",
+                        "surface": "#fff8f4",
+                        "surface-dim": "#e1d8d2",
+                        "secondary-fixed-dim": "#adccd2",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "on-secondary-container": "#4a676d",
+                        "inverse-on-surface": "#f8efe8",
+                        "tertiary-fixed": "#e7deff",
+                        "on-background": "#1f1b17",
+                        "on-tertiary-fixed": "#1e1244",
+                        "outline": "#7c766e",
+                        "primary-fixed": "#e9e1d7",
+                        "surface-bright": "#fff8f4",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#c9e8ee",
+                        "inverse-primary": "#cdc5bc",
+                        "surface-container-highest": "#eae1da",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#efe7ff",
+                        "surface-variant": "#eae1da",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#34302b",
+                        "on-primary-container": "#6e6961",
+                        "surface-container-low": "#fbf2eb",
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4e4376"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+                    },
+
+                    spacing: {
+                        "margin-desktop": "72px",
+                        "stack-lg": "56px",
+                        "stack-sm": "16px",
+                        gutter: "28px",
+                        unit: "10px",
+                        "margin-mobile": "24px",
+                        "container-max": "1320px",
+                        "stack-md": "32px"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        /* =========================================================
+           BASE
+        ========================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: #F2EAE0;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        .filled-icon {
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        /* =========================================================
+           CARDS
+        ========================================================== */
+
+        .ambient-card {
+            box-shadow: 0 4px 24px rgba(74, 69, 64, 0.06);
+
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+        }
+
+        .ambient-card:hover {
+            box-shadow: 0 16px 40px rgba(98, 87, 140, 0.16);
+            transform: translateY(-4px);
+        }
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes floatSlow {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(3deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(98, 87, 140, 0.45);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 28px 8px rgba(98, 87, 140, 0.22);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes rotateSpinner {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shimmerWave {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes dotPulse {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.4);
+                opacity: 0.3;
+            }
+
+            40% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* =========================================================
+           ANIMATION UTILITIES
+        ========================================================== */
+
+        .animate-page-load {
+            animation: pageFadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-slide-top {
+            animation:
+                slideFromTop 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-bottom {
+            animation:
+                slideFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-left {
+            animation:
+                slideFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-right {
+            animation:
+                slideFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2.8s infinite ease-in-out;
+        }
+
+        .spin-circle {
+            animation: rotateSpinner 1.2s linear infinite;
+        }
+
+        .spin-slow {
+            animation: rotateSpinner 12s linear infinite;
+        }
+
+        /* =========================================================
+           SHIMMER
+        ========================================================== */
+
+        .shimmer-element {
+            background: linear-gradient(
+                90deg,
+                #eae1da 25%,
+                #ffffff 50%,
+                #eae1da 75%
+            );
+
+            background-size: 200% 100%;
+            animation: shimmerWave 1.8s infinite linear;
+        }
+
+        /* =========================================================
+           LOADING DOTS
+        ========================================================== */
+
+        .dot-1 {
+            animation: dotPulse 1.4s infinite ease-in-out;
+        }
+
+        .dot-2 {
+            animation: dotPulse 1.4s infinite ease-in-out 0.2s;
+        }
+
+        .dot-3 {
+            animation: dotPulse 1.4s infinite ease-in-out 0.4s;
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================== */
+
+        .btn-interactive {
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease;
+        }
+
+        .btn-interactive:hover {
+            border-radius: 1.25rem;
+            transform: scale(1.03);
+        }
+
+        .btn-interactive:active {
+            transform: scale(0.97);
+        }
+
+        /* =========================================================
+           RISK COLORS
+        ========================================================== */
+
+        .risk-card-low {
+            border-top-color: #059669 !important;
+        }
+
+        .risk-card-medium {
+            border-top-color: #d97706 !important;
+        }
+
+        .risk-card-high {
+            border-top-color: #ea580c !important;
+        }
+
+        .risk-card-critical {
+            border-top-color: #ba1a1a !important;
+        }
+
+        .risk-card-unknown {
+            border-top-color: #7c766e !important;
+        }
+
+        .risk-badge-low {
+            background-color: #059669 !important;
+            color: #ffffff !important;
+        }
+
+        .risk-badge-medium {
+            background-color: #d97706 !important;
+            color: #ffffff !important;
+        }
+
+        .risk-badge-high {
+            background-color: #ea580c !important;
+            color: #ffffff !important;
+        }
+
+        .risk-badge-critical {
+            background-color: #ba1a1a !important;
+            color: #ffffff !important;
+        }
+
+        .risk-badge-unknown {
+            background-color: #7c766e !important;
+            color: #ffffff !important;
+        }
+
+        .finding-icon-low {
+            color: #059669;
+        }
+
+        .finding-icon-medium {
+            color: #d97706;
+        }
+
+        .finding-icon-high,
+        .finding-icon-critical {
+            color: #ba1a1a;
+        }
+
+        .finding-icon-unknown {
+            color: #7c766e;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================== */
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+
+<body
+    class="bg-primary-container min-h-screen flex flex-col text-on-surface antialiased pt-20 animate-page-load"
+>
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <nav
+        aria-label="Main Navigation"
+        class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md shadow-sm border-b-2 border-secondary-container transition-all duration-300 animate-slide-top"
+    >
+
+        <div class="flex items-center gap-gutter">
+
+            <a
+                href="index.html"
+                class="flex items-center gap-2 group"
+            >
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight transition-colors duration-300 group-hover:text-tertiary"
+                >
+                    ScamSense
+                </span>
+            </a>
+
+        </div>
+
+
+        <div class="hidden lg:flex items-center gap-2">
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                href="home.html"
+            >
+                Home
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                href="help-desk.html"
+            >
+                Help Desk
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                href="resource.html"
+            >
+                Resources
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                href="media.html"
+            >
+                Media
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                href="awareness .html"
+            >
+                Awareness
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                href="our-mission.html"
+            >
+                Our Mission
+            </a>
+
+        </div>
+
+
+        <div class="flex items-center gap-4">
+
+            <label
+                for="language-selector"
+                class="sr-only"
+            >
+                Select language
+            </label>
+
+            <select
+                id="language-selector"
+                class="bg-transparent border-0 text-on-surface-variant font-semibold focus:ring-0 cursor-pointer"
+                aria-label="Select language"
+            >
+                <option value="en">EN</option>
+                <option value="hi">हिन्दी</option>
+                <option value="mr">मराठी</option>
+            </select>
+
+
+            <a
+                href="login.html"
+                class="btn-interactive bg-tertiary hover:bg-secondary text-on-tertiary px-8 py-3 rounded-full font-bold text-base shadow-md hover:shadow-xl flex items-center justify-center"
+            >
+                Login
+            </a>
+
+        </div>
+    </nav>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main
+        class="flex-grow pt-8 pb-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full"
+    >
+
+        <!-- Breadcrumb -->
+
+        <nav
+            aria-label="Breadcrumb"
+            class="text-on-surface-variant mb-6 flex items-center gap-2 text-base md:text-lg animate-slide-left"
+        >
+
+            <a
+                class="hover:text-primary transition-colors hover:underline"
+                href="index.html"
+            >
+                Home
+            </a>
+
+            <span class="material-symbols-outlined text-lg">
+                chevron_right
+            </span>
+
+            <span class="text-primary font-bold">
+                URL Scanner
+            </span>
+
+        </nav>
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <header
+            class="mb-stack-lg text-center md:text-left relative animate-slide-top delay-100"
+        >
+
+            <div
+                class="absolute -top-10 -left-12 w-80 h-80 bg-tertiary/10 rounded-full blur-3xl -z-10"
+                aria-hidden="true"
+            ></div>
+
+
+            <div
+                class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 mb-4 backdrop-blur-sm shadow-sm"
+            >
+
+                <span class="relative flex h-3 w-3">
+
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                    ></span>
+
+                    <span
+                        class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                    ></span>
+
+                </span>
+
+
+                <span
+                    class="text-xs md:text-sm font-bold text-on-surface-variant tracking-wider uppercase"
+                >
+                    URL Risk Analysis Active
+                </span>
+
+            </div>
+
+
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-6"
+            >
+
+                <div>
+
+                    <h1
+                        class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-on-surface tracking-tight mb-3"
+                    >
+                        URL Scanner
+                    </h1>
+
+                    <p
+                        class="text-lg md:text-xl text-on-surface-variant max-w-3xl leading-relaxed"
+                    >
+                        Paste a suspicious web link below to check its URL
+                        structure, HTTPS usage, IP address, redirects,
+                        shortened-domain usage, and suspicious keywords.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="hidden md:flex items-center justify-center w-24 h-24 rounded-3xl bg-tertiary/15 text-tertiary shadow-inner animate-float shrink-0"
+                    aria-hidden="true"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-5xl filled-icon"
+                    >
+                        travel_explore
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             GRID
+        ====================================================== -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+
+            <!-- LEFT -->
+            <div class="lg:col-span-8 flex flex-col gap-stack-md">
+
+                <!-- =================================================
+                     INPUT CARD
+                ================================================== -->
+
+                <section
+                    aria-labelledby="input-heading"
+                    class="ambient-card bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-surface-variant relative overflow-hidden animate-slide-left delay-200"
+                >
+
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-3"
+                    >
+
+                        <label
+                            id="input-heading"
+                            class="block text-xl md:text-2xl font-bold text-on-surface"
+                            for="url-input"
+                        >
+                            Website Link to Scan
+                        </label>
+
+
+                        <button
+                            type="button"
+                            id="refresh-btn"
+                            title="Reset and clear"
+                            aria-label="Reset URL input"
+                            class="flex items-center gap-1.5 text-sm font-bold text-tertiary hover:text-tertiary-hover transition-colors group"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-lg transition-transform duration-500 group-hover:rotate-180"
+                            >
+                                restart_alt
+                            </span>
+
+                            <span>
+                                Clear & Reset
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="flex flex-col md:flex-row gap-stack-sm">
+
+                        <div class="relative flex-grow group">
+
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-tertiary transition-colors"
+                            >
+                                link
+                            </span>
+
+
+                            <input
+                                class="w-full h-[62px] pl-12 pr-4 rounded-xl border-2 border-secondary-container bg-surface-container-lowest text-on-surface focus:outline-none focus:border-tertiary focus:ring-4 focus:ring-tertiary/20 transition-all font-mono text-base md:text-lg"
+                                id="url-input"
+                                placeholder="e.g. https://example.com/login"
+                                type="url"
+                                autocomplete="url"
+                            >
+
+                        </div>
+
+
+                        <button
+                            id="scan-btn"
+                            type="button"
+                            class="btn-interactive h-[62px] px-9 bg-tertiary hover:bg-secondary text-white rounded-full font-bold text-lg shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 animate-pulse-glow shrink-0"
+                        >
+
+                            <span class="material-symbols-outlined text-2xl">
+                                search
+                            </span>
+
+                            <span id="scan-btn-text">
+                                Scan Link
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- Samples -->
+
+                    <div
+                        class="mt-4 flex flex-wrap items-center gap-2 text-sm text-on-surface-variant"
+                    >
+
+                        <span class="font-semibold">
+                            Try sample:
+                        </span>
+
+
+                        <button
+                            type="button"
+                            id="phishing-sample"
+                            class="px-2.5 py-1 rounded-lg bg-surface-variant/70 hover:bg-surface-variant text-primary font-mono text-xs transition-colors"
+                        >
+                            Phishing Example
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="safe-sample"
+                            class="px-2.5 py-1 rounded-lg bg-surface-variant/70 hover:bg-surface-variant text-primary font-mono text-xs transition-colors"
+                        >
+                            Legitimate Example
+                        </button>
+
+                    </div>
+
+
+                    <p
+                        id="input-error"
+                        class="hidden text-error text-sm font-semibold mt-4"
+                    ></p>
+
+                </section>
+
+
+                <!-- =================================================
+                     LOADING
+                ================================================== -->
+
+                <div
+                    id="loading-state"
+                    class="hidden flex-col gap-stack-md animate-slide-bottom"
+                >
+
+                    <div
+                        class="ambient-card bg-surface-container-lowest rounded-2xl p-8 md:p-10 border border-tertiary/30 flex flex-col items-center justify-center text-center"
+                    >
+
+                        <div
+                            class="relative w-20 h-20 mb-4 flex items-center justify-center"
+                        >
+
+                            <svg
+                                class="w-full h-full spin-circle"
+                                viewBox="0 0 100 100"
+                                aria-hidden="true"
+                            >
+
+                                <circle
+                                    class="text-surface-variant stroke-current"
+                                    stroke-width="8"
+                                    cx="50"
+                                    cy="50"
+                                    r="40"
+                                    fill="transparent"
+                                ></circle>
+
+                                <circle
+                                    class="text-tertiary stroke-current"
+                                    stroke-width="8"
+                                    stroke-linecap="round"
+                                    cx="50"
+                                    cy="50"
+                                    r="40"
+                                    fill="transparent"
+                                    stroke-dasharray="251.2"
+                                    stroke-dashoffset="80"
+                                ></circle>
+
+                            </svg>
+
+
+                            <span
+                                class="material-symbols-outlined text-tertiary text-3xl absolute animate-pulse"
+                            >
+                                radar
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="text-2xl md:text-3xl font-extrabold text-on-surface mb-2 flex items-center gap-2"
+                        >
+
+                            <span>
+                                Analyzing URL
+                            </span>
+
+                            <span class="inline-flex gap-1 ml-1 text-tertiary">
+
+                                <span class="w-2.5 h-2.5 rounded-full bg-tertiary dot-1"></span>
+
+                                <span class="w-2.5 h-2.5 rounded-full bg-tertiary dot-2"></span>
+
+                                <span class="w-2.5 h-2.5 rounded-full bg-tertiary dot-3"></span>
+
+                            </span>
+
+                        </h3>
+
+
+                        <p
+                            class="text-base text-on-surface-variant max-w-lg mb-6"
+                        >
+                            Checking the URL structure for suspicious
+                            characteristics and risky patterns.
+                        </p>
+
+
+                        <div
+                            class="w-full max-w-md bg-surface-variant h-3.5 rounded-full overflow-hidden p-0.5 border border-outline-variant/30"
+                        >
+
+                            <div
+                                id="progress-bar-fill"
+                                class="h-full bg-gradient-to-r from-tertiary via-secondary to-tertiary rounded-full transition-all duration-300"
+                                style="width: 10%;"
+                            ></div>
+
+                        </div>
+
+
+                        <span
+                            id="progress-text"
+                            class="text-sm font-bold text-tertiary mt-2"
+                        >
+                            Preparing analysis...
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="ambient-card bg-surface-container-lowest rounded-2xl p-8 border border-surface-variant space-y-4"
+                    >
+
+                        <div class="flex items-center gap-4">
+
+                            <div
+                                class="w-14 h-14 rounded-full shimmer-element"
+                            ></div>
+
+                            <div class="space-y-2">
+
+                                <div
+                                    class="h-7 w-64 rounded-lg shimmer-element"
+                                ></div>
+
+                                <div
+                                    class="h-4 w-40 rounded-lg shimmer-element"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="h-14 w-full rounded-xl shimmer-element mt-4"
+                        ></div>
+
+
+                        <div class="space-y-3 pt-2">
+
+                            <div
+                                class="h-10 w-full rounded-lg shimmer-element"
+                            ></div>
+
+                            <div
+                                class="h-10 w-full rounded-lg shimmer-element"
+                            ></div>
+
+                            <div
+                                class="h-10 w-full rounded-lg shimmer-element"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     RESULTS
+                ================================================== -->
+
+                <section
+                    aria-labelledby="results-heading"
+                    id="results-card"
+                    class="hidden ambient-card bg-surface-container-lowest rounded-2xl p-6 md:p-8 border-t-8 border-gray-400 relative overflow-hidden animate-slide-bottom"
+                >
+
+                    <div
+                        class="absolute top-0 right-0 w-72 h-72 bg-tertiary-container opacity-30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"
+                    ></div>
+
+
+                    <div class="relative z-10">
+
+                        <!-- Result Header -->
+
+                        <div
+                            class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6"
+                        >
+
+                            <div class="flex items-start gap-4">
+
+                                <div
+                                    id="result-icon-box"
+                                    class="w-16 h-16 rounded-2xl bg-tertiary-container text-tertiary flex items-center justify-center shrink-0 shadow-sm"
+                                >
+
+                                    <span
+                                        id="result-icon"
+                                        class="material-symbols-outlined text-4xl filled-icon"
+                                    >
+                                        help
+                                    </span>
+
+                                </div>
+
+
+                                <div>
+
+                                    <h2
+                                        id="results-heading"
+                                        class="text-2xl md:text-3xl font-extrabold text-on-surface mb-1"
+                                    >
+                                        Analysis Complete
+                                    </h2>
+
+
+                                    <p
+                                        id="result-subtitle"
+                                        class="text-base md:text-lg text-on-surface-variant font-medium"
+                                    >
+                                        URL analysis result
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                id="risk-badge"
+                                class="px-5 py-2.5 rounded-full font-bold text-base flex items-center gap-2 shadow-lg shrink-0 risk-badge-unknown"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    help
+                                </span>
+
+                                <span id="risk-badge-text">
+                                    Risk: UNKNOWN
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- URL -->
+
+                        <div
+                            class="bg-surface-container-high rounded-xl p-4 mb-stack-md flex items-start gap-4 break-all border border-outline-variant/60 shadow-inner"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-tertiary text-2xl"
+                            >
+                                link
+                            </span>
+
+
+                            <span
+                                id="displayed-url"
+                                class="text-base md:text-lg text-on-surface font-mono font-semibold break-all"
+                            >
+                                -
+                            </span>
+
+                        </div>
+
+
+                        <!-- Explanation -->
+
+                        <div
+                            class="bg-surface-container-low rounded-xl p-5 mb-stack-md border border-surface-variant"
+                        >
+
+                            <h3
+                                class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-2"
+                            >
+                                Analysis Summary
+                            </h3>
+
+
+                            <p
+                                id="result-explanation"
+                                class="text-base text-on-surface leading-relaxed"
+                            >
+                                -
+                            </p>
+
+                        </div>
+
+
+                        <!-- Features -->
+
+                        <div class="mb-stack-lg">
+
+                            <h3
+                                class="text-xl md:text-2xl font-bold text-on-surface mb-4 flex items-center gap-2"
+                            >
+
+                                <span class="material-symbols-outlined text-tertiary">
+                                    fact_check
+                                </span>
+
+                                <span>
+                                    URL Analysis Findings
+                                </span>
+
+                            </h3>
+
+
+                            <div
+                                id="findings-list"
+                                class="flex flex-col gap-3"
+                            >
+
+                                <p class="text-base text-on-surface-variant">
+                                    No findings available.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Technical Features -->
+
+                        <div
+                            class="mb-stack-lg"
+                        >
+
+                            <h3
+                                class="text-xl md:text-2xl font-bold text-on-surface mb-4 flex items-center gap-2"
+                            >
+
+                                <span class="material-symbols-outlined text-tertiary">
+                                    data_object
+                                </span>
+
+                                Technical URL Features
+                            </h3>
+
+
+                            <div
+                                id="features-grid"
+                                class="grid grid-cols-1 sm:grid-cols-2 gap-3"
+                            >
+                                <!-- Dynamic -->
+                            </div>
+
+                        </div>
+
+
+                        <!-- Confidence -->
+
+                        <div
+                            class="bg-surface-container-low rounded-xl p-5 mb-stack-lg border border-surface-variant"
+                        >
+
+                            <div class="flex items-center justify-between">
+
+                                <span
+                                    class="text-sm font-semibold text-on-surface-variant"
+                                >
+                                    Analysis confidence
+                                </span>
+
+
+                                <span
+                                    id="result-confidence"
+                                    class="text-lg font-bold text-tertiary"
+                                >
+                                    Not available
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Actions -->
+
+                        <div
+                            class="flex flex-col sm:flex-row gap-stack-sm items-center pt-2"
+                        >
+
+                            <a
+                                id="safe-action-btn"
+                                href="index.html"
+                                class="btn-interactive w-full sm:w-auto h-[58px] px-8 bg-tertiary hover:bg-secondary text-white rounded-full font-bold text-base shadow-md hover:shadow-xl flex items-center justify-center gap-2"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    arrow_back
+                                </span>
+
+                                Check Another Link
+
+                            </a>
+
+
+                            <a
+                                id="incident-btn"
+                                href="incident-response.html"
+                                class="hidden btn-interactive w-full sm:w-auto h-[58px] px-8 border-2 border-error/40 bg-transparent hover:bg-error/10 text-error flex items-center justify-center rounded-full font-bold text-base"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    emergency
+                                </span>
+
+                                Already Interacted?
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     ERROR
+                ================================================== -->
+
+                <section
+                    id="error-state"
+                    class="hidden ambient-card bg-surface rounded-2xl p-8 border border-error/30"
+                >
+
+                    <div class="flex items-start gap-4">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-error/10 text-error flex items-center justify-center shrink-0"
+                        >
+
+                            <span class="material-symbols-outlined text-2xl">
+                                error
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3
+                                class="text-xl font-bold text-on-surface"
+                            >
+                                Unable to analyze URL
+                            </h3>
+
+
+                            <p
+                                id="error-message"
+                                class="text-base text-on-surface-variant mt-1"
+                            >
+                                Please try again.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="retry-btn"
+                        class="mt-6 bg-tertiary text-white px-6 py-3 rounded-full font-bold hover:shadow-lg transition-all"
+                    >
+                        Try Again
+                    </button>
+
+                </section>
+
+            </div>
+
+
+            <!-- =====================================================
+                 SIDEBAR
+            ====================================================== -->
+
+            <div
+                class="lg:col-span-4 flex flex-col gap-stack-md animate-slide-right delay-300"
+            >
+
+                <div
+                    class="ambient-card bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-surface-variant"
+                >
+
+                    <div class="flex items-center gap-3 mb-4">
+
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-tertiary/15 text-tertiary flex items-center justify-center shrink-0"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl"
+                            >
+                                support_agent
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="text-2xl font-bold text-on-surface"
+                        >
+                            Need Help Now?
+                        </h3>
+
+                    </div>
+
+
+                    <p
+                        class="text-base text-on-surface-variant mb-6 leading-relaxed"
+                    >
+                        If you already clicked the link or entered sensitive
+                        information, stop interacting with the website and
+                        start the incident response process.
+                    </p>
+
+
+                    <div class="flex flex-col gap-3">
+
+                        <a
+                            class="flex items-center justify-between p-4 bg-secondary-container/40 rounded-xl hover:bg-secondary-container/70 transition-all duration-300 group hover:translate-x-1"
+                            href="Incident-evidence.html"
+                        >
+
+                            <span class="font-bold text-base text-on-surface">
+                                Emergency Response Guide
+                            </span>
+
+                            <span
+                                class="material-symbols-outlined text-on-surface group-hover:translate-x-1.5 transition-transform"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            class="flex items-center justify-between p-4 bg-secondary-container/40 rounded-xl hover:bg-secondary-container/70 transition-all duration-300 group hover:translate-x-1"
+                            href="help-desk.html"
+                        >
+
+                            <span class="font-bold text-base text-on-surface">
+                                Contact Help Desk
+                            </span>
+
+                            <span
+                                class="material-symbols-outlined text-on-surface group-hover:translate-x-1.5 transition-transform"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="bg-secondary-container/30 rounded-2xl p-6 md:p-8 border border-secondary-container/60 ambient-card"
+                >
+
+                    <h4
+                        class="text-xl font-bold text-on-surface mb-3 flex items-center gap-2"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-secondary filled-icon"
+                        >
+                            lightbulb
+                        </span>
+
+                        Safety Tip
+
+                    </h4>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed"
+                    >
+                        A suspicious-looking URL should be verified through
+                        an official website or application before you enter
+                        passwords, OTPs, payment information, or other
+                        sensitive data.
+                    </p>
+
+                </div>
+
+
+                <!-- Feature explanation -->
+
+                <div
+                    class="ambient-card bg-surface-container-lowest rounded-2xl p-6 md:p-8 border border-surface-variant"
+                >
+
+                    <h4
+                        class="text-xl font-bold text-on-surface mb-4"
+                    >
+                        What ScamSense checks
+                    </h4>
+
+
+                    <ul class="space-y-3">
+
+                        <li class="flex items-start gap-3">
+
+                            <span class="material-symbols-outlined text-tertiary mt-0.5">
+                                check_circle
+                            </span>
+
+                            <span class="text-base text-on-surface-variant">
+                                IP addresses used instead of domain names
+                            </span>
+
+                        </li>
+
+
+                        <li class="flex items-start gap-3">
+
+                            <span class="material-symbols-outlined text-tertiary mt-0.5">
+                                check_circle
+                            </span>
+
+                            <span class="text-base text-on-surface-variant">
+                                Suspicious URL structure and symbols
+                            </span>
+
+                        </li>
+
+
+                        <li class="flex items-start gap-3">
+
+                            <span class="material-symbols-outlined text-tertiary mt-0.5">
+                                check_circle
+                            </span>
+
+                            <span class="text-base text-on-surface-variant">
+                                Shortened URLs and punycode domains
+                            </span>
+
+                        </li>
+
+
+                        <li class="flex items-start gap-3">
+
+                            <span class="material-symbols-outlined text-tertiary mt-0.5">
+                                check_circle
+                            </span>
+
+                            <span class="text-base text-on-surface-variant">
+                                Suspicious words often used in phishing links
+                            </span>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col gap-stack-md bg-surface-container-high mt-auto border-t border-outline-variant/40"
+    >
+
+        <div
+            class="max-w-container-max mx-auto w-full"
+        >
+
+            <div class="flex items-center gap-2 mb-4">
+
+                <span
+                    class="material-symbols-outlined text-primary text-3xl"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl font-bold text-primary"
+                >
+                    ScamSense
+                </span>
+
+            </div>
+
+
+            <div
+                class="flex flex-wrap gap-x-8 gap-y-4 mb-6"
+            >
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="home.html"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="our-mission.html"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="help-desk.html"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="resource.html"
+                >
+                    Resources
+                </a>
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="media.html"
+                >
+                    Media
+                </a>
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="awareness .html"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="history.html"
+                >
+                    History
+                </a>
+
+                <a
+                    class="text-on-surface-variant hover:text-primary transition-colors font-semibold text-base"
+                    href="contact-us.html"
+                >
+                    Contact Us
+                </a>
+
+            </div>
+
+
+            <div
+                class="text-on-surface-variant text-sm pt-4 border-t border-outline-variant/30"
+            >
+                © ScamSense. All rights reserved. Built for security,
+                transparency, and digital trust.
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+        /*
+         * ========================================================
+         * CONFIGURATION
+         * ========================================================
+         */
+
+        const API_BASE_URL =
+            "http://127.0.0.1:8000";
+
+
+        /*
+         * ========================================================
+         * ELEMENTS
+         * ========================================================
+         */
+
+        const scanBtn =
+            document.getElementById("scan-btn");
+
+        const scanBtnText =
+            document.getElementById("scan-btn-text");
+
+        const refreshBtn =
+            document.getElementById("refresh-btn");
+
+        const urlInput =
+            document.getElementById("url-input");
+
+        const phishingSample =
+            document.getElementById("phishing-sample");
+
+        const safeSample =
+            document.getElementById("safe-sample");
+
+        const languageSelector =
+            document.getElementById("language-selector");
+
+        const loadingState =
+            document.getElementById("loading-state");
+
+        const resultsCard =
+            document.getElementById("results-card");
+
+        const errorState =
+            document.getElementById("error-state");
+
+        const errorMessage =
+            document.getElementById("error-message");
+
+        const retryBtn =
+            document.getElementById("retry-btn");
+
+        const inputError =
+            document.getElementById("input-error");
+
+        const progressBarFill =
+            document.getElementById("progress-bar-fill");
+
+        const progressText =
+            document.getElementById("progress-text");
+
+        const displayedUrl =
+            document.getElementById("displayed-url");
+
+        const resultsHeading =
+            document.getElementById("results-heading");
+
+        const resultSubtitle =
+            document.getElementById("result-subtitle");
+
+        const resultIconBox =
+            document.getElementById("result-icon-box");
+
+        const resultIcon =
+            document.getElementById("result-icon");
+
+        const riskBadge =
+            document.getElementById("risk-badge");
+
+        const riskBadgeText =
+            document.getElementById("risk-badge-text");
+
+        const resultExplanation =
+            document.getElementById("result-explanation");
+
+        const findingsList =
+            document.getElementById("findings-list");
+
+        const featuresGrid =
+            document.getElementById("features-grid");
+
+        const resultConfidence =
+            document.getElementById("result-confidence");
+
+        const incidentBtn =
+            document.getElementById("incident-btn");
+
+
+        /*
+         * ========================================================
+         * LANGUAGE
+         * ========================================================
+         */
+
+        const savedLanguage =
+            localStorage.getItem(
+                "scamsense-language"
+            );
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(savedLanguage)
+        ) {
+            languageSelector.value =
+                savedLanguage;
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * SAMPLE URLS
+         * ========================================================
+         */
+
+        phishingSample.addEventListener(
+            "click",
+            () => {
+
+                urlInput.value =
+                    "http://login-secure-banking-update.net/verify";
+
+                urlInput.focus();
+
+            }
+        );
+
+
+        safeSample.addEventListener(
+            "click",
+            () => {
+
+                urlInput.value =
+                    "https://example.com";
+
+                urlInput.focus();
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * RESET
+         * ========================================================
+         */
+
+        refreshBtn.addEventListener(
+            "click",
+            resetPage
+        );
+
+
+        function resetPage() {
+
+            urlInput.value =
+                "";
+
+            inputError.classList.add(
+                "hidden"
+            );
+
+            resultsCard.classList.add(
+                "hidden"
+            );
+
+            loadingState.classList.add(
+                "hidden"
+            );
+
+            loadingState.classList.remove(
+                "flex"
+            );
+
+            errorState.classList.add(
+                "hidden"
+            );
+
+            urlInput.focus();
+
+        }
+
+
+        /*
+         * ========================================================
+         * SCAN BUTTON
+         * ========================================================
+         */
+
+        scanBtn.addEventListener(
+            "click",
+            scanUrl
+        );
+
+
+        retryBtn.addEventListener(
+            "click",
+            scanUrl
+        );
+
+
+        /*
+         * Allow Enter
+         */
+
+        urlInput.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    scanUrl();
+
+                }
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * SCAN URL
+         * ========================================================
+         */
+
+        async function scanUrl() {
+
+            const url =
+                urlInput.value.trim();
+
+            const language =
+                languageSelector.value;
+
+
+            /*
+             * Validate
+             */
+
+            if (!url) {
+
+                showInputError(
+                    "Please enter a URL to scan."
+                );
+
+                urlInput.focus();
+
+                return;
+
+            }
+
+
+            hideInputError();
+
+
+            /*
+             * UI
+             */
+
+            resultsCard.classList.add(
+                "hidden"
+            );
+
+            errorState.classList.add(
+                "hidden"
+            );
+
+            loadingState.classList.remove(
+                "hidden"
+            );
+
+            loadingState.classList.add(
+                "flex"
+            );
+
+
+            scanBtn.disabled =
+                true;
+
+            scanBtnText.textContent =
+                "Scanning...";
+
+
+            loadingState.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+
+            /*
+             * Small visual progress animation.
+             * The actual result comes from FastAPI.
+             */
+
+            progressBarFill.style.width =
+                "10%";
+
+            progressText.textContent =
+                "Connecting to ScamSense...";
+
+
+            let progress =
+                10;
+
+
+            const progressInterval =
+                setInterval(
+                    () => {
+
+                        if (
+                            progress <
+                            80
+                        ) {
+
+                            progress +=
+                                10;
+
+                            progressBarFill.style.width =
+                                `${progress}%`;
+
+                            progressText.textContent =
+                                `${progress}% Complete`;
+
+                        }
+
+                    },
+                    200
+                );
+
+
+            try {
+
+                /*
+                 * =================================================
+                 * REAL API CALL
+                 * =================================================
+                 *
+                 * The backend function is:
+                 *
+                 * analyze_url(url, language)
+                 *
+                 */
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/analysis/url`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    url,
+                                    language
+                                })
+                        }
+                    );
+
+
+                let data;
+
+
+                try {
+
+                    data =
+                        await response.json();
+
+                } catch {
+
+                    throw new Error(
+                        "The backend returned an invalid response."
+                    );
+
+                }
+
+
+                /*
+                 * Backend error
+                 */
+
+                if (
+                    !response.ok
+                ) {
+
+                    const detail =
+                        data?.detail ||
+                        data?.message ||
+                        "URL analysis failed.";
+
+                    throw new Error(
+                        detail
+                    );
+
+                }
+
+
+                /*
+                 * Finish progress
+                 */
+
+                clearInterval(
+                    progressInterval
+                );
+
+
+                progressBarFill.style.width =
+                    "100%";
+
+                progressText.textContent =
+                    "100% Complete - Analysis Ready";
+
+
+                /*
+                 * Render
+                 */
+
+                renderResult(
+                    data
+                );
+
+
+                /*
+                 * Show
+                 */
+
+                setTimeout(
+                    () => {
+
+                        loadingState.classList.add(
+                            "hidden"
+                        );
+
+                        loadingState.classList.remove(
+                            "flex"
+                        );
+
+                        resultsCard.classList.remove(
+                            "hidden"
+                        );
+
+                        resultsCard.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    },
+                    350
+                );
+
+
+            } catch (error) {
+
+                clearInterval(
+                    progressInterval
+                );
+
+                showError(
+                    error
+                );
+
+            } finally {
+
+                scanBtn.disabled =
+                    false;
+
+                scanBtnText.textContent =
+                    "Scan Link";
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * RENDER RESULT
+         * ========================================================
+         */
+
+        function renderResult(
+            data
+        ) {
+
+            const level =
+                String(
+                    data?.risk_level ||
+                    "UNKNOWN"
+                ).toUpperCase();
+
+
+            /*
+             * URL
+             */
+
+            displayedUrl.textContent =
+                data?.url ||
+                urlInput.value.trim();
+
+
+            /*
+             * Confidence
+             */
+
+            let confidence =
+                data?.confidence;
+
+
+            if (
+                typeof confidence === "number" &&
+                confidence <= 1
+            ) {
+
+                confidence =
+                    Math.round(
+                        confidence * 100
+                    );
+
+            }
+
+
+            if (
+                typeof confidence === "number"
+            ) {
+
+                confidence =
+                    Math.round(
+                        confidence
+                    );
+
+            }
+
+
+            /*
+             * Risk visuals
+             */
+
+            applyRiskVisuals(
+                level
+            );
+
+
+            /*
+             * Result heading
+             */
+
+            resultsHeading.textContent =
+                getRiskTitle(
+                    level
+                );
+
+
+            resultSubtitle.textContent =
+                getRiskSubtitle(
+                    level
+                );
+
+
+            /*
+             * Explanation
+             */
+
+            resultExplanation.textContent =
+                data?.explanation ||
+                "No explanation was returned by the URL analysis service.";
+
+
+            /*
+             * Findings
+             */
+
+            renderFindings(
+                data?.indicators ||
+                []
+            );
+
+
+            /*
+             * Technical features
+             */
+
+            renderFeatures(
+                data?.features ||
+                {}
+            );
+
+
+            /*
+             * Confidence
+             */
+
+            resultConfidence.textContent =
+                confidence !== null &&
+                confidence !== undefined
+                    ? `${confidence}%`
+                    : "Not available";
+
+
+            /*
+             * Incident response
+             */
+
+            if (
+                ["HIGH", "CRITICAL"].includes(
+                    level
+                )
+            ) {
+
+                incidentBtn.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                incidentBtn.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * RISK VISUALS
+         * ========================================================
+         */
+
+        function applyRiskVisuals(
+            level
+        ) {
+
+            riskBadge.classList.remove(
+                "risk-badge-low",
+                "risk-badge-medium",
+                "risk-badge-high",
+                "risk-badge-critical",
+                "risk-badge-unknown"
+            );
+
+
+            resultIconBox.className =
+                "w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-sm";
+
+
+            resultIcon.className =
+                "material-symbols-outlined text-4xl filled-icon";
+
+
+            let badgeClass =
+                "risk-badge-unknown";
+
+            let icon =
+                "help";
+
+            let iconBg =
+                "bg-surface-variant";
+
+            let iconColor =
+                "text-on-surface-variant";
+
+
+            switch (level) {
+
+                case "LOW":
+
+                    badgeClass =
+                        "risk-badge-low";
+
+                    icon =
+                        "check_circle";
+
+                    iconBg =
+                        "bg-emerald-50";
+
+                    iconColor =
+                        "text-emerald-700";
+
+                    break;
+
+
+                case "MEDIUM":
+
+                    badgeClass =
+                        "risk-badge-medium";
+
+                    icon =
+                        "warning";
+
+                    iconBg =
+                        "bg-amber-50";
+
+                    iconColor =
+                        "text-amber-700";
+
+                    break;
+
+
+                case "HIGH":
+
+                    badgeClass =
+                        "risk-badge-high";
+
+                    icon =
+                        "warning";
+
+                    iconBg =
+                        "bg-orange-50";
+
+                    iconColor =
+                        "text-orange-700";
+
+                    break;
+
+
+                case "CRITICAL":
+
+                    badgeClass =
+                        "risk-badge-critical";
+
+                    icon =
+                        "crisis_alert";
+
+                    iconBg =
+                        "bg-red-50";
+
+                    iconColor =
+                        "text-error";
+
+                    break;
+
+
+                default:
+
+                    badgeClass =
+                        "risk-badge-unknown";
+
+                    icon =
+                        "help";
+
+                    iconBg =
+                        "bg-surface-variant";
+
+                    iconColor =
+                        "text-on-surface-variant";
+
+            }
+
+
+            riskBadge.classList.add(
+                badgeClass
+            );
+
+
+            riskBadgeText.textContent =
+                `Risk: ${level}`;
+
+
+            resultIcon.textContent =
+                icon;
+
+
+            resultIconBox.classList.add(
+                iconBg,
+                iconColor
+            );
+
+
+            resultIcon.classList.add(
+                iconColor
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * RISK TITLE
+         * ========================================================
+         */
+
+        function getRiskTitle(
+            level
+        ) {
+
+            switch (level) {
+
+                case "LOW":
+                    return "Low Risk URL";
+
+                case "MEDIUM":
+                    return "Suspicious URL";
+
+                case "HIGH":
+                    return "High Risk URL";
+
+                case "CRITICAL":
+                    return "Critical Risk URL";
+
+                default:
+                    return "URL Analysis Complete";
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * RISK SUBTITLE
+         * ========================================================
+         */
+
+        function getRiskSubtitle(
+            level
+        ) {
+
+            switch (level) {
+
+                case "LOW":
+                    return "No obvious suspicious characteristics were detected by the current rule-based checks.";
+
+                case "MEDIUM":
+                    return "One or more suspicious characteristics were detected. Verify the destination before interacting.";
+
+                case "HIGH":
+                    return "Multiple suspicious characteristics were detected. Avoid entering sensitive information.";
+
+                case "CRITICAL":
+                    return "Severe warning indicators were detected. Stop interacting with this URL.";
+
+                default:
+                    return "Review the URL analysis below.";
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * FINDINGS
+         * ========================================================
+         */
+
+        function renderFindings(
+            indicators
+        ) {
+
+            findingsList.innerHTML =
+                "";
+
+
+            if (
+                !Array.isArray(
+                    indicators
+                ) ||
+                indicators.length === 0
+            ) {
+
+                findingsList.innerHTML = `
+                    <div class="p-4 rounded-xl bg-surface-container-low">
+                        <p class="text-base text-on-surface-variant">
+                            No obvious suspicious indicators were detected.
+                        </p>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            const level =
+                getCurrentRiskLevel();
+
+
+            indicators.forEach(
+                (indicator, index) => {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "flex items-start gap-3.5 p-3 rounded-xl hover:bg-surface-container transition-colors duration-200";
+
+
+                    item.innerHTML = `
+
+                        <span class="material-symbols-outlined ${getFindingIconClass(level)} text-2xl mt-0.5 shrink-0">
+                            ${index === 0 ? "warning" : "cancel"}
+                        </span>
+
+
+                        <span class="text-base md:text-lg text-on-surface leading-relaxed">
+                            ${escapeHtml(
+                                indicator
+                            )}
+                        </span>
+
+                    `;
+
+
+                    findingsList.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * FEATURES
+         * ========================================================
+         */
+
+        function renderFeatures(
+            features
+        ) {
+
+            featuresGrid.innerHTML =
+                "";
+
+
+            const entries = [
+                [
+                    "HTTPS",
+                    Boolean(
+                        features.uses_https
+                    )
+                        ? "Yes"
+                        : "No"
+                ],
+
+                [
+                    "IP Address",
+                    Boolean(
+                        features.uses_ip_address
+                    )
+                        ? "Detected"
+                        : "Not detected"
+                ],
+
+                [
+                    "@ Symbol",
+                    Boolean(
+                        features.has_at_symbol
+                    )
+                        ? "Detected"
+                        : "Not detected"
+                ],
+
+                [
+                    "Long URL",
+                    Boolean(
+                        features.is_long_url
+                    )
+                        ? "Yes"
+                        : "No"
+                ],
+
+                [
+                    "Many Subdomains",
+                    Boolean(
+                        features.has_many_subdomains
+                    )
+                        ? "Detected"
+                        : "Not detected"
+                ],
+
+                [
+                    "Punycode",
+                    Boolean(
+                        features.is_punycode
+                    )
+                        ? "Detected"
+                        : "Not detected"
+                ],
+
+                [
+                    "URL Shortener",
+                    Boolean(
+                        features.is_shortened_url
+                    )
+                        ? "Detected"
+                        : "Not detected"
+                ],
+
+                [
+                    "Suspicious Keywords",
+                    Array.isArray(
+                        features.suspicious_keywords
+                    ) &&
+                    features.suspicious_keywords.length
+                        ? features.suspicious_keywords.join(
+                            ", "
+                        )
+                        : "None"
+                ]
+
+            ];
+
+
+            entries.forEach(
+                ([label, value]) => {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "bg-surface-container-low rounded-xl p-4 border border-surface-variant";
+
+
+                    item.innerHTML = `
+
+                        <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                            ${escapeHtml(label)}
+                        </p>
+
+                        <p class="text-base font-semibold text-on-surface mt-1 break-words">
+                            ${escapeHtml(value)}
+                        </p>
+
+                    `;
+
+
+                    featuresGrid.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * CURRENT RISK
+         * ========================================================
+         */
+
+        function getCurrentRiskLevel() {
+
+            if (
+                riskBadge.classList.contains(
+                    "risk-badge-low"
+                )
+            ) {
+                return "LOW";
+            }
+
+
+            if (
+                riskBadge.classList.contains(
+                    "risk-badge-medium"
+                )
+            ) {
+                return "MEDIUM";
+            }
+
+
+            if (
+                riskBadge.classList.contains(
+                    "risk-badge-high"
+                )
+            ) {
+                return "HIGH";
+            }
+
+
+            if (
+                riskBadge.classList.contains(
+                    "risk-badge-critical"
+                )
+            ) {
+                return "CRITICAL";
+            }
+
+
+            return "UNKNOWN";
+
+        }
+
+
+        /*
+         * ========================================================
+         * FINDING ICON COLOR
+         * ========================================================
+         */
+
+        function getFindingIconClass(
+            level
+        ) {
+
+            switch (level) {
+
+                case "LOW":
+                    return "finding-icon-low";
+
+                case "MEDIUM":
+                    return "finding-icon-medium";
+
+                case "HIGH":
+                    return "finding-icon-high";
+
+                case "CRITICAL":
+                    return "finding-icon-critical";
+
+                default:
+                    return "finding-icon-unknown";
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * INPUT ERROR
+         * ========================================================
+         */
+
+        function showInputError(
+            message
+        ) {
+
+            inputError.textContent =
+                message;
+
+            inputError.classList.remove(
+                "hidden"
+            );
+
+            urlInput.classList.add(
+                "ring-4",
+                "ring-error/30"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    urlInput.classList.remove(
+                        "ring-4",
+                        "ring-error/30"
+                    );
+
+                },
+                1200
+            );
+
+        }
+
+
+        function hideInputError() {
+
+            inputError.textContent =
+                "";
+
+            inputError.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * ERROR STATE
+         * ========================================================
+         */
+
+        function showError(
+            error
+        ) {
+
+            loadingState.classList.add(
+                "hidden"
+            );
+
+            loadingState.classList.remove(
+                "flex"
+            );
+
+            resultsCard.classList.add(
+                "hidden"
+            );
+
+            errorState.classList.remove(
+                "hidden"
+            );
+
+
+            errorMessage.textContent =
+                getReadableError(
+                    error
+                );
+
+
+            errorState.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+        function getReadableError(
+            error
+        ) {
+
+            const message =
+                error?.message ||
+                "";
+
+
+            if (
+                message.includes(
+                    "Failed to fetch"
+                )
+            ) {
+
+                return (
+                    "ScamSense could not connect to the backend. " +
+                    "Make sure FastAPI is running at http://127.0.0.1:8000 " +
+                    "and that CORS is configured."
+                );
+
+            }
+
+
+            return (
+                message ||
+                "Something went wrong while analyzing the URL."
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * ESCAPE HTML
+         * ========================================================
+         */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(
+                value
+            )
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+    </script>
+
+</body>
+</html>

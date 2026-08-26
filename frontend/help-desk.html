@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Help Desk - ScamSense</title>
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         TAILWIND CONFIG
+    ========================================================== -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#1e1244",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4f4574",
+                        "surface-tint": "#635e56",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#cdc5bc",
+                        "surface": "#fff8f4",
+                        "surface-container-low": "#fbf2eb",
+                        "on-primary-fixed": "#1e1b15",
+                        "surface-variant": "#eae1da",
+                        "surface-dim": "#e1d8d2",
+                        "on-surface-variant": "#4b463f",
+                        "secondary": "#466368",
+                        "primary-container": "#f2eae0",
+                        "inverse-on-surface": "#f8efe8",
+                        "secondary-fixed": "#c9e8ee",
+                        "secondary-fixed-dim": "#adccd2",
+                        "on-primary-container": "#6e6961",
+                        "primary": "#635e56",
+                        "inverse-surface": "#34302b",
+                        "primary-fixed": "#e9e1d7",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#6e6298",
+                        "surface-bright": "#fff8f4",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1f1b17",
+                        "surface-container-highest": "#eae1da",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "outline": "#7c766e",
+                        "on-background": "#1f1b17",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "secondary-container": "#c6e5eb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e7deff",
+                        "surface-container-high": "#f0e7df",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "outline-variant": "#cdc5bc",
+                        "background": "#fff8f4",
+                        "tertiary-container": "#efe7ff",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "on-secondary-container": "#4a676d",
+                        "surface-container": "#f5ece5"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+                    },
+
+                    spacing: {
+                        "stack-lg": "56px",
+                        "margin-mobile": "24px",
+                        "stack-md": "32px",
+                        "margin-desktop": "72px",
+                        unit: "10px",
+                        "stack-sm": "16px",
+                        gutter: "28px",
+                        "container-max": "1320px"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: #F2EAE0;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        .icon-filled {
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        /* =========================================================
+           CARDS
+        ========================================================== */
+
+        .ambient-card {
+            box-shadow: 0 4px 24px rgba(74, 69, 64, 0.06);
+
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+        }
+
+        .ambient-card:hover {
+            box-shadow: 0 20px 48px rgba(98, 87, 140, 0.16);
+            transform: translateY(-6px);
+        }
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatSlow {
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(98, 87, 140, 0.45);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 28px 8px rgba(98, 87, 140, 0.22);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes bounceSubtle {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* =========================================================
+           ANIMATION UTILITIES
+        ========================================================== */
+
+        .animate-page-load {
+            animation: pageFadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-slide-top {
+            animation:
+                slideFromTop 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-bottom {
+            animation:
+                slideFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2.8s infinite ease-in-out;
+        }
+
+        .animate-bounce-subtle {
+            animation: bounceSubtle 2.5s infinite ease-in-out;
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================== */
+
+        .btn-interactive {
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease;
+        }
+
+        .btn-interactive:hover {
+            border-radius: 1.25rem;
+            transform: translateY(-2px) scale(1.025);
+        }
+
+        .btn-interactive:active {
+            transform: scale(0.97);
+        }
+
+        /* =========================================================
+           SEARCH RESULT STATE
+        ========================================================== */
+
+        .search-hidden {
+            display: none !important;
+        }
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        .mobile-menu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition:
+                max-height 0.35s ease,
+                opacity 0.25s ease;
+        }
+
+        .mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        /* =========================================================
+           FAQ
+        ========================================================== */
+
+        details summary {
+            list-style: none;
+        }
+
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* =========================================================
+           ACCESSIBILITY
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+
+<body
+    class="bg-primary-container text-on-surface min-h-screen antialiased flex flex-col pt-20 animate-page-load"
+>
+
+    <!-- =========================================================
+         TOP NAVIGATION
+    ========================================================== -->
+
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b-2 border-secondary-container shadow-sm animate-slide-top"
+    >
+
+        <div
+            class="h-20 px-margin-mobile md:px-margin-desktop flex justify-between items-center"
+        >
+
+            <!-- Logo -->
+
+            <a
+                href="index.html"
+                class="flex items-center gap-2 group"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180 group-hover:scale-110"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight transition-colors duration-300 group-hover:text-tertiary"
+                >
+                    ScamSense
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Navigation -->
+
+            <div
+                class="hidden lg:flex items-center gap-2"
+            >
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/70 px-4 py-2 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+                    href="index.html"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="text-base font-bold text-primary border-b-2 border-tertiary px-4 py-2 bg-primary-container/40 rounded-xl"
+                    href="help-desk.html"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/70 px-4 py-2 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+                    href="resource.html"
+                >
+                    Resources
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/70 px-4 py-2 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+                    href="media.html"
+                >
+                    Media
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/70 px-4 py-2 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+                    href="awareness.html"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/70 px-4 py-2 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+                    href="our-mission.html"
+                >
+                    Our Mission
+                </a>
+
+            </div>
+
+
+            <!-- Right Side -->
+
+            <div class="flex items-center gap-4">
+
+                <!-- Language -->
+
+                <label
+                    for="language-selector"
+                    class="sr-only"
+                >
+                    Select language
+                </label>
+
+                <select
+                    id="language-selector"
+                    class="hidden md:block bg-transparent border-0 text-on-surface-variant font-semibold focus:ring-0 cursor-pointer"
+                    aria-label="Select language"
+                >
+                    <option value="en">EN</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="mr">मराठी</option>
+                </select>
+
+
+                <!-- Login -->
+
+                <a
+                    href="login.html"
+                    class="btn-interactive hidden md:flex items-center justify-center bg-tertiary hover:bg-secondary text-white px-8 py-3 rounded-full font-bold text-base shadow-md hover:shadow-xl"
+                >
+                    Login
+                </a>
+
+
+                <!-- Mobile Menu Button -->
+
+                <button
+                    id="mobile-menu-btn"
+                    type="button"
+                    class="lg:hidden text-primary p-2 rounded-xl hover:bg-surface-variant transition-colors"
+                    aria-label="Open mobile menu"
+                    aria-expanded="false"
+                >
+
+                    <span
+                        id="mobile-menu-icon"
+                        class="material-symbols-outlined text-3xl"
+                    >
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Mobile Menu -->
+
+        <div
+            id="mobile-menu"
+            class="mobile-menu lg:hidden border-t border-surface-variant bg-surface"
+        >
+
+            <div class="px-margin-mobile py-4 flex flex-col gap-2">
+
+                <a
+                    href="home.html"
+                    class="px-4 py-3 rounded-xl font-semibold text-on-surface-variant hover:bg-primary-container"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="px-4 py-3 rounded-xl font-bold text-primary bg-primary-container"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="px-4 py-3 rounded-xl font-semibold text-on-surface-variant hover:bg-primary-container"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="px-4 py-3 rounded-xl font-semibold text-on-surface-variant hover:bg-primary-container"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness .html"
+                    class="px-4 py-3 rounded-xl font-semibold text-on-surface-variant hover:bg-primary-container"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="px-4 py-3 rounded-xl font-semibold text-on-surface-variant hover:bg-primary-container"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    href="login.html"
+                    class="mt-2 btn-interactive bg-tertiary text-white px-5 py-3 rounded-full text-center font-bold"
+                >
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main
+        class="flex-grow pt-8 pb-stack-lg max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop flex flex-col gap-stack-lg"
+    >
+
+        <!-- =====================================================
+             HERO + SEARCH
+        ====================================================== -->
+
+        <section
+            class="text-center max-w-4xl mx-auto space-y-4 relative animate-slide-top delay-100"
+        >
+
+            <div
+                class="absolute -top-12 left-1/2 -translate-x-1/2 w-96 h-96 bg-tertiary/10 rounded-full blur-3xl -z-10"
+                aria-hidden="true"
+            ></div>
+
+
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 shadow-sm backdrop-blur-sm"
+            >
+
+                <span class="relative flex h-3 w-3">
+
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                    ></span>
+
+                    <span
+                        class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                    ></span>
+
+                </span>
+
+
+                <span
+                    class="text-xs md:text-sm font-bold text-on-surface-variant tracking-wider uppercase"
+                >
+                    Security Assistance Center
+                </span>
+
+            </div>
+
+
+            <h1
+                class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-tight"
+            >
+                How can we help you stay safe?
+            </h1>
+
+
+            <p
+                class="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed"
+            >
+                Find answers, verify suspicious interactions, learn recovery
+                steps, and access ScamSense security tools.
+            </p>
+
+
+            <!-- Search -->
+
+            <div
+                class="max-w-3xl mx-auto relative group pt-2"
+            >
+
+                <span
+                    class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-tertiary transition-colors duration-300 text-2xl z-10"
+                >
+                    search
+                </span>
+
+
+                <input
+                    id="help-search"
+                    class="w-full h-16 pl-16 pr-6 rounded-full bg-surface-container-lowest border-2 border-[#B4D3D9] hover:border-tertiary text-lg text-on-surface focus:border-tertiary focus:ring-4 focus:ring-tertiary/20 outline-none transition-all duration-300 shadow-md group-hover:shadow-xl"
+                    placeholder="Search guides, scam types, or recovery steps..."
+                    type="search"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <p
+                id="search-status"
+                class="hidden text-sm font-semibold text-tertiary"
+            ></p>
+
+        </section>
+
+
+        <!-- =====================================================
+             QUICK TOOLS
+        ====================================================== -->
+
+        <section
+            id="tools-section"
+            class="flex flex-col gap-6 animate-slide-bottom delay-100"
+        >
+
+            <div
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+            >
+
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight"
+                >
+                    Interactive Defense Tools
+                </h2>
+
+
+                <a
+                    href="index.html"
+                    class="text-sm font-semibold text-tertiary hover:underline flex items-center gap-1 transition-colors"
+                >
+                    View Verification Suite
+
+                    <span class="material-symbols-outlined text-base">
+                        arrow_forward
+                    </span>
+                </a>
+
+            </div>
+
+
+            <div
+                id="tool-grid"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter"
+            >
+
+                <!-- MESSAGE -->
+
+                <a
+                    href="message-checker.html"
+                    data-searchable="message sms whatsapp scam fraud suspicious text phishing urgency"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 flex flex-col h-full border border-surface-variant border-t-8 border-t-tertiary group transition-all duration-300"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-tertiary-container text-on-tertiary-container flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-tertiary group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            sms
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-tertiary transition-colors duration-300"
+                    >
+                        Message Checker
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed flex-grow"
+                    >
+                        Paste SMS, WhatsApp messages, or suspicious text to
+                        check for scam patterns.
+                    </p>
+
+
+                    <div
+                        class="pt-4 flex items-center gap-1.5 text-xs font-bold text-tertiary uppercase tracking-wider"
+                    >
+
+                        <span>
+                            Launch Scanner
+                        </span>
+
+                        <span class="material-symbols-outlined text-sm">
+                            arrow_forward
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- SCREENSHOT -->
+
+                <a
+                    href="screenshot-analyser.html"
+                    data-searchable="screenshot image email social media post ocr picture scan"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 flex flex-col h-full border border-surface-variant border-t-8 border-t-secondary group transition-all duration-300"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            screenshot
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-secondary transition-colors duration-300"
+                    >
+                        Screenshot Scan
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed flex-grow"
+                    >
+                        Upload a screenshot for OCR extraction and scam
+                        indicator analysis.
+                    </p>
+
+
+                    <div
+                        class="pt-4 flex items-center gap-1.5 text-xs font-bold text-secondary uppercase tracking-wider"
+                    >
+
+                        <span>
+                            Analyze Image
+                        </span>
+
+                        <span class="material-symbols-outlined text-sm">
+                            arrow_forward
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- URL -->
+
+                <a
+                    href="url-scanner.html"
+                    data-searchable="url link website phishing domain https suspicious web address"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 flex flex-col h-full border border-surface-variant border-t-8 border-t-error group transition-all duration-300"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-error-container text-error flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-error group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            link
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-error transition-colors duration-300"
+                    >
+                        Link Scanner
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed flex-grow"
+                    >
+                        Check suspicious URLs for risky URL characteristics
+                        before opening them.
+                    </p>
+
+
+                    <div
+                        class="pt-4 flex items-center gap-1.5 text-xs font-bold text-error uppercase tracking-wider"
+                    >
+
+                        <span>
+                            Inspect URL
+                        </span>
+
+                        <span class="material-symbols-outlined text-sm">
+                            arrow_forward
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- QR -->
+
+                <a
+                    href="qr-scanner.html"
+                    data-searchable="qr code payment upi scan image destination"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 flex flex-col h-full border border-surface-variant border-t-8 border-t-primary group transition-all duration-300"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-surface-container-high text-primary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            qr_code_scanner
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-primary transition-colors duration-300"
+                    >
+                        QR Code Safe
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed flex-grow"
+                    >
+                        Upload a QR image to decode its content safely before
+                        interacting with it.
+                    </p>
+
+
+                    <div
+                        class="pt-4 flex items-center gap-1.5 text-xs font-bold text-primary uppercase tracking-wider"
+                    >
+
+                        <span>
+                            Scan Safely
+                        </span>
+
+                        <span class="material-symbols-outlined text-sm">
+                            arrow_forward
+                        </span>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+
+            <p
+                id="no-tool-results"
+                class="hidden text-center text-on-surface-variant py-8"
+            >
+                No matching security tool was found.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             AI ASSISTANT
+        ====================================================== -->
+
+        <section
+            class="ambient-card bg-surface rounded-3xl p-8 md:p-12 border border-secondary-container/40 relative overflow-hidden group animate-slide-bottom delay-200"
+        >
+
+            <div
+                class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-tertiary/10 blur-3xl"
+                aria-hidden="true"
+            ></div>
+
+
+            <div
+                class="relative flex flex-col md:flex-row items-center gap-8 justify-between"
+            >
+
+                <div
+                    class="flex flex-col md:flex-row items-center gap-6 text-center md:text-left"
+                >
+
+                    <div
+                        class="w-24 h-24 rounded-3xl bg-tertiary text-white flex items-center justify-center shadow-xl animate-float shrink-0 group-hover:scale-110 transition-transform duration-500"
+                    >
+
+                        <span class="material-symbols-outlined text-5xl">
+                            smart_toy
+                        </span>
+
+                    </div>
+
+
+                    <div class="space-y-2">
+
+                        <div
+                            class="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full uppercase tracking-wider"
+                        >
+
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+
+                            <span>
+                                ScamSense Assistant
+                            </span>
+
+                        </div>
+
+
+                        <h2
+                            class="text-3xl md:text-4xl font-extrabold text-primary"
+                        >
+                            Need help understanding a scam?
+                        </h2>
+
+
+                        <p
+                            class="text-base md:text-lg text-on-surface-variant max-w-xl"
+                        >
+                            Start with one of our verification tools or open
+                            the guidance pages below for practical next steps.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="message-checker.html"
+                    class="btn-interactive bg-tertiary hover:bg-secondary text-white min-h-[58px] px-10 rounded-full font-bold text-lg shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 shrink-0"
+                >
+
+                    <span class="material-symbols-outlined text-2xl">
+                        forum
+                    </span>
+
+                    Check a Message
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             HELP CATEGORIES
+        ====================================================== -->
+
+        <section
+            id="categories-section"
+            class="flex flex-col gap-6 animate-slide-bottom delay-200"
+        >
+
+            <h2
+                class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight"
+            >
+                Browse Topic Categories
+            </h2>
+
+
+            <div
+                id="category-grid"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter"
+            >
+
+                <!-- ACCOUNT SECURITY -->
+
+                <a
+                    href="resource.html"
+                    data-searchable="account security password 2fa authentication compromised credentials login"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 border border-surface-variant cursor-pointer group transition-all duration-300 hover:border-tertiary/60"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-tertiary-container text-on-tertiary-container flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-tertiary group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            shield
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-tertiary transition-colors duration-300"
+                    >
+                        Account Security
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Passwords, multi-factor authentication, compromised
+                        accounts, and account recovery guidance.
+                    </p>
+
+                </a>
+
+
+                <!-- REPORTING -->
+
+                <a
+                    href="emergency-help.html"
+                    data-searchable="report scam cybercrime reporting fraud police freeze funds complaint 1930"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 border border-surface-variant cursor-pointer group transition-all duration-300 hover:border-error/60"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-error-container text-error flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-error group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            report
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-error transition-colors duration-300"
+                    >
+                        Reporting Scams
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Emergency response, transaction reporting, cyber-fraud
+                        guidance, and recovery steps.
+                    </p>
+
+                </a>
+
+
+                <!-- TECHNICAL HELP -->
+
+                <a
+                    href="resource.html"
+                    data-searchable="technical help malware device compromise app permissions security"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 border border-surface-variant cursor-pointer group transition-all duration-300 hover:border-secondary/60"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-secondary group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            support_agent
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-secondary transition-colors duration-300"
+                    >
+                        Technical Help
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Device security, suspicious apps, permissions, and
+                        practical digital-safety guidance.
+                    </p>
+
+                </a>
+
+
+                <!-- PRIVACY -->
+
+                <a
+                    href="resource.html"
+                    data-searchable="privacy data personal information identity security sensitive information"
+                    class="help-card ambient-card bg-surface-container-lowest rounded-3xl p-8 border border-surface-variant cursor-pointer group transition-all duration-300 hover:border-primary/60"
+                >
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-surface-container-high text-primary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm"
+                    >
+
+                        <span class="material-symbols-outlined text-3xl">
+                            lock
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl font-bold mb-2 text-on-surface group-hover:text-primary transition-colors duration-300"
+                    >
+                        Privacy & Data
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Personal-data protection, identity safety, and
+                        responsible handling of sensitive information.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FAQ
+        ====================================================== -->
+
+        <section
+            id="faq-section"
+            class="max-w-4xl mx-auto w-full flex flex-col gap-6 animate-slide-bottom delay-300"
+        >
+
+            <div class="text-center space-y-2">
+
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight"
+                >
+                    Frequently Asked Questions
+                </h2>
+
+
+                <p
+                    class="text-base md:text-lg text-on-surface-variant"
+                >
+                    Common questions about scam detection, response, and safety.
+                </p>
+
+            </div>
+
+
+            <div
+                id="faq-list"
+                class="space-y-4"
+            >
+
+                <!-- FAQ 1 -->
+
+                <details
+                    class="faq-item ambient-card bg-surface-container-lowest rounded-3xl border border-surface-variant group overflow-hidden transition-all duration-300"
+                    data-searchable="bank credentials leaked banking password 1930 emergency freeze account"
+                >
+
+                    <summary
+                        class="text-xl font-bold text-on-surface p-6 md:p-8 cursor-pointer flex justify-between items-center outline-none group-open:text-tertiary transition-colors"
+                    >
+
+                        <span>
+                            What should I do if I think my banking credentials were leaked?
+                        </span>
+
+
+                        <span
+                            class="material-symbols-outlined text-3xl text-on-surface-variant transition-transform duration-300 group-open:rotate-180 group-open:text-tertiary"
+                        >
+                            expand_more
+                        </span>
+
+                    </summary>
+
+
+                    <div
+                        class="px-6 md:px-8 pb-8 pt-0 text-base md:text-lg text-on-surface-variant leading-relaxed border-t border-surface-variant/40 mt-2"
+                    >
+
+                        Stop interacting with the suspicious message or website.
+                        Contact your bank through an independently verified
+                        official channel, secure affected accounts, and report
+                        financial cyber fraud through the appropriate official
+                        reporting route.
+
+                    </div>
+
+                </details>
+
+
+                <!-- FAQ 2 -->
+
+                <details
+                    class="faq-item ambient-card bg-surface-container-lowest rounded-3xl border border-surface-variant group overflow-hidden transition-all duration-300"
+                    data-searchable="screenshot privacy submitted messages data storage personal information"
+                >
+
+                    <summary
+                        class="text-xl font-bold text-on-surface p-6 md:p-8 cursor-pointer flex justify-between items-center outline-none group-open:text-tertiary transition-colors"
+                    >
+
+                        <span>
+                            How should I handle sensitive screenshots or messages?
+                        </span>
+
+
+                        <span
+                            class="material-symbols-outlined text-3xl text-on-surface-variant transition-transform duration-300 group-open:rotate-180 group-open:text-tertiary"
+                        >
+                            expand_more
+                        </span>
+
+                    </summary>
+
+
+                    <div
+                        class="px-6 md:px-8 pb-8 pt-0 text-base md:text-lg text-on-surface-variant leading-relaxed border-t border-surface-variant/40 mt-2"
+                    >
+
+                        Only submit information necessary for analysis.
+                        Avoid exposing passwords, OTPs, full card numbers,
+                        PINs, or other unnecessary sensitive information.
+                        ScamSense's current scanner pages send the submitted
+                        content to the configured analysis backend for
+                        processing.
+
+                    </div>
+
+                </details>
+
+
+                <!-- FAQ 3 -->
+
+                <details
+                    class="faq-item ambient-card bg-surface-container-lowest rounded-3xl border border-surface-variant group overflow-hidden transition-all duration-300"
+                    data-searchable="phishing link suspicious website fake domain url http https scam"
+                >
+
+                    <summary
+                        class="text-xl font-bold text-on-surface p-6 md:p-8 cursor-pointer flex justify-between items-center outline-none group-open:text-tertiary transition-colors"
+                    >
+
+                        <span>
+                            How can I recognize a suspicious phishing link?
+                        </span>
+
+
+                        <span
+                            class="material-symbols-outlined text-3xl text-on-surface-variant transition-transform duration-300 group-open:rotate-180 group-open:text-tertiary"
+                        >
+                            expand_more
+                        </span>
+
+                    </summary>
+
+
+                    <div
+                        class="px-6 md:px-8 pb-8 pt-0 text-base md:text-lg text-on-surface-variant leading-relaxed border-t border-surface-variant/40 mt-2"
+                    >
+
+                        Watch for unusual domains, suspicious URL structures,
+                        shortened links, IP addresses instead of domains,
+                        urgency, and requests for passwords, OTPs, or payment
+                        details. You can paste the URL into the ScamSense URL
+                        Scanner before opening it.
+
+                    </div>
+
+                </details>
+
+
+                <!-- FAQ 4 -->
+
+                <details
+                    class="faq-item ambient-card bg-surface-container-lowest rounded-3xl border border-surface-variant group overflow-hidden transition-all duration-300"
+                    data-searchable="qr code upi payment suspicious qr scan"
+                >
+
+                    <summary
+                        class="text-xl font-bold text-on-surface p-6 md:p-8 cursor-pointer flex justify-between items-center outline-none group-open:text-tertiary transition-colors"
+                    >
+
+                        <span>
+                            Is it safe to scan an unknown QR code?
+                        </span>
+
+
+                        <span
+                            class="material-symbols-outlined text-3xl text-on-surface-variant transition-transform duration-300 group-open:rotate-180 group-open:text-tertiary"
+                        >
+                            expand_more
+                        </span>
+
+                    </summary>
+
+
+                    <div
+                        class="px-6 md:px-8 pb-8 pt-0 text-base md:text-lg text-on-surface-variant leading-relaxed border-t border-surface-variant/40 mt-2"
+                    >
+
+                        Do not automatically trust an unknown QR code.
+                        Use ScamSense's QR Code Safe page to decode the
+                        content first. For UPI payment QR codes, always verify
+                        the recipient and payment details before approving
+                        a transaction.
+
+                    </div>
+
+                </details>
+
+            </div>
+
+
+            <p
+                id="no-faq-results"
+                class="hidden text-center text-on-surface-variant py-8"
+            >
+                No matching help articles were found.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             IMMEDIATE HELP
+        ====================================================== -->
+
+        <section
+            class="ambient-card bg-secondary-container/30 rounded-3xl p-8 md:p-12 text-center max-w-4xl mx-auto w-full border border-secondary-container relative group animate-slide-bottom delay-300"
+        >
+
+            <h2
+                class="text-3xl md:text-4xl font-extrabold text-primary mb-3"
+            >
+                Already interacted with a scam?
+            </h2>
+
+
+            <p
+                class="text-base md:text-lg text-on-surface-variant mb-8 max-w-xl mx-auto leading-relaxed"
+            >
+                Stop interacting with the sender and follow the immediate
+                containment and reporting steps.
+            </p>
+
+
+            <div
+                class="flex flex-col sm:flex-row justify-center gap-4"
+            >
+
+                <a
+                    href="emergency-help.html"
+                    class="btn-interactive h-[60px] px-10 rounded-full bg-tertiary hover:bg-secondary text-white font-bold text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-2xl"
+                >
+
+                    <span class="material-symbols-outlined text-2xl">
+                        emergency
+                    </span>
+
+                    Emergency Response Guide
+
+                </a>
+
+
+                <a
+                    href="Incident-evidence.html"
+                    class="btn-interactive h-[60px] px-10 rounded-full bg-surface-container-lowest hover:bg-surface-container-high text-primary font-bold text-lg border-2 border-[#B4D3D9] flex items-center justify-center gap-3"
+                >
+
+                    <span class="material-symbols-outlined text-2xl">
+                        assignment
+                    </span>
+
+                    Start Incident Report
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col gap-stack-md bg-surface-container-high text-on-surface mt-auto border-t border-outline-variant/40"
+    >
+
+        <div
+            class="max-w-container-max mx-auto w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-outline-variant/30 pb-stack-md"
+        >
+
+            <div>
+
+                <div
+                    class="flex items-center gap-2 mb-2"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-primary text-3xl"
+                    >
+                        shield
+                    </span>
+
+                    <span
+                        class="text-2xl font-bold text-primary"
+                    >
+                        ScamSense
+                    </span>
+
+                </div>
+
+
+                <p
+                    class="text-base text-on-surface-variant max-w-md leading-relaxed"
+                >
+                    Built for security, transparency, and digital trust.
+                    Helping users navigate suspicious digital interactions
+                    more safely.
+                </p>
+
+            </div>
+
+
+            <nav
+                class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-3"
+            >
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-all duration-200"
+                    href="home.html"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-all duration-200"
+                    href="our-mission.html"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    class="text-base font-bold text-tertiary underline transition-all duration-200"
+                    href="help-desk.html"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-all duration-200"
+                    href="resource.html"
+                >
+                    Resources
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-all duration-200"
+                    href="media.html"
+                >
+                    Media
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-all duration-200"
+                    href="awareness .html"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-all duration-200"
+                    href="history.html"
+                >
+                    History
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-all duration-200"
+                    href="contact-us.html"
+                >
+                    Contact Us
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div
+            class="max-w-container-max mx-auto w-full text-sm text-on-surface-variant"
+        >
+            © ScamSense. All rights reserved. Built for security,
+            transparency, and public trust.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         FLOATING SUPPORT BUTTON
+    ========================================================== -->
+
+    <a
+        href="message-checker.html"
+        aria-label="Open ScamSense message checker"
+        class="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-tertiary hover:bg-secondary text-white shadow-2xl flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-all duration-300 animate-float group focus:outline-none focus:ring-4 focus:ring-tertiary/40"
+    >
+
+        <span
+            class="material-symbols-outlined text-3xl transition-transform duration-500 group-hover:rotate-45"
+        >
+            chat_bubble
+        </span>
+
+    </a>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+        /* =========================================================
+           LANGUAGE
+        ========================================================== */
+
+        const languageSelector =
+            document.getElementById(
+                "language-selector"
+            );
+
+
+        const savedLanguage =
+            localStorage.getItem(
+                "scamsense-language"
+            );
+
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(
+                savedLanguage
+            )
+        ) {
+            languageSelector.value =
+                savedLanguage;
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        const mobileMenuBtn =
+            document.getElementById(
+                "mobile-menu-btn"
+            );
+
+        const mobileMenu =
+            document.getElementById(
+                "mobile-menu"
+            );
+
+        const mobileMenuIcon =
+            document.getElementById(
+                "mobile-menu-icon"
+            );
+
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    mobileMenu.classList.toggle(
+                        "open"
+                    );
+
+
+                mobileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                );
+
+
+                mobileMenuIcon.textContent =
+                    isOpen
+                        ? "close"
+                        : "menu";
+
+            }
+        );
+
+
+        /* =========================================================
+           SEARCH
+        ========================================================== */
+
+        const searchInput =
+            document.getElementById(
+                "help-search"
+            );
+
+
+        const searchStatus =
+            document.getElementById(
+                "search-status"
+            );
+
+
+        const searchableItems =
+            document.querySelectorAll(
+                "[data-searchable]"
+            );
+
+
+        const noToolResults =
+            document.getElementById(
+                "no-tool-results"
+            );
+
+
+        const noFaqResults =
+            document.getElementById(
+                "no-faq-results"
+            );
+
+
+        const tools =
+            document.querySelectorAll(
+                "#tool-grid .help-card"
+            );
+
+
+        const categories =
+            document.querySelectorAll(
+                "#category-grid .help-card"
+            );
+
+
+        const faqItems =
+            document.querySelectorAll(
+                ".faq-item"
+            );
+
+
+        searchInput.addEventListener(
+            "input",
+            () => {
+
+                const query =
+                    searchInput.value
+                        .trim()
+                        .toLowerCase();
+
+
+                if (!query) {
+
+                    resetSearch();
+
+                    return;
+
+                }
+
+
+                let toolCount =
+                    0;
+
+                let categoryCount =
+                    0;
+
+                let faqCount =
+                    0;
+
+
+                /* TOOL RESULTS */
+
+                tools.forEach(
+                    (item) => {
+
+                        const searchable =
+                            item.dataset.searchable
+                                .toLowerCase();
+
+
+                        const match =
+                            searchable.includes(
+                                query
+                            );
+
+
+                        item.classList.toggle(
+                            "search-hidden",
+                            !match
+                        );
+
+
+                        if (match) {
+                            toolCount++;
+                        }
+
+                    }
+                );
+
+
+                /* CATEGORY RESULTS */
+
+                categories.forEach(
+                    (item) => {
+
+                        const searchable =
+                            item.dataset.searchable
+                                .toLowerCase();
+
+
+                        const match =
+                            searchable.includes(
+                                query
+                            );
+
+
+                        item.classList.toggle(
+                            "search-hidden",
+                            !match
+                        );
+
+
+                        if (match) {
+                            categoryCount++;
+                        }
+
+                    }
+                );
+
+
+                /* FAQ RESULTS */
+
+                faqItems.forEach(
+                    (item) => {
+
+                        const searchable =
+                            item.dataset.searchable
+                                .toLowerCase();
+
+
+                        const match =
+                            searchable.includes(
+                                query
+                            );
+
+
+                        item.classList.toggle(
+                            "search-hidden",
+                            !match
+                        );
+
+
+                        if (match) {
+                            faqCount++;
+                        }
+
+                    }
+                );
+
+
+                noToolResults.classList.toggle(
+                    "hidden",
+                    toolCount > 0
+                );
+
+
+                noFaqResults.classList.toggle(
+                    "hidden",
+                    faqCount > 0
+                );
+
+
+                const total =
+                    toolCount +
+                    categoryCount +
+                    faqCount;
+
+
+                if (total === 0) {
+
+                    searchStatus.textContent =
+                        "No matching help content was found.";
+
+                } else {
+
+                    searchStatus.textContent =
+                        `${total} matching help item${total === 1 ? "" : "s"} found.`;
+
+                }
+
+
+                searchStatus.classList.remove(
+                    "hidden"
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           RESET SEARCH
+        ========================================================== */
+
+        function resetSearch() {
+
+            searchableItems.forEach(
+                (item) => {
+
+                    item.classList.remove(
+                        "search-hidden"
+                    );
+
+                }
+            );
+
+
+            noToolResults.classList.add(
+                "hidden"
+            );
+
+
+            noFaqResults.classList.add(
+                "hidden"
+            );
+
+
+            searchStatus.textContent =
+                "";
+
+            searchStatus.classList.add(
+                "hidden"
+            );
+
+        }
+    </script>
+
+</body>
+</html>

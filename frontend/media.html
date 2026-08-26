@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Media & News - ScamSense</title>
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         TAILWIND CONFIGURATION
+    ========================================================== -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4f4574",
+                        "inverse-surface": "#34302b",
+                        "on-secondary-fixed": "#001f24",
+                        "primary-fixed": "#e9e1d7",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#4b463f",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#f0e7df",
+                        "on-tertiary-fixed": "#1e1244",
+                        "surface-variant": "#eae1da",
+                        "secondary-fixed-dim": "#adccd2",
+                        "surface-bright": "#fff8f4",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "surface-container-low": "#fbf2eb",
+                        "on-background": "#1f1b17",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "primary-container": "#f2eae0",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "on-secondary-container": "#4a676d",
+                        "secondary-fixed": "#c9e8ee",
+                        "on-tertiary-container": "#6e6298",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#466368",
+                        "on-primary-fixed": "#1e1b15",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#635e56",
+                        "surface-container": "#f5ece5",
+                        "secondary-container": "#c6e5eb",
+                        "outline-variant": "#cdc5bc",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "tertiary-container": "#efe7ff",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#cdc5bc",
+                        "outline": "#7c766e",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "on-primary-container": "#6e6961",
+                        "inverse-on-surface": "#f8efe8",
+                        "tertiary-fixed": "#e7deff",
+                        "primary": "#635e56",
+                        "surface-dim": "#e1d8d2",
+                        "surface-container-highest": "#eae1da",
+                        "on-error": "#ffffff",
+                        "surface": "#fff8f4",
+                        "on-surface": "#1f1b17",
+                        "background": "#fff8f4"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+                    },
+
+                    spacing: {
+                        "stack-lg": "56px",
+                        "margin-mobile": "24px",
+                        "stack-md": "32px",
+                        "margin-desktop": "72px",
+                        unit: "10px",
+                        "stack-sm": "16px",
+                        gutter: "28px",
+                        "container-max": "1320px"
+                    }
+                }
+            }
+        };
+    </script>
+
+
+    <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: #F2EAE0;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        .icon-filled {
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+
+        /* =========================================================
+           CARDS
+        ========================================================== */
+
+        .ambient-card {
+            box-shadow: 0 4px 24px rgba(74, 69, 64, 0.06);
+
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+        }
+
+        .ambient-card:hover {
+            box-shadow: 0 20px 48px rgba(98, 87, 140, 0.16);
+            transform: translateY(-6px);
+        }
+
+
+        /* =========================================================
+           KEYFRAME ANIMATIONS
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes floatSlow {
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(2deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(98, 87, 140, 0.45);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 28px 8px rgba(98, 87, 140, 0.22);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes pulseAlert {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+
+        /* =========================================================
+           ANIMATION UTILITIES
+        ========================================================== */
+
+        .animate-page-load {
+            animation: pageFadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-slide-top {
+            animation:
+                slideFromTop 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-bottom {
+            animation:
+                slideFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-left {
+            animation:
+                slideFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-right {
+            animation:
+                slideFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2.8s infinite ease-in-out;
+        }
+
+        .animate-pulse-alert {
+            animation: pulseAlert 2s infinite ease-in-out;
+        }
+
+
+        /* =========================================================
+           BUTTONS
+        ========================================================== */
+
+        .btn-interactive {
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease;
+        }
+
+        .btn-interactive:hover {
+            border-radius: 1.25rem;
+            transform: translateY(-2px) scale(1.025);
+        }
+
+        .btn-interactive:active {
+            transform: scale(0.97);
+        }
+
+
+        /* =========================================================
+           NEWS IMAGE
+        ========================================================== */
+
+        .news-card-image {
+            transition:
+                transform 0.7s ease,
+                filter 0.5s ease;
+        }
+
+        .news-card:hover .news-card-image {
+            transform: scale(1.06);
+        }
+
+
+        /* =========================================================
+           CATEGORY FILTER
+        ========================================================== */
+
+        .filter-button.active {
+            background-color: #62578c;
+            color: #ffffff;
+            border-color: #62578c;
+        }
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        .mobile-menu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+
+            transition:
+                max-height 0.35s ease,
+                opacity 0.25s ease;
+        }
+
+        .mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+
+        /* =========================================================
+           HIDDEN FILTER RESULT
+        ========================================================== */
+
+        .news-hidden {
+            display: none !important;
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITY
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (max-width: 767px) {
+
+            body {
+                font-size: 16px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body
+    class="bg-primary-container text-on-surface min-h-screen antialiased flex flex-col pt-20 animate-page-load"
+>
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b-2 border-secondary-container shadow-sm animate-slide-top"
+    >
+
+        <div
+            class="h-20 px-margin-mobile md:px-margin-desktop flex justify-between items-center"
+        >
+
+            <!-- Logo -->
+
+            <a
+                href="index.html"
+                class="flex items-center gap-2 group"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180 group-hover:scale-110"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight"
+                >
+                    ScamSense
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Navigation -->
+
+            <div class="hidden lg:flex items-center gap-2">
+
+                <a
+                    href="home.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="text-base font-bold text-primary border-b-2 border-tertiary px-3 py-2 rounded-xl bg-primary-container/40"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness .html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Our Mission
+                </a>
+
+            </div>
+
+
+            <!-- Right -->
+
+            <div class="flex items-center gap-4">
+
+                <label
+                    for="language-selector"
+                    class="sr-only"
+                >
+                    Select language
+                </label>
+
+                <select
+                    id="language-selector"
+                    class="hidden md:block bg-transparent border-0 text-primary font-semibold focus:ring-0 cursor-pointer"
+                    aria-label="Select language"
+                >
+                    <option value="en">EN</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="mr">मराठी</option>
+                </select>
+
+
+                <a
+                    href="login.html"
+                    class="btn-interactive bg-tertiary hover:bg-secondary text-white px-8 py-3 rounded-full font-bold shadow-md"
+                >
+                    Login
+                </a>
+
+
+                <button
+                    id="mobile-menu-btn"
+                    type="button"
+                    class="lg:hidden p-2 rounded-xl text-primary hover:bg-surface-variant"
+                    aria-label="Open menu"
+                    aria-expanded="false"
+                >
+
+                    <span
+                        id="mobile-menu-icon"
+                        class="material-symbols-outlined text-3xl"
+                    >
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Mobile Menu -->
+
+        <div
+            id="mobile-menu"
+            class="mobile-menu lg:hidden border-t border-surface-variant bg-surface"
+        >
+
+            <div class="px-margin-mobile py-4 flex flex-col gap-2">
+
+                <a
+                    href="index.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="px-4 py-3 rounded-xl font-bold text-primary bg-primary-container"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Our Mission
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main
+        class="flex-grow pt-8 pb-stack-lg max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop flex flex-col gap-stack-lg"
+    >
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <section
+            class="text-center max-w-4xl mx-auto relative animate-slide-top delay-100"
+        >
+
+            <div
+                class="absolute -top-12 left-1/2 -translate-x-1/2 w-96 h-96 bg-tertiary/10 rounded-full blur-3xl -z-10"
+            ></div>
+
+
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 shadow-sm"
+            >
+
+                <span class="relative flex h-3 w-3">
+
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                    ></span>
+
+                    <span
+                        class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                    ></span>
+
+                </span>
+
+
+                <span
+                    class="text-xs md:text-sm font-bold text-on-surface-variant tracking-wider uppercase"
+                >
+                    Cybersecurity News & Advisories
+                </span>
+
+            </div>
+
+
+            <h1
+                class="mt-5 text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-tight"
+            >
+                Stay Informed. Stay Safer.
+            </h1>
+
+
+            <p
+                class="mt-4 text-lg md:text-xl text-on-surface-variant max-w-3xl mx-auto leading-relaxed"
+            >
+                ScamSense brings together selected cybersecurity advisories,
+                scam warnings, and practical safety guidance from trusted
+                official sources.
+            </p>
+
+
+            <div
+                class="mt-6 inline-flex items-center gap-2 bg-secondary-container/50 border border-secondary-container rounded-full px-4 py-2 text-sm font-semibold text-on-secondary-container"
+            >
+
+                <span class="material-symbols-outlined text-lg">
+                    verified
+                </span>
+
+                Sources are linked to their official publishers
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURED OFFICIAL ADVISORY
+        ====================================================== -->
+
+        <section
+            class="ambient-card bg-surface rounded-3xl overflow-hidden flex flex-col lg:flex-row border border-surface-variant relative group animate-slide-bottom delay-100"
+        >
+
+            <div
+                class="lg:w-3/5 p-8 md:p-12 lg:p-14 flex flex-col justify-center"
+            >
+
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-error-container text-on-error-container w-fit font-bold text-xs uppercase tracking-widest"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-base"
+                    >
+                        warning
+                    </span>
+
+                    <span>
+                        Critical Advisory
+                    </span>
+
+                </div>
+
+
+                <span
+                    class="mt-4 text-sm font-bold text-tertiary"
+                >
+                    CERT-In · 7 August 2026
+                </span>
+
+
+                <h2
+                    class="mt-2 text-3xl md:text-4xl lg:text-5xl font-extrabold text-on-surface leading-tight"
+                >
+                    Emerging Threats Targeting Microsoft 365
+                </h2>
+
+
+                <p
+                    class="mt-4 text-base md:text-lg text-on-surface-variant leading-relaxed"
+                >
+                    CERT-In reported a significant increase in targeted
+                    attacks against Microsoft 365 environments involving
+                    techniques including password spraying, device-code
+                    phishing, session-token compromise, and business email
+                    compromise.
+                </p>
+
+
+                <div
+                    class="mt-6 flex flex-wrap gap-3"
+                >
+
+                    <a
+                        href="https://www.cert-in.org.in/s2cMainServlet?VLCODE=CIAD-2026-0037&pageid=PUBVLNOTES02"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-interactive inline-flex items-center justify-center bg-tertiary hover:bg-secondary text-white min-h-[56px] px-7 rounded-full font-bold shadow-lg"
+                    >
+
+                        Read Official Advisory
+
+                        <span
+                            class="material-symbols-outlined ml-2"
+                        >
+                            open_in_new
+                        </span>
+
+                    </a>
+
+
+                    <a
+                        href="awareness .html"
+                        class="btn-interactive inline-flex items-center justify-center border-2 border-secondary-container bg-surface text-primary min-h-[56px] px-7 rounded-full font-bold"
+                    >
+                        Safety Guidance
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="lg:w-2/5 min-h-[300px] bg-gradient-to-br from-tertiary-container via-primary-container to-secondary-container flex items-center justify-center relative overflow-hidden"
+            >
+
+                <div
+                    class="absolute w-64 h-64 rounded-full bg-white/40 blur-3xl"
+                ></div>
+
+
+                <div
+                    class="relative w-44 h-44 md:w-52 md:h-52 rounded-[2.5rem] bg-surface/80 backdrop-blur-md border border-white/60 shadow-2xl flex flex-col items-center justify-center text-center animate-float"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-tertiary text-6xl"
+                    >
+                        cloud_lock
+                    </span>
+
+
+                    <span
+                        class="mt-3 text-sm font-extrabold text-primary uppercase tracking-widest"
+                    >
+                        M365 Security
+                    </span>
+
+
+                    <span
+                        class="text-xs font-semibold text-on-surface-variant mt-1"
+                    >
+                        Official Advisory
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FILTERS
+        ====================================================== -->
+
+        <section
+            class="flex flex-col gap-5 animate-slide-bottom delay-200"
+        >
+
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+
+                <div>
+
+                    <h2
+                        class="text-3xl md:text-4xl font-extrabold text-on-surface"
+                    >
+                        Latest Security Updates
+                    </h2>
+
+
+                    <p
+                        class="mt-2 text-base text-on-surface-variant"
+                    >
+                        Selected recent updates from official cybersecurity sources.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="flex flex-wrap gap-2"
+                >
+
+                    <button
+                        type="button"
+                        class="filter-button active px-4 py-2 rounded-full border-2 border-tertiary font-bold text-sm transition-all"
+                        data-filter="all"
+                    >
+                        All
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button px-4 py-2 rounded-full border-2 border-secondary-container font-bold text-sm text-primary transition-all"
+                        data-filter="scam"
+                    >
+                        Scam Alerts
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button px-4 py-2 rounded-full border-2 border-secondary-container font-bold text-sm text-primary transition-all"
+                        data-filter="security"
+                    >
+                        Security
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="filter-button px-4 py-2 rounded-full border-2 border-secondary-container font-bold text-sm text-primary transition-all"
+                        data-filter="government"
+                    >
+                        Official Guidance
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- News grid -->
+
+            <div
+                id="news-grid"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter"
+            >
+
+                <!-- =================================================
+                     NEWS 1
+                ================================================== -->
+
+                <article
+                    class="news-card news-item ambient-card bg-surface-container-lowest rounded-3xl overflow-hidden border border-surface-variant flex flex-col"
+                    data-category="security"
+                >
+
+                    <div
+                        class="h-48 bg-gradient-to-br from-tertiary-container to-secondary-container flex items-center justify-center overflow-hidden"
+                    >
+
+                        <div
+                            class="news-card-image w-32 h-32 rounded-3xl bg-surface/80 backdrop-blur-md border border-white/60 shadow-xl flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-tertiary text-6xl"
+                            >
+                                chat
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-7 flex flex-col flex-grow">
+
+                        <div
+                            class="flex items-center justify-between gap-2"
+                        >
+
+                            <span
+                                class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                            >
+                                Security Advisory
+                            </span>
+
+
+                            <span
+                                class="text-xs font-semibold text-on-surface-variant"
+                            >
+                                25 Jun 2026
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="mt-4 text-2xl font-bold text-on-surface"
+                        >
+                            Malware Campaign Spreading Through WhatsApp Attachments
+                        </h3>
+
+
+                        <p
+                            class="mt-3 text-base text-on-surface-variant leading-relaxed flex-grow"
+                        >
+                            CERT-In observed a large-scale campaign targeting
+                            WhatsApp Desktop and Web users with malicious
+                            Visual Basic Script attachments sent through
+                            compromised accounts.
+                        </p>
+
+
+                        <a
+                            href="https://www.cert-in.org.in/s2cMainServlet?CACODE=CICA-2026-3534&pageid=PUBADV01"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-5 text-tertiary font-bold flex items-center gap-2 hover:text-tertiary-hover"
+                        >
+
+                            Read CERT-In advisory
+
+                            <span
+                                class="material-symbols-outlined text-lg"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     NEWS 2
+                ================================================== -->
+
+                <article
+                    class="news-card news-item ambient-card bg-surface-container-lowest rounded-3xl overflow-hidden border border-surface-variant flex flex-col"
+                    data-category="security"
+                >
+
+                    <div
+                        class="h-48 bg-gradient-to-br from-error-container to-tertiary-container flex items-center justify-center overflow-hidden"
+                    >
+
+                        <div
+                            class="news-card-image w-32 h-32 rounded-3xl bg-surface/80 backdrop-blur-md border border-white/60 shadow-xl flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-error text-6xl"
+                            >
+                                admin_panel_settings
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-7 flex flex-col flex-grow">
+
+                        <div
+                            class="flex items-center justify-between gap-2"
+                        >
+
+                            <span
+                                class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                            >
+                                Vulnerability
+                            </span>
+
+
+                            <span
+                                class="text-xs font-semibold text-on-surface-variant"
+                            >
+                                19 Aug 2026
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="mt-4 text-2xl font-bold text-on-surface"
+                        >
+                            CERT-In Alerts Users to Multiple Apple Product Vulnerabilities
+                        </h3>
+
+
+                        <p
+                            class="mt-3 text-base text-on-surface-variant leading-relaxed flex-grow"
+                        >
+                            CERT-In's current security listings include a
+                            vulnerability advisory covering Apple products.
+                            Users should keep supported devices and software
+                            updated.
+                        </p>
+
+
+                        <a
+                            href="https://www.cert-in.org.in/s2cMainServlet?pageid=PUBWEL01"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-5 text-tertiary font-bold flex items-center gap-2 hover:text-tertiary-hover"
+                        >
+
+                            View CERT-In updates
+
+                            <span
+                                class="material-symbols-outlined text-lg"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     NEWS 3
+                ================================================== -->
+
+                <article
+                    class="news-card news-item ambient-card bg-surface-container-lowest rounded-3xl overflow-hidden border border-surface-variant flex flex-col"
+                    data-category="scam"
+                >
+
+                    <div
+                        class="h-48 bg-gradient-to-br from-secondary-container to-tertiary-container flex items-center justify-center overflow-hidden"
+                    >
+
+                        <div
+                            class="news-card-image w-32 h-32 rounded-3xl bg-surface/80 backdrop-blur-md border border-white/60 shadow-xl flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-secondary text-6xl"
+                            >
+                                link_off
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-7 flex flex-col flex-grow">
+
+                        <div
+                            class="flex items-center justify-between gap-2"
+                        >
+
+                            <span
+                                class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                            >
+                                Scam Safety
+                            </span>
+
+
+                            <span
+                                class="text-xs font-semibold text-on-surface-variant"
+                            >
+                                Recent guidance
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="mt-4 text-2xl font-bold text-on-surface"
+                        >
+                            Shortened URLs Can Hide the Real Destination
+                        </h3>
+
+
+                        <p
+                            class="mt-3 text-base text-on-surface-variant leading-relaxed flex-grow"
+                        >
+                            CERT-In advises caution with shortened URLs such
+                            as bit.ly and tinyurl and recommends using a URL
+                            checker before opening them.
+                        </p>
+
+
+                        <a
+                            href="https://www.cert-in.org.in/s2cMainServlet?CACODE=CICA-2026-3492&pageid=PUBADV01"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-5 text-tertiary font-bold flex items-center gap-2 hover:text-tertiary-hover"
+                        >
+
+                            Read official guidance
+
+                            <span
+                                class="material-symbols-outlined text-lg"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     NEWS 4
+                ================================================== -->
+
+                <article
+                    class="news-card news-item ambient-card bg-surface-container-lowest rounded-3xl overflow-hidden border border-surface-variant flex flex-col"
+                    data-category="government"
+                >
+
+                    <div
+                        class="h-48 bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center overflow-hidden"
+                    >
+
+                        <div
+                            class="news-card-image w-32 h-32 rounded-3xl bg-surface/80 backdrop-blur-md border border-white/60 shadow-xl flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-primary text-6xl"
+                            >
+                                campaign
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-7 flex flex-col flex-grow">
+
+                        <div
+                            class="flex items-center justify-between gap-2"
+                        >
+
+                            <span
+                                class="bg-primary-container text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                            >
+                                Government Guidance
+                            </span>
+
+
+                            <span
+                                class="text-xs font-semibold text-on-surface-variant"
+                            >
+                                6 Mar 2025
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="mt-4 text-2xl font-bold text-on-surface"
+                        >
+                            India Warns About “Digital Arrest” Scams
+                        </h3>
+
+
+                        <p
+                            class="mt-3 text-base text-on-surface-variant leading-relaxed flex-grow"
+                        >
+                            India's National Cyber Crime Threat Analytics Unit
+                            warns that criminals impersonate police and other
+                            authorities to intimidate victims and demand money.
+                        </p>
+
+
+                        <a
+                            href="https://cybercrime.gov.in/pdf/Advisories/ADVISORYTAU-ADV-003DigitalArrest06.03.2025.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-5 text-tertiary font-bold flex items-center gap-2 hover:text-tertiary-hover"
+                        >
+
+                            Read official advisory
+
+                            <span
+                                class="material-symbols-outlined text-lg"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     NEWS 5
+                ================================================== -->
+
+                <article
+                    class="news-card news-item ambient-card bg-surface-container-lowest rounded-3xl overflow-hidden border border-surface-variant flex flex-col"
+                    data-category="government"
+                >
+
+                    <div
+                        class="h-48 bg-gradient-to-br from-secondary-container to-primary-container flex items-center justify-center overflow-hidden"
+                    >
+
+                        <div
+                            class="news-card-image w-32 h-32 rounded-3xl bg-surface/80 backdrop-blur-md border border-white/60 shadow-xl flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-secondary text-6xl"
+                            >
+                                report
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-7 flex flex-col flex-grow">
+
+                        <div
+                            class="flex items-center justify-between gap-2"
+                        >
+
+                            <span
+                                class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                            >
+                                Reporting
+                            </span>
+
+
+                            <span
+                                class="text-xs font-semibold text-on-surface-variant"
+                            >
+                                Official resource
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="mt-4 text-2xl font-bold text-on-surface"
+                        >
+                            Where to Report Cybercrime and Financial Fraud
+                        </h3>
+
+
+                        <p
+                            class="mt-3 text-base text-on-surface-variant leading-relaxed flex-grow"
+                        >
+                            CERT-In directs citizens to the National Cyber
+                            Crime Reporting Portal and the cyber-fraud
+                            helpline 1930 for cybercrime and financial fraud
+                            reporting.
+                        </p>
+
+
+                        <a
+                            href="https://www.cybercrime.gov.in/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-5 text-tertiary font-bold flex items-center gap-2 hover:text-tertiary-hover"
+                        >
+
+                            Open cybercrime.gov.in
+
+                            <span
+                                class="material-symbols-outlined text-lg"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     NEWS 6
+                ================================================== -->
+
+                <article
+                    class="news-card news-item ambient-card bg-surface-container-lowest rounded-3xl overflow-hidden border border-surface-variant flex flex-col"
+                    data-category="security"
+                >
+
+                    <div
+                        class="h-48 bg-gradient-to-br from-tertiary-container to-error-container flex items-center justify-center overflow-hidden"
+                    >
+
+                        <div
+                            class="news-card-image w-32 h-32 rounded-3xl bg-surface/80 backdrop-blur-md border border-white/60 shadow-xl flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-tertiary text-6xl"
+                            >
+                                security_update
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="p-7 flex flex-col flex-grow">
+
+                        <div
+                            class="flex items-center justify-between gap-2"
+                        >
+
+                            <span
+                                class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                            >
+                                Security Updates
+                            </span>
+
+
+                            <span
+                                class="text-xs font-semibold text-on-surface-variant"
+                            >
+                                25 Aug 2026
+                            </span>
+
+                        </div>
+
+
+                        <h3
+                            class="mt-4 text-2xl font-bold text-on-surface"
+                        >
+                            CERT-In Continues to Publish New Product Vulnerability Alerts
+                        </h3>
+
+
+                        <p
+                            class="mt-3 text-base text-on-surface-variant leading-relaxed flex-grow"
+                        >
+                            CERT-In's current listings include recent alerts
+                            for products such as Google Chrome, Cisco,
+                            Splunk, Apple, and other widely deployed systems.
+                        </p>
+
+
+                        <a
+                            href="https://www.cert-in.org.in/s2cMainServlet?pageid=PUBWEL01"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="mt-5 text-tertiary font-bold flex items-center gap-2 hover:text-tertiary-hover"
+                        >
+
+                            View latest advisories
+
+                            <span
+                                class="material-symbols-outlined text-lg"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+
+            <p
+                id="no-news"
+                class="hidden text-center py-10 text-on-surface-variant font-semibold"
+            >
+                No updates found for this category.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             TRUSTED SOURCES
+        ====================================================== -->
+
+        <section
+            class="ambient-card bg-surface rounded-3xl p-8 md:p-10 border border-surface-variant animate-slide-bottom delay-300"
+        >
+
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-6"
+            >
+
+                <div>
+
+                    <div
+                        class="inline-flex items-center gap-2 text-secondary font-bold text-xs uppercase tracking-widest"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-lg"
+                        >
+                            verified
+                        </span>
+
+                        Trusted Sources
+
+                    </div>
+
+
+                    <h2
+                        class="mt-2 text-3xl md:text-4xl font-extrabold text-primary"
+                    >
+                        Check the Original Source
+                    </h2>
+
+
+                    <p
+                        class="mt-2 text-base md:text-lg text-on-surface-variant max-w-2xl leading-relaxed"
+                    >
+                        ScamSense summarizes selected security information,
+                        but the original advisory should always be treated as
+                        the authoritative source.
+                    </p>
+
+                </div>
+
+
+                <div class="flex flex-wrap gap-3">
+
+                    <a
+                        href="https://www.cert-in.org.in/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-interactive px-6 py-3 rounded-full bg-tertiary text-white font-bold"
+                    >
+                        CERT-In
+                    </a>
+
+
+                    <a
+                        href="https://www.cybercrime.gov.in/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-interactive px-6 py-3 rounded-full bg-secondary text-white font-bold"
+                    >
+                        Cyber Crime Portal
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SAFETY CTA
+        ====================================================== -->
+
+        <section
+            class="ambient-card bg-gradient-to-br from-tertiary-container via-primary-container to-secondary-container rounded-3xl p-8 md:p-12 text-center border border-tertiary/10 animate-slide-bottom delay-300"
+        >
+
+            <div
+                class="w-16 h-16 bg-surface rounded-2xl shadow-lg flex items-center justify-center mx-auto animate-float"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-4xl"
+                >
+                    shield
+                </span>
+
+            </div>
+
+
+            <h2
+                class="mt-5 text-3xl md:text-4xl font-extrabold text-primary"
+            >
+                Received something suspicious?
+            </h2>
+
+
+            <p
+                class="mt-3 text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto"
+            >
+                Don't interact with it first. Use ScamSense to check the
+                message, screenshot, URL, or QR code.
+            </p>
+
+
+            <div
+                class="mt-7 flex flex-wrap justify-center gap-4"
+            >
+
+                <a
+                    href="message-checker.html"
+                    class="btn-interactive bg-tertiary hover:bg-secondary text-white px-8 py-4 rounded-full font-bold shadow-lg"
+                >
+                    Check a Message
+                </a>
+
+
+                <a
+                    href="url-scanner.html"
+                    class="btn-interactive bg-surface text-primary border-2 border-secondary-container px-8 py-4 rounded-full font-bold shadow-sm"
+                >
+                    Scan a URL
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="bg-surface-container-high w-full py-stack-lg px-margin-mobile md:px-margin-desktop mt-auto border-t border-outline-variant/40"
+    >
+
+        <div
+            class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+        >
+
+            <div>
+
+                <div class="flex items-center gap-2">
+
+                    <span
+                        class="material-symbols-outlined text-primary text-3xl"
+                    >
+                        shield
+                    </span>
+
+                    <span
+                        class="text-2xl font-bold text-primary"
+                    >
+                        ScamSense
+                    </span>
+
+                </div>
+
+
+                <p
+                    class="mt-2 text-sm text-on-surface-variant max-w-md"
+                >
+                    Built for security, transparency, and digital trust.
+                </p>
+
+            </div>
+
+
+            <nav class="flex flex-wrap gap-x-7 gap-y-3">
+
+                <a
+                    href="home.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="font-bold text-tertiary"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness .html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    href="contact-us.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Contact Us
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div
+            class="max-w-container-max mx-auto mt-6 pt-5 border-t border-outline-variant/30 text-sm text-on-surface-variant"
+        >
+            © 2026 ScamSense. All rights reserved. Security information is
+            provided for awareness and should be verified against the original
+            publisher.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+        /* =========================================================
+           LANGUAGE
+        ========================================================== */
+
+        const languageSelector =
+            document.getElementById(
+                "language-selector"
+            );
+
+
+        const savedLanguage =
+            localStorage.getItem(
+                "scamsense-language"
+            );
+
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(
+                savedLanguage
+            )
+        ) {
+
+            languageSelector.value =
+                savedLanguage;
+
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        const mobileMenuBtn =
+            document.getElementById(
+                "mobile-menu-btn"
+            );
+
+
+        const mobileMenu =
+            document.getElementById(
+                "mobile-menu"
+            );
+
+
+        const mobileMenuIcon =
+            document.getElementById(
+                "mobile-menu-icon"
+            );
+
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    mobileMenu.classList.toggle(
+                        "open"
+                    );
+
+
+                mobileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                );
+
+
+                mobileMenuIcon.textContent =
+                    isOpen
+                        ? "close"
+                        : "menu";
+
+            }
+        );
+
+
+        /* =========================================================
+           NEWS FILTER
+        ========================================================== */
+
+        const filterButtons =
+            document.querySelectorAll(
+                ".filter-button"
+            );
+
+
+        const newsItems =
+            document.querySelectorAll(
+                ".news-item"
+            );
+
+
+        const noNews =
+            document.getElementById(
+                "no-news"
+            );
+
+
+        filterButtons.forEach(
+            (button) => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const filter =
+                            button.dataset.filter;
+
+
+                        filterButtons.forEach(
+                            (btn) => {
+
+                                btn.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                        button.classList.add(
+                            "active"
+                        );
+
+
+                        let visibleCount =
+                            0;
+
+
+                        newsItems.forEach(
+                            (item) => {
+
+                                const category =
+                                    item.dataset.category;
+
+
+                                const visible =
+                                    filter === "all" ||
+                                    category === filter;
+
+
+                                item.classList.toggle(
+                                    "news-hidden",
+                                    !visible
+                                );
+
+
+                                if (visible) {
+
+                                    visibleCount++;
+
+                                }
+
+                            }
+                        );
+
+
+                        noNews.classList.toggle(
+                            "hidden",
+                            visibleCount > 0
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
