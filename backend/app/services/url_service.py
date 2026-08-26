@@ -27,6 +27,78 @@ SUSPICIOUS_KEYWORDS = {
 }
 
 
+URL_TRANSLATIONS = {
+    "en": {
+        "invalid": "The provided URL does not appear to be valid.",
+        "suspicious": (
+            "The URL contains one or more characteristics "
+            "that may indicate a suspicious or risky link."
+        ),
+        "clean": (
+            "No obvious suspicious URL characteristics were detected "
+            "by the current rule-based checks."
+        ),
+        "invalid_actions": [
+            "Do not open the URL",
+            "Verify the website address carefully",
+        ],
+        "suspicious_actions": [
+            "Do not enter passwords, OTPs, or banking details",
+            "Verify the website through an official source",
+        ],
+        "clean_actions": [
+            "Still verify the website before sharing sensitive information",
+        ],
+    },
+
+    "hi": {
+        "invalid": "दिया गया URL मान्य नहीं लगता है।",
+        "suspicious": (
+            "इस URL में कुछ ऐसी विशेषताएँ हैं जो इसे "
+            "संदिग्ध या जोखिमपूर्ण बना सकती हैं।"
+        ),
+        "clean": (
+            "वर्तमान नियम-आधारित जांच में URL की कोई स्पष्ट "
+            "संदिग्ध विशेषता नहीं मिली।"
+        ),
+        "invalid_actions": [
+            "URL न खोलें",
+            "वेबसाइट का पता ध्यान से सत्यापित करें",
+        ],
+        "suspicious_actions": [
+            "पासवर्ड, OTP या बैंकिंग जानकारी दर्ज न करें",
+            "आधिकारिक स्रोत से वेबसाइट सत्यापित करें",
+        ],
+        "clean_actions": [
+            "संवेदनशील जानकारी साझा करने से पहले वेबसाइट सत्यापित करें",
+        ],
+    },
+
+    "mr": {
+        "invalid": "दिलेला URL वैध दिसत नाही.",
+        "suspicious": (
+            "या URL मध्ये काही अशी वैशिष्ट्ये आहेत जी "
+            "तो संशयास्पद किंवा धोकादायक असू शकतो असे दर्शवतात."
+        ),
+        "clean": (
+            "सध्याच्या नियम-आधारित तपासणीत URL ची कोणतीही "
+            "स्पष्ट संशयास्पद वैशिष्ट्ये आढळली नाहीत."
+        ),
+        "invalid_actions": [
+            "URL उघडू नका",
+            "वेबसाइटचा पत्ता काळजीपूर्वक तपासा",
+        ],
+        "suspicious_actions": [
+            "पासवर्ड, OTP किंवा बँकिंग माहिती देऊ नका",
+            "अधिकृत स्रोताद्वारे वेबसाइटची पडताळणी करा",
+        ],
+        "clean_actions": [
+            "संवेदनशील माहिती देण्यापूर्वी वेबसाइटची पडताळणी करा",
+        ],
+    },
+}
+
+
 def normalize_url(url: str) -> str:
     """
     Normalize a user-provided URL.
@@ -48,10 +120,14 @@ def normalize_url(url: str) -> str:
 
 def analyze_url(url: str, language: str = "en") -> dict:
     """
-    Perform basic rule-based URL analysis.
+    Perform rule-based URL analysis.
     """
 
     url = normalize_url(url)
+
+    language = language if language in URL_TRANSLATIONS else "en"
+    copy = URL_TRANSLATIONS[language]
+
     parsed_url = urlparse(url)
 
     indicators = []
@@ -84,11 +160,8 @@ def analyze_url(url: str, language: str = "en") -> dict:
                 "is_shortened_url": False,
                 "suspicious_keywords": [],
             },
-            "explanation": "The provided URL does not appear to be valid.",
-            "recommended_actions": [
-                "Do not open the URL",
-                "Verify the website address carefully",
-            ],
+            "explanation": copy["invalid"],
+            "recommended_actions": copy["invalid_actions"],
         }
 
     hostname = parsed_url.hostname or ""
@@ -101,7 +174,9 @@ def analyze_url(url: str, language: str = "en") -> dict:
     try:
         ipaddress.ip_address(hostname)
         uses_ip_address = True
-        indicators.append("IP address used instead of a domain name")
+        indicators.append(
+            "IP address used instead of a domain name"
+        )
     except ValueError:
         pass
 
@@ -165,27 +240,16 @@ def analyze_url(url: str, language: str = "en") -> dict:
     if indicators:
         category = "SUSPICIOUS_URL"
 
-        explanation = (
-            "The URL contains one or more characteristics "
-            "that may indicate a suspicious or risky link."
-        )
+        explanation = copy["suspicious"]
 
-        recommended_actions = [
-            "Do not enter passwords, OTPs, or banking details",
-            "Verify the website through an official source",
-        ]
+        recommended_actions = copy["suspicious_actions"]
 
     else:
         category = "NO_OBVIOUS_INDICATORS"
 
-        explanation = (
-            "No obvious suspicious URL characteristics were detected "
-            "by the current rule-based checks."
-        )
+        explanation = copy["clean"]
 
-        recommended_actions = [
-            "Still verify the website before sharing sensitive information",
-        ]
+        recommended_actions = copy["clean_actions"]
 
     return {
         "url": url,

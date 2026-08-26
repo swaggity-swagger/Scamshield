@@ -1,19 +1,24 @@
-from fastapi import APIRouter, File, UploadFile, HTTPException
+from typing import Literal
 
-from app.services.qr_service import decode_qr
-from app.services.qr_classifier import classify_qr_content
+from fastapi import APIRouter, File, Form, HTTPException, UploadFile
+
 from app.services.analysis_service import analyze_message
+from app.services.qr_classifier import classify_qr_content
+from app.services.qr_service import decode_qr
 from app.services.url_service import analyze_url
 
 
 router = APIRouter(
     prefix="/analysis",
-    tags=["Analysis"]
+    tags=["Analysis"],
 )
 
 
 @router.post("/qr")
-async def analyze_qr(file: UploadFile = File(...)):
+async def analyze_qr(
+    file: UploadFile = File(...),
+    language: Literal["en", "hi", "mr"] = Form("en"),
+):
     allowed_types = {
         "image/jpeg",
         "image/png",
@@ -42,7 +47,10 @@ async def analyze_qr(file: UploadFile = File(...)):
         analysis = analyze_url(decoded_content)
 
     elif content_type == "TEXT":
-        analysis = analyze_message(decoded_content)
+        analysis = analyze_message(
+            decoded_content,
+            language,
+        )
 
     elif content_type == "UPI":
         analysis = {
@@ -57,7 +65,7 @@ async def analyze_qr(file: UploadFile = File(...)):
             "recommended_actions": [
                 "Verify the recipient before making a payment",
                 "Never approve a payment request you did not initiate",
-                "Do not share your UPI PIN"
+                "Do not share your UPI PIN",
             ],
         }
 
@@ -69,13 +77,14 @@ async def analyze_qr(file: UploadFile = File(...)):
             "indicators": [],
             "explanation": "The QR content could not be classified.",
             "recommended_actions": [
-                "Do not act on the QR content until it is verified"
+                "Do not act on the QR content until it is verified",
             ],
         }
 
     return {
         "filename": file.filename,
         "content_type": file.content_type,
+        "language": language,
         "decoded_content": decoded_content,
         "qr_content_type": content_type,
         "analysis": analysis,
