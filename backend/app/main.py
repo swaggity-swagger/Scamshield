@@ -8,6 +8,7 @@ from app.api.routes import evidence
 from app.api.routes import evidence_upload
 from app.api.routes import threat_intelligence
 from app.api.routes import reports
+from app.api.routes import chat
 
 
 app = FastAPI(
@@ -36,6 +37,7 @@ app.include_router(evidence.router)
 app.include_router(evidence_upload.router)
 app.include_router(threat_intelligence.router)
 app.include_router(reports.router)
+app.include_router(chat.router)
 
 
 @app.get("/")
