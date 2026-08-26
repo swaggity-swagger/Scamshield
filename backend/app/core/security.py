@@ -1,44 +1,164 @@
+import base64
+import hashlib
+import hmac
+import secrets
 from datetime import datetime, timedelta, timezone
 
 import jwt
-from pwdlib import PasswordHash
 
 from app.core.config import JWT_SECRET
 
 
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+# ============================================================
+# JWT CONFIGURATION
+# ============================================================
 
-password_hasher = PasswordHash.recommended()
+# HS256 is used with your existing JWT_SECRET.
+ALGORITHM = "HS256"
+
+# Default JWT lifetime.
+ACCESS_TOKEN_EXPIRE_HOURS = 60
+
+
+# ============================================================
+# PASSWORD HASHING
+# ============================================================
+
+# PBKDF2-HMAC-SHA256 uses Python's standard library.
+# This avoids Argon2 DLL problems on your Windows machine.
+PBKDF2_ITERATIONS = 600_000
+SALT_LENGTH = 16
+KEY_LENGTH = 32
 
 
 def hash_password(password: str) -> str:
-    return password_hasher.hash(password)
+    """
+    Hash a password using PBKDF2-HMAC-SHA256.
+
+    Stored format:
+        pbkdf2_sha256$iterations$salt$key
+    """
+
+    salt = secrets.token_bytes(SALT_LENGTH)
+
+    derived_key = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode("utf-8"),
+        salt,
+        PBKDF2_ITERATIONS,
+        dklen=KEY_LENGTH,
+    )
+
+    salt_b64 = base64.urlsafe_b64encode(
+        salt
+    ).decode("ascii")
+
+    key_b64 = base64.urlsafe_b64encode(
+        derived_key
+    ).decode("ascii")
+
+    return (
+        f"pbkdf2_sha256${PBKDF2_ITERATIONS}"
+        f"${salt_b64}${key_b64}"
+    )
 
 
 def verify_password(
     password: str,
-    hashed_password: str,
+    stored_hash: str,
 ) -> bool:
-    return password_hasher.verify(
-        password,
-        hashed_password,
-    )
+    """
+    Verify a password against a PBKDF2-HMAC-SHA256 hash.
+    """
+
+    try:
+        (
+            algorithm,
+            iterations,
+            salt_b64,
+            key_b64,
+        ) = stored_hash.split("$")
+
+        if algorithm != "pbkdf2_sha256":
+            return False
+
+        salt = base64.urlsafe_b64decode(
+            salt_b64.encode("ascii")
+        )
+
+        expected_key = base64.urlsafe_b64decode(
+            key_b64.encode("ascii")
+        )
+
+        actual_key = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode("utf-8"),
+            salt,
+            int(iterations),
+            dklen=len(expected_key),
+        )
+
+        return hmac.compare_digest(
+            actual_key,
+            expected_key,
+        )
+
+    except (
+        ValueError,
+        TypeError,
+        UnicodeError,
+    ):
+        return False
 
 
-def create_access_token(user_id: int) -> str:
-    expires_at = (
+# ============================================================
+# JWT TOKEN CREATION
+# ============================================================
+
+def create_access_token(
+    data: dict,
+    expires_delta: timedelta | None = None,
+) -> str:
+    """
+    Create a signed JWT access token.
+    """
+
+    payload = data.copy()
+
+    if expires_delta is None:
+        expires_delta = timedelta(
+            hours=ACCESS_TOKEN_EXPIRE_HOURS
+        )
+
+    expire = (
         datetime.now(timezone.utc)
-        + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        + expires_delta
     )
 
-    payload = {
-        "sub": str(user_id),
-        "exp": expires_at,
-    }
+    payload["exp"] = expire
 
     return jwt.encode(
         payload,
         JWT_SECRET,
         algorithm=ALGORITHM,
+    )
+
+
+# ============================================================
+# JWT TOKEN DECODING
+# ============================================================
+
+def decode_access_token(
+    token: str,
+) -> dict:
+    """
+    Decode and validate a JWT access token.
+
+    Raises jwt.InvalidTokenError when invalid/expired.
+    """
+
+    return jwt.decode(
+        token,
+        JWT_SECRET,
+        algorithms=[ALGORITHM],
     )

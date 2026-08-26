@@ -67,7 +67,9 @@ def login(
             },
         )
 
-    token = create_access_token(user.id)
+    token = create_access_token(
+    {"sub": str(user.id)}
+)
 
     return {
         "access_token": token,
