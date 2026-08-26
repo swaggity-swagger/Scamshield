@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 
 from app.schemas.analysis import (
+    TextAnalysisRequest,
     TextAnalysisResponse,
     URLAnalysisRequest,
     URLAnalysisResponse,
@@ -12,12 +13,8 @@ from app.services.url_service import analyze_url
 
 router = APIRouter(
     prefix="/analysis",
-    tags=["Analysis"]
+    tags=["Analysis"],
 )
-
-
-class TextAnalysisRequest(BaseModel):
-    message: str
 
 
 @router.post("/text", response_model=TextAnalysisResponse)
@@ -32,5 +29,4 @@ def analyze_text(data: TextAnalysisRequest):
 def analyze_url_endpoint(data: URLAnalysisRequest):
     return analyze_url(
         data.url,
-        data.language,
     )
