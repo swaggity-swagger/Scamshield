@@ -1,0 +1,2842 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Screenshot Analyzer - ScamSense</title>
+
+    <!-- =========================================================
+         TAILWIND
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         TAILWIND CONFIG
+    ========================================================== -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#001f24",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "secondary-fixed-dim": "#adccd2",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "on-background": "#1f1b17",
+                        "surface-tint": "#635e56",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f8efe8",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "surface-bright": "#fff8f4",
+                        "on-primary-container": "#6e6961",
+                        "tertiary-container": "#efe7ff",
+                        "surface-container-highest": "#eae1da",
+                        "secondary": "#466368",
+                        "background": "#fff8f4",
+                        "on-surface": "#1f1b17",
+                        "surface-variant": "#eae1da",
+                        "primary": "#635e56",
+                        "outline-variant": "#cdc5bc",
+                        "on-secondary-container": "#4a676d",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "on-surface-variant": "#4b463f",
+                        "on-primary-fixed": "#1e1b15",
+                        "inverse-primary": "#cdc5bc",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#fbf2eb",
+                        "secondary-fixed": "#c9e8ee",
+                        "on-tertiary-container": "#6e6298",
+                        "primary-container": "#f2eae0",
+                        "outline": "#7c766e",
+                        "surface-container-high": "#f0e7df",
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4e4376",
+                        "tertiary-fixed": "#e7deff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface": "#fff8f4",
+                        "surface-container": "#f5ece5",
+                        "primary-fixed": "#e9e1d7",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "secondary-container": "#c6e5eb",
+                        "inverse-surface": "#34302b",
+                        "surface-dim": "#e1d8d2",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#1e1244"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+                    },
+
+                    spacing: {
+                        "margin-desktop": "72px",
+                        "stack-lg": "56px",
+                        "stack-sm": "16px",
+                        gutter: "28px",
+                        unit: "10px",
+                        "margin-mobile": "24px",
+                        "container-max": "1320px",
+                        "stack-md": "32px"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        /* =========================================================
+           BASE
+        ========================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: #F2EAE0;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        .filled-icon {
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        /* =========================================================
+           CARD SHADOW
+        ========================================================== */
+
+        .ambient-card {
+            box-shadow: 0 4px 24px rgba(74, 69, 64, 0.06);
+
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+        }
+
+        .ambient-card:hover {
+            box-shadow: 0 16px 40px rgba(98, 87, 140, 0.16);
+            transform: translateY(-4px);
+        }
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromTop {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes floatSlow {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(3deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(98, 87, 140, 0.45);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 28px 8px rgba(98, 87, 140, 0.22);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes bounceSubtle {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes rotateSpinner {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shimmerWave {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @keyframes dotPulse {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.4);
+                opacity: 0.3;
+            }
+
+            40% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* =========================================================
+           ANIMATION UTILITIES
+        ========================================================== */
+
+        .animate-page-load {
+            animation: pageFadeIn 0.8s ease-out forwards;
+        }
+
+        .animate-slide-top {
+            animation:
+                slideFromTop 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-bottom {
+            animation:
+                slideFromBottom 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-left {
+            animation:
+                slideFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-slide-right {
+            animation:
+                slideFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2.8s infinite ease-in-out;
+        }
+
+        .animate-bounce-subtle {
+            animation: bounceSubtle 2.5s infinite ease-in-out;
+        }
+
+        .spin-circle {
+            animation: rotateSpinner 1.2s linear infinite;
+        }
+
+        /* =========================================================
+           SHIMMER
+        ========================================================== */
+
+        .shimmer-element {
+            background: linear-gradient(
+                90deg,
+                #eae1da 25%,
+                #ffffff 50%,
+                #eae1da 75%
+            );
+
+            background-size: 200% 100%;
+            animation: shimmerWave 1.8s infinite linear;
+        }
+
+        /* =========================================================
+           LOADING DOTS
+        ========================================================== */
+
+        .dot-1 {
+            animation: dotPulse 1.4s infinite ease-in-out;
+        }
+
+        .dot-2 {
+            animation: dotPulse 1.4s infinite ease-in-out 0.2s;
+        }
+
+        .dot-3 {
+            animation: dotPulse 1.4s infinite ease-in-out 0.4s;
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================== */
+
+        .btn-interactive {
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease;
+        }
+
+        .btn-interactive:hover {
+            border-radius: 1.25rem;
+            transform: scale(1.03);
+        }
+
+        .btn-interactive:active {
+            transform: scale(0.97);
+        }
+
+        /* =========================================================
+           DROP ZONE
+        ========================================================== */
+
+        .drop-zone-active {
+            border-color: #62578c !important;
+            background-color: rgba(245, 236, 229, 0.8) !important;
+            transform: scale(1.01);
+        }
+
+        /* =========================================================
+           RISK STYLES
+        ========================================================== */
+
+        .risk-low {
+            border-top-color: #059669 !important;
+        }
+
+        .risk-low .risk-icon-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #047857;
+        }
+
+        .risk-low .risk-meta {
+            color: #047857;
+        }
+
+        .risk-medium {
+            border-top-color: #d97706 !important;
+        }
+
+        .risk-medium .risk-icon-box {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #b45309;
+        }
+
+        .risk-medium .risk-meta {
+            color: #b45309;
+        }
+
+        .risk-high {
+            border-top-color: #ea580c !important;
+        }
+
+        .risk-high .risk-icon-box {
+            background-color: rgba(249, 115, 22, 0.1);
+            color: #c2410c;
+        }
+
+        .risk-high .risk-meta {
+            color: #c2410c;
+        }
+
+        .risk-critical {
+            border-top-color: #ba1a1a !important;
+        }
+
+        .risk-critical .risk-icon-box {
+            background-color: rgba(186, 26, 26, 0.1);
+            color: #ba1a1a;
+        }
+
+        .risk-critical .risk-meta {
+            color: #ba1a1a;
+        }
+
+        .risk-unknown {
+            border-top-color: #7c766e !important;
+        }
+
+        .risk-unknown .risk-icon-box {
+            background-color: rgba(124, 118, 110, 0.1);
+            color: #4b463f;
+        }
+
+        .risk-unknown .risk-meta {
+            color: #4b463f;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================== */
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+
+<body
+    class="bg-primary-container min-h-screen flex flex-col text-on-surface antialiased pt-20 animate-page-load"
+>
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <header
+        class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface/90 backdrop-blur-md shadow-sm border-b-2 border-secondary-container transition-all duration-300 animate-slide-top"
+    >
+
+        <div class="flex items-center gap-gutter">
+
+            <a
+                href="home.html"
+                class="flex items-center gap-2 group"
+            >
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight transition-colors duration-300 group-hover:text-tertiary"
+                >
+                    ScamSense
+                </span>
+            </a>
+
+
+            <nav class="hidden lg:flex gap-2 ml-4">
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                    href="home.html"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                    href="help-desk.html"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                    href="resource.html"
+                >
+                    Resources
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                    href="media.html"
+                >
+                    Media
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                    href="awareness%20.html"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3.5 py-2 rounded-xl transition-all duration-300"
+                    href="our-mission.html"
+                >
+                    Our Mission
+                </a>
+
+            </nav>
+        </div>
+
+
+        <div class="flex items-center gap-4">
+
+            <label
+                for="language-selector"
+                class="sr-only"
+            >
+                Select language
+            </label>
+
+            <select
+                id="language-selector"
+                class="bg-transparent border-0 text-on-surface-variant font-semibold focus:ring-0 cursor-pointer"
+                aria-label="Select language"
+            >
+                <option value="en">EN</option>
+                <option value="hi">हिन्दी</option>
+                <option value="mr">मराठी</option>
+            </select>
+
+
+            <a
+                href="login.html"
+                class="btn-interactive bg-tertiary hover:bg-secondary text-on-tertiary px-8 py-3 rounded-full font-bold text-base shadow-md hover:shadow-xl flex items-center justify-center"
+            >
+                Login
+            </a>
+
+        </div>
+    </header>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main
+        class="flex-grow max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-stack-lg"
+    >
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section
+            class="text-center max-w-4xl mx-auto space-y-4 relative animate-slide-top delay-100"
+        >
+
+            <div
+                class="absolute -top-12 left-1/2 -translate-x-1/2 w-80 h-80 bg-tertiary/10 rounded-full blur-3xl -z-10"
+                aria-hidden="true"
+            ></div>
+
+
+            <div
+                class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 backdrop-blur-sm shadow-sm"
+            >
+
+                <span class="relative flex h-3 w-3">
+
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                    ></span>
+
+                    <span
+                        class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                    ></span>
+
+                </span>
+
+                <span
+                    class="text-xs md:text-sm font-bold text-on-surface-variant tracking-wider uppercase"
+                >
+                    OCR & Scam Analysis Active
+                </span>
+
+            </div>
+
+
+            <h1
+                class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-on-background tracking-tight"
+            >
+                Screenshot Analyzer
+            </h1>
+
+
+            <p
+                class="text-lg md:text-xl text-on-surface-variant leading-relaxed"
+            >
+                Upload a screenshot of a suspicious message, email, social
+                media post, or payment request. ScamSense extracts the text
+                with OCR and checks it for scam and fraud indicators.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             UPLOAD
+        ====================================================== -->
+
+        <section
+            id="drop-zone"
+            class="ambient-card bg-surface-container-lowest rounded-3xl p-10 border-2 border-dashed border-outline-variant/80 flex flex-col items-center justify-center min-h-[320px] gap-6 cursor-pointer hover:border-tertiary hover:bg-surface-container-low/50 transition-all duration-300 group animate-slide-bottom delay-200"
+        >
+
+            <input
+                type="file"
+                id="file-input"
+                class="hidden"
+                accept="image/png,image/jpeg,image/webp"
+            >
+
+
+            <div
+                class="w-20 h-20 rounded-3xl bg-tertiary/10 text-tertiary flex items-center justify-center group-hover:scale-110 group-hover:bg-tertiary group-hover:text-white transition-all duration-300 animate-float"
+            >
+                <span class="material-symbols-outlined text-5xl">
+                    cloud_upload
+                </span>
+            </div>
+
+
+            <div class="text-center space-y-1">
+
+                <p class="text-2xl font-bold text-on-surface">
+                    Drag and drop your screenshot here
+                </p>
+
+                <p class="text-base text-on-surface-variant font-medium">
+                    Supports PNG, JPG, JPEG, and WebP • Maximum 15 MB
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="upload-btn"
+                class="btn-interactive bg-tertiary hover:bg-secondary text-on-primary font-bold text-lg px-10 h-[60px] rounded-full shadow-lg hover:shadow-2xl flex items-center justify-center gap-3 animate-pulse-glow"
+            >
+                <span class="material-symbols-outlined text-2xl">
+                    add_photo_alternate
+                </span>
+
+                <span>
+                    Select & Analyze Screenshot
+                </span>
+            </button>
+
+
+            <p
+                id="upload-error"
+                class="hidden text-error text-sm font-semibold text-center max-w-lg"
+            ></p>
+
+        </section>
+
+
+        <!-- =====================================================
+             FILE PREVIEW BEFORE ANALYSIS
+        ====================================================== -->
+
+        <section
+            id="preview-section"
+            class="hidden ambient-card bg-surface-container-lowest rounded-3xl p-6 md:p-8 border border-surface-variant"
+        >
+
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-5">
+
+                <div>
+
+                    <h2
+                        class="text-2xl font-bold text-on-surface flex items-center gap-2"
+                    >
+                        <span class="material-symbols-outlined text-tertiary">
+                            image
+                        </span>
+
+                        Preview
+                    </h2>
+
+                    <p
+                        id="selected-file-name"
+                        class="text-sm text-on-surface-variant mt-1"
+                    ></p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="change-file-btn"
+                    class="btn-interactive border border-outline-variant bg-surface-container-high px-5 py-2.5 rounded-full font-semibold text-sm text-primary"
+                >
+                    Change Screenshot
+                </button>
+
+            </div>
+
+
+            <div
+                class="rounded-2xl overflow-hidden bg-surface-variant/70 border border-outline-variant/40 flex items-center justify-center"
+            >
+
+                <img
+                    id="preview-img"
+                    class="max-h-[520px] max-w-full object-contain"
+                    alt="Selected screenshot preview"
+                >
+
+            </div>
+
+
+            <div class="flex justify-center mt-6">
+
+                <button
+                    type="button"
+                    id="analyze-selected-btn"
+                    class="btn-interactive bg-tertiary hover:bg-secondary text-white px-8 py-3.5 rounded-full font-bold shadow-lg flex items-center gap-2"
+                >
+
+                    <span class="material-symbols-outlined">
+                        document_scanner
+                    </span>
+
+                    Analyze This Screenshot
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LOADING STATE
+        ====================================================== -->
+
+        <div
+            id="loading-state"
+            class="hidden flex-col gap-stack-md animate-slide-bottom"
+        >
+
+            <div
+                class="ambient-card bg-surface-container-lowest rounded-3xl p-8 md:p-10 border border-tertiary/30 flex flex-col items-center justify-center text-center"
+            >
+
+                <div
+                    class="relative w-20 h-20 mb-4 flex items-center justify-center"
+                >
+
+                    <svg
+                        class="w-full h-full spin-circle"
+                        viewBox="0 0 100 100"
+                        aria-hidden="true"
+                    >
+
+                        <circle
+                            class="text-surface-variant stroke-current"
+                            stroke-width="8"
+                            cx="50"
+                            cy="50"
+                            r="40"
+                            fill="transparent"
+                        ></circle>
+
+                        <circle
+                            class="text-tertiary stroke-current"
+                            stroke-width="8"
+                            stroke-linecap="round"
+                            cx="50"
+                            cy="50"
+                            r="40"
+                            fill="transparent"
+                            stroke-dasharray="251.2"
+                            stroke-dashoffset="75"
+                        ></circle>
+
+                    </svg>
+
+
+                    <span
+                        class="material-symbols-outlined text-tertiary text-3xl absolute animate-pulse"
+                    >
+                        document_scanner
+                    </span>
+
+                </div>
+
+
+                <h3
+                    class="text-2xl md:text-3xl font-extrabold text-on-surface mb-2 flex items-center gap-2"
+                >
+
+                    <span>
+                        Reading & Analyzing Screenshot
+                    </span>
+
+                    <span class="inline-flex gap-1 ml-1 text-tertiary">
+
+                        <span
+                            class="w-2.5 h-2.5 rounded-full bg-tertiary dot-1"
+                        ></span>
+
+                        <span
+                            class="w-2.5 h-2.5 rounded-full bg-tertiary dot-2"
+                        ></span>
+
+                        <span
+                            class="w-2.5 h-2.5 rounded-full bg-tertiary dot-3"
+                        ></span>
+
+                    </span>
+
+                </h3>
+
+
+                <p
+                    class="text-base text-on-surface-variant max-w-lg mb-6"
+                >
+                    Extracting readable text with OCR and checking it for scam
+                    patterns and other fraud indicators.
+                </p>
+
+
+                <div
+                    class="w-full max-w-md bg-surface-variant h-3.5 rounded-full overflow-hidden p-0.5 border border-outline-variant/30"
+                >
+
+                    <div
+                        id="progress-bar-fill"
+                        class="h-full bg-gradient-to-r from-tertiary via-secondary to-tertiary rounded-full transition-all duration-300"
+                        style="width: 10%;"
+                    ></div>
+
+                </div>
+
+
+                <span
+                    id="progress-text"
+                    class="text-sm font-bold text-tertiary mt-2"
+                >
+                    Preparing upload...
+                </span>
+
+            </div>
+
+
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-gutter"
+            >
+
+                <div
+                    class="ambient-card bg-surface-container-lowest rounded-3xl p-8 space-y-4"
+                >
+
+                    <div
+                        class="h-8 w-48 rounded-lg shimmer-element"
+                    ></div>
+
+                    <div
+                        class="h-[360px] w-full rounded-2xl shimmer-element"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    class="ambient-card bg-surface-container-lowest rounded-3xl p-8 space-y-4"
+                >
+
+                    <div class="flex justify-between items-center">
+
+                        <div
+                            class="h-8 w-56 rounded-lg shimmer-element"
+                        ></div>
+
+                        <div
+                            class="h-10 w-36 rounded-full shimmer-element"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="h-20 w-full rounded-xl shimmer-element mt-4"
+                    ></div>
+
+
+                    <div class="space-y-3 pt-2">
+
+                        <div
+                            class="h-10 w-full rounded-lg shimmer-element"
+                        ></div>
+
+                        <div
+                            class="h-10 w-full rounded-lg shimmer-element"
+                        ></div>
+
+                        <div
+                            class="h-10 w-full rounded-lg shimmer-element"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             ERROR STATE
+        ====================================================== -->
+
+        <section
+            id="error-state"
+            class="hidden ambient-card bg-surface rounded-3xl p-8 md:p-10 border border-error/30"
+        >
+
+            <div class="flex items-start gap-4">
+
+                <div
+                    class="w-12 h-12 rounded-full bg-error/10 text-error flex items-center justify-center shrink-0"
+                >
+                    <span class="material-symbols-outlined text-2xl">
+                        error
+                    </span>
+                </div>
+
+
+                <div>
+
+                    <h3
+                        class="text-xl font-bold text-on-surface"
+                    >
+                        Unable to analyze screenshot
+                    </h3>
+
+                    <p
+                        id="error-message"
+                        class="text-base text-on-surface-variant mt-1"
+                    >
+                        Please try again.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="flex flex-wrap gap-3 mt-6">
+
+                <button
+                    type="button"
+                    id="retry-btn"
+                    class="bg-tertiary text-white px-6 py-3 rounded-full font-bold hover:shadow-lg transition-all"
+                >
+                    Try Again
+                </button>
+
+
+                <button
+                    type="button"
+                    id="error-change-file-btn"
+                    class="bg-surface-container-high text-primary px-6 py-3 rounded-full font-bold border border-outline-variant"
+                >
+                    Choose Another Image
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RESULTS
+        ====================================================== -->
+
+        <section
+            id="results-section"
+            class="hidden grid grid-cols-1 md:grid-cols-2 gap-gutter"
+        >
+
+            <!-- LEFT: IMAGE -->
+            <div
+                class="ambient-card bg-surface-container-lowest rounded-3xl p-6 md:p-8 flex flex-col gap-4 border border-surface-variant animate-slide-left"
+            >
+
+                <div
+                    class="flex items-center justify-between gap-3"
+                >
+
+                    <h2
+                        class="text-2xl font-bold text-on-surface flex items-center gap-2"
+                    >
+
+                        <span class="material-symbols-outlined text-tertiary">
+                            image
+                        </span>
+
+                        <span>
+                            Uploaded Screenshot
+                        </span>
+
+                    </h2>
+
+
+                    <span
+                        class="text-xs font-semibold px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full"
+                    >
+                        OCR Processed
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="bg-surface-variant/70 rounded-2xl overflow-hidden flex items-center justify-center border border-outline-variant/40 group relative"
+                >
+
+                    <img
+                        id="result-preview-img"
+                        class="object-contain w-full max-h-[500px] transition-transform duration-700 group-hover:scale-[1.02]"
+                        alt="Analyzed screenshot"
+                    >
+
+                </div>
+
+
+                <p
+                    id="result-file-name"
+                    class="text-sm text-on-surface-variant truncate"
+                ></p>
+
+            </div>
+
+
+            <!-- RIGHT: REPORT -->
+            <div
+                class="ambient-card bg-surface-container-lowest rounded-3xl p-6 md:p-8 flex flex-col gap-6 border border-surface-variant animate-slide-right"
+            >
+
+                <div
+                    class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-surface-variant pb-4"
+                >
+
+                    <h2
+                        class="text-2xl md:text-3xl font-extrabold text-on-surface flex items-center gap-2.5"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-tertiary text-3xl"
+                        >
+                            analytics
+                        </span>
+
+                        <span>
+                            Analysis Report
+                        </span>
+
+                    </h2>
+
+
+                    <div
+                        id="risk-badge"
+                        class="px-5 py-2.5 rounded-full font-bold text-base flex items-center gap-2 shadow-lg shrink-0"
+                    >
+
+                        <span
+                            id="risk-badge-icon"
+                            class="material-symbols-outlined filled-icon text-xl"
+                        >
+                            help
+                        </span>
+
+                        <span id="risk-badge-text">
+                            Risk: Unknown
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OCR Text -->
+                <div class="flex flex-col gap-2">
+
+                    <h3
+                        class="text-sm font-bold text-on-surface-variant uppercase tracking-wider"
+                    >
+                        Detected OCR Text
+                    </h3>
+
+
+                    <div
+                        id="ocr-text"
+                        class="bg-surface-variant/80 p-4 rounded-2xl font-mono text-base text-on-surface border border-outline-variant/40 shadow-inner max-h-[280px] overflow-y-auto whitespace-pre-wrap break-words"
+                    >
+                        No readable text found.
+                    </div>
+
+                </div>
+
+
+                <!-- Risk / Category -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <div
+                        class="bg-surface-container-low rounded-2xl p-5 border border-surface-variant"
+                    >
+
+                        <p
+                            class="text-sm font-bold uppercase tracking-wider text-on-surface-variant"
+                        >
+                            Scam Category
+                        </p>
+
+                        <p
+                            id="result-category"
+                            class="text-lg font-bold text-on-surface mt-2"
+                        >
+                            -
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="bg-surface-container-low rounded-2xl p-5 border border-surface-variant"
+                    >
+
+                        <p
+                            class="text-sm font-bold uppercase tracking-wider text-on-surface-variant"
+                        >
+                            Confidence
+                        </p>
+
+                        <p
+                            id="result-confidence"
+                            class="text-lg font-bold text-tertiary mt-2"
+                        >
+                            -
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Explanation -->
+                <div
+                    class="bg-surface-container-low rounded-2xl p-5 border border-surface-variant"
+                >
+
+                    <h3
+                        class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-2"
+                    >
+                        Analysis Summary
+                    </h3>
+
+                    <p
+                        id="result-summary"
+                        class="text-base text-on-surface leading-relaxed"
+                    >
+                        -
+                    </p>
+
+                </div>
+
+
+                <!-- Findings -->
+                <div class="flex flex-col gap-3">
+
+                    <h3
+                        class="text-sm font-bold text-on-surface-variant uppercase tracking-wider"
+                    >
+                        Detected Indicators
+                    </h3>
+
+
+                    <div
+                        id="findings-list"
+                        class="flex flex-col gap-3"
+                    >
+
+                        <p class="text-base text-on-surface-variant">
+                            No specific indicators detected.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Recommended Actions -->
+                <div
+                    class="bg-secondary-container/40 text-on-secondary-container p-6 rounded-2xl flex gap-4 items-start border-2 border-secondary-fixed-dim/60 shadow-sm"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-secondary text-3xl filled-icon shrink-0"
+                    >
+                        verified_user
+                    </span>
+
+
+                    <div>
+
+                        <h4 class="text-xl font-bold mb-2">
+                            Recommended Actions
+                        </h4>
+
+
+                        <div
+                            id="actions-list"
+                            class="space-y-2"
+                        >
+
+                            <p class="text-base font-semibold">
+                                Verify the message through an official source.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             EMERGENCY CTA
+        ====================================================== -->
+
+        <section
+            id="emergency-section"
+            class="hidden flex justify-center mt-2 animate-slide-bottom"
+        >
+
+            <a
+                class="btn-interactive border-2 border-secondary-container bg-surface-container-lowest hover:bg-surface-container-high text-on-surface font-bold text-lg px-10 min-h-[62px] rounded-full shadow-sm hover:shadow-lg flex items-center justify-center gap-3"
+                href="Incident-evidence.html"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-2xl animate-bounce-subtle"
+                >
+                    health_and_safety
+                </span>
+
+                <span>
+                    Already interacted with this? Start Incident Response
+                </span>
+
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col gap-stack-md bg-surface-container-high mt-auto border-t border-outline-variant/40"
+    >
+
+        <div
+            class="max-w-container-max mx-auto w-full flex flex-col md:flex-row justify-between items-start gap-stack-lg border-b border-outline-variant/30 pb-stack-lg"
+        >
+
+            <div class="flex flex-col gap-3 max-w-sm">
+
+                <div class="flex items-center gap-2">
+
+                    <span class="material-symbols-outlined text-primary text-3xl">
+                        shield
+                    </span>
+
+                    <span
+                        class="text-2xl font-bold text-primary"
+                    >
+                        ScamSense
+                    </span>
+
+                </div>
+
+
+                <p
+                    class="text-base text-on-surface opacity-80 leading-relaxed"
+                >
+                    Protecting digital users through intuitive security tools
+                    designed for clarity, safety, and trust.
+                </p>
+
+            </div>
+
+
+            <nav
+                class="grid grid-cols-2 md:grid-cols-3 gap-x-12 gap-y-3"
+            >
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="home.html"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="our-mission.html"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="help-desk.html"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="resource.html"
+                >
+                    Resources
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="media.html"
+                >
+                    Media
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="awareness%20.html"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="history.html"
+                >
+                    History
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="contact-us.html"
+                >
+                    Contact Us
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div
+            class="max-w-container-max mx-auto w-full text-sm text-on-surface-variant"
+        >
+            © 2026 ScamSense AI Security. All rights reserved. Built for security and trust.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+        /*
+         * ========================================================
+         * CONFIGURATION
+         * ========================================================
+         */
+
+        const API_BASE_URL =
+            "http://127.0.0.1:8000";
+
+
+        /*
+         * ========================================================
+         * ELEMENTS
+         * ========================================================
+         */
+
+        const dropZone =
+            document.getElementById("drop-zone");
+
+        const fileInput =
+            document.getElementById("file-input");
+
+        const uploadBtn =
+            document.getElementById("upload-btn");
+
+        const previewSection =
+            document.getElementById("preview-section");
+
+        const previewImg =
+            document.getElementById("preview-img");
+
+        const selectedFileName =
+            document.getElementById("selected-file-name");
+
+        const changeFileBtn =
+            document.getElementById("change-file-btn");
+
+        const analyzeSelectedBtn =
+            document.getElementById("analyze-selected-btn");
+
+        const loadingState =
+            document.getElementById("loading-state");
+
+        const resultsSection =
+            document.getElementById("results-section");
+
+        const errorState =
+            document.getElementById("error-state");
+
+        const errorMessage =
+            document.getElementById("error-message");
+
+        const retryBtn =
+            document.getElementById("retry-btn");
+
+        const errorChangeFileBtn =
+            document.getElementById("error-change-file-btn");
+
+        const uploadError =
+            document.getElementById("upload-error");
+
+        const progressBarFill =
+            document.getElementById("progress-bar-fill");
+
+        const progressText =
+            document.getElementById("progress-text");
+
+        const languageSelector =
+            document.getElementById("language-selector");
+
+        const resultPreviewImg =
+            document.getElementById("result-preview-img");
+
+        const resultFileName =
+            document.getElementById("result-file-name");
+
+        const ocrText =
+            document.getElementById("ocr-text");
+
+        const riskBadge =
+            document.getElementById("risk-badge");
+
+        const riskBadgeIcon =
+            document.getElementById("risk-badge-icon");
+
+        const riskBadgeText =
+            document.getElementById("risk-badge-text");
+
+        const resultCategory =
+            document.getElementById("result-category");
+
+        const resultConfidence =
+            document.getElementById("result-confidence");
+
+        const resultSummary =
+            document.getElementById("result-summary");
+
+        const findingsList =
+            document.getElementById("findings-list");
+
+        const actionsList =
+            document.getElementById("actions-list");
+
+        const emergencySection =
+            document.getElementById("emergency-section");
+
+
+        /*
+         * ========================================================
+         * STATE
+         * ========================================================
+         */
+
+        let selectedFile = null;
+
+
+        /*
+         * ========================================================
+         * LANGUAGE
+         * ========================================================
+         */
+
+        const savedLanguage =
+            localStorage.getItem(
+                "scamsense-language"
+            );
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(savedLanguage)
+        ) {
+            languageSelector.value =
+                savedLanguage;
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * OPEN FILE PICKER
+         * ========================================================
+         */
+
+        uploadBtn.addEventListener(
+            "click",
+            (event) => {
+
+                event.stopPropagation();
+
+                fileInput.click();
+
+            }
+        );
+
+
+        dropZone.addEventListener(
+            "click",
+            () => {
+
+                fileInput.click();
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * CHANGE FILE
+         * ========================================================
+         */
+
+        changeFileBtn.addEventListener(
+            "click",
+            (event) => {
+
+                event.stopPropagation();
+
+                fileInput.click();
+
+            }
+        );
+
+
+        errorChangeFileBtn.addEventListener(
+            "click",
+            () => {
+
+                fileInput.click();
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * FILE INPUT
+         * ========================================================
+         */
+
+        fileInput.addEventListener(
+            "change",
+            () => {
+
+                if (
+                    fileInput.files &&
+                    fileInput.files.length > 0
+                ) {
+
+                    handleFile(
+                        fileInput.files[0]
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * DRAG OVER
+         * ========================================================
+         */
+
+        dropZone.addEventListener(
+            "dragover",
+            (event) => {
+
+                event.preventDefault();
+
+                dropZone.classList.add(
+                    "drop-zone-active"
+                );
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * DRAG LEAVE
+         * ========================================================
+         */
+
+        dropZone.addEventListener(
+            "dragleave",
+            () => {
+
+                dropZone.classList.remove(
+                    "drop-zone-active"
+                );
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * DROP
+         * ========================================================
+         */
+
+        dropZone.addEventListener(
+            "drop",
+            (event) => {
+
+                event.preventDefault();
+
+                dropZone.classList.remove(
+                    "drop-zone-active"
+                );
+
+
+                const file =
+                    event.dataTransfer.files?.[0];
+
+
+                if (file) {
+
+                    handleFile(
+                        file
+                    );
+
+                }
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * HANDLE FILE
+         * ========================================================
+         */
+
+        function handleFile(
+            file
+        ) {
+
+            hideUploadError();
+
+
+            if (
+                !isSupportedImage(
+                    file
+                )
+            ) {
+
+                showUploadError(
+                    "Unsupported file type. Please select a PNG, JPG, JPEG, or WebP image."
+                );
+
+                resetFileSelection();
+
+                return;
+
+            }
+
+
+            const maxSize =
+                15 * 1024 * 1024;
+
+
+            if (
+                file.size >
+                maxSize
+            ) {
+
+                showUploadError(
+                    "This image is larger than 15 MB. Please choose a smaller screenshot."
+                );
+
+                resetFileSelection();
+
+                return;
+
+            }
+
+
+            selectedFile =
+                file;
+
+
+            const objectUrl =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            previewImg.src =
+                objectUrl;
+
+
+            resultPreviewImg.src =
+                objectUrl;
+
+
+            selectedFileName.textContent =
+                `${file.name} • ${formatFileSize(file.size)}`;
+
+
+            resultFileName.textContent =
+                file.name;
+
+
+            previewSection.classList.remove(
+                "hidden"
+            );
+
+
+            resultsSection.classList.add(
+                "hidden"
+            );
+
+            emergencySection.classList.add(
+                "hidden"
+            );
+
+            errorState.classList.add(
+                "hidden"
+            );
+
+
+            previewSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+        /*
+         * ========================================================
+         * SUPPORTED IMAGE CHECK
+         * ========================================================
+         */
+
+        function isSupportedImage(
+            file
+        ) {
+
+            const allowedTypes = [
+                "image/png",
+                "image/jpeg",
+                "image/webp"
+            ];
+
+
+            return allowedTypes.includes(
+                file.type
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * ANALYZE SELECTED IMAGE
+         * ========================================================
+         */
+
+        analyzeSelectedBtn.addEventListener(
+            "click",
+            analyzeScreenshot
+        );
+
+
+        retryBtn.addEventListener(
+            "click",
+            analyzeScreenshot
+        );
+
+
+        async function analyzeScreenshot() {
+
+            if (!selectedFile) {
+
+                showUploadError(
+                    "Please choose a screenshot first."
+                );
+
+                return;
+
+            }
+
+
+            hideUploadError();
+
+
+            /*
+             * Hide previous states
+             */
+
+            previewSection.classList.add(
+                "hidden"
+            );
+
+            resultsSection.classList.add(
+                "hidden"
+            );
+
+            errorState.classList.add(
+                "hidden"
+            );
+
+            emergencySection.classList.add(
+                "hidden"
+            );
+
+
+            loadingState.classList.remove(
+                "hidden"
+            );
+
+            loadingState.classList.add(
+                "flex"
+            );
+
+
+            loadingState.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+
+            /*
+             * Visual progress
+             */
+
+            progressBarFill.style.width =
+                "10%";
+
+            progressText.textContent =
+                "Preparing upload...";
+
+
+            let progress =
+                10;
+
+
+            const progressInterval =
+                setInterval(
+                    () => {
+
+                        if (
+                            progress <
+                            80
+                        ) {
+
+                            progress +=
+                                10;
+
+                            progressBarFill.style.width =
+                                `${progress}%`;
+
+                            progressText.textContent =
+                                `${progress}% Complete`;
+
+                        }
+
+                    },
+                    250
+                );
+
+
+            try {
+
+                /*
+                 * ================================================
+                 * FORM DATA
+                 * ================================================
+                 */
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "file",
+                    selectedFile
+                );
+
+
+                /*
+                 * The current backend route accepts the image.
+                 * If your backend also accepts language, this field
+                 * will be used. Extra form fields are harmless for
+                 * the current FastAPI route.
+                 */
+
+                formData.append(
+                    "language",
+                    languageSelector.value
+                );
+
+
+                /*
+                 * ================================================
+                 * REAL BACKEND REQUEST
+                 * ================================================
+                 */
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/analysis/image`,
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                let data;
+
+
+                try {
+
+                    data =
+                        await response.json();
+
+                } catch {
+
+                    throw new Error(
+                        "The backend returned an invalid response."
+                    );
+
+                }
+
+
+                /*
+                 * Backend error
+                 */
+
+                if (
+                    !response.ok
+                ) {
+
+                    const detail =
+                        data?.detail ||
+                        data?.message ||
+                        "Screenshot analysis failed.";
+
+                    throw new Error(
+                        detail
+                    );
+
+                }
+
+
+                /*
+                 * Finish loading
+                 */
+
+                clearInterval(
+                    progressInterval
+                );
+
+
+                progressBarFill.style.width =
+                    "100%";
+
+                progressText.textContent =
+                    "100% Complete - Analysis Ready";
+
+
+                /*
+                 * Render response
+                 */
+
+                renderAnalysisResult(
+                    data
+                );
+
+
+                /*
+                 * Show results
+                 */
+
+                setTimeout(
+                    () => {
+
+                        loadingState.classList.add(
+                            "hidden"
+                        );
+
+                        loadingState.classList.remove(
+                            "flex"
+                        );
+
+                        resultsSection.classList.remove(
+                            "hidden"
+                        );
+
+                        emergencySection.classList.remove(
+                            "hidden"
+                        );
+
+
+                        resultsSection.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    },
+                    350
+                );
+
+
+            } catch (error) {
+
+                clearInterval(
+                    progressInterval
+                );
+
+
+                showError(
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * RENDER ANALYSIS RESULT
+         * ========================================================
+         */
+
+        function renderAnalysisResult(
+            data
+        ) {
+
+            /*
+             * Backend structure:
+             *
+             * {
+             *   filename,
+             *   content_type,
+             *   extracted_text,
+             *   language,
+             *   analysis: {
+             *      risk_level,
+             *      category,
+             *      confidence,
+             *      indicators,
+             *      explanation,
+             *      recommended_actions
+             *   }
+             * }
+             */
+
+            const analysis =
+                data?.analysis ||
+                {};
+
+
+            const extractedText =
+                data?.extracted_text ||
+                "";
+
+
+            const level =
+                String(
+                    analysis.risk_level ||
+                    "UNKNOWN"
+                ).toUpperCase();
+
+
+            /*
+             * Preview
+             */
+
+            if (
+                resultPreviewImg.src === ""
+            ) {
+
+                const previewUrl =
+                    URL.createObjectURL(
+                        selectedFile
+                    );
+
+                resultPreviewImg.src =
+                    previewUrl;
+
+            }
+
+
+            resultFileName.textContent =
+                data?.filename ||
+                selectedFile?.name ||
+                "";
+
+
+            /*
+             * OCR
+             */
+
+            ocrText.textContent =
+                extractedText.trim() ||
+                "No readable text was found in the screenshot.";
+
+
+            /*
+             * Confidence
+             */
+
+            let confidence =
+                analysis.confidence;
+
+
+            if (
+                typeof confidence === "number" &&
+                confidence <= 1
+            ) {
+
+                confidence =
+                    Math.round(
+                        confidence * 100
+                    );
+
+            }
+
+
+            if (
+                typeof confidence === "number"
+            ) {
+
+                confidence =
+                    Math.round(
+                        confidence
+                    );
+
+            }
+
+
+            /*
+             * Risk styling
+             */
+
+            const riskStyles = {
+
+                LOW: {
+                    background: "#059669",
+                    text: "#ffffff",
+                    icon: "check_circle"
+                },
+
+                MEDIUM: {
+                    background: "#d97706",
+                    text: "#ffffff",
+                    icon: "warning"
+                },
+
+                HIGH: {
+                    background: "#ea580c",
+                    text: "#ffffff",
+                    icon: "warning"
+                },
+
+                CRITICAL: {
+                    background: "#ba1a1a",
+                    text: "#ffffff",
+                    icon: "crisis_alert"
+                },
+
+                UNKNOWN: {
+                    background: "#7c766e",
+                    text: "#ffffff",
+                    icon: "help"
+                }
+
+            };
+
+
+            const style =
+                riskStyles[level] ||
+                riskStyles.UNKNOWN;
+
+
+            riskBadge.style.backgroundColor =
+                style.background;
+
+            riskBadge.style.color =
+                style.text;
+
+
+            riskBadgeIcon.textContent =
+                style.icon;
+
+
+            riskBadgeText.textContent =
+                `Risk: ${level}`;
+
+
+            /*
+             * Category
+             */
+
+            resultCategory.textContent =
+                formatCategory(
+                    analysis.category ||
+                    "NO_SPECIFIC_CATEGORY"
+                );
+
+
+            /*
+             * Confidence
+             */
+
+            resultConfidence.textContent =
+                confidence !== null &&
+                confidence !== undefined
+                    ? `${confidence}%`
+                    : "Not available";
+
+
+            /*
+             * Summary
+             */
+
+            resultSummary.textContent =
+                analysis.summary ||
+                analysis.explanation ||
+                "No explanation was returned by the analysis service.";
+
+
+            /*
+             * Findings
+             */
+
+            renderFindings(
+                analysis.evidence ||
+                analysis.indicators ||
+                []
+            );
+
+
+            /*
+             * Actions
+             */
+
+            renderActions(
+                analysis.recommended_actions ||
+                []
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * RENDER FINDINGS
+         * ========================================================
+         */
+
+        function renderFindings(
+            items
+        ) {
+
+            findingsList.innerHTML =
+                "";
+
+
+            if (
+                !Array.isArray(items) ||
+                items.length === 0
+            ) {
+
+                findingsList.innerHTML = `
+                    <div class="p-4 rounded-xl bg-surface-container-low">
+                        <p class="text-base text-on-surface-variant">
+                            No specific scam indicators were detected.
+                        </p>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            items.forEach(
+                (item, index) => {
+
+                    let signal =
+                        "";
+
+                    let explanation =
+                        "";
+
+                    let matched =
+                        "";
+
+                    let severity =
+                        "";
+
+
+                    if (
+                        typeof item === "object"
+                    ) {
+
+                        signal =
+                            item.signal ||
+                            "Warning indicator";
+
+                        explanation =
+                            item.explanation ||
+                            "";
+
+                        matched =
+                            item.matched_text ||
+                            "";
+
+                        severity =
+                            item.severity ||
+                            "";
+
+                    } else {
+
+                        signal =
+                            String(item);
+
+                    }
+
+
+                    const wrapper =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    wrapper.className =
+                        "flex gap-3.5 items-start p-3 rounded-xl hover:bg-surface-container-low transition-colors";
+
+
+                    wrapper.innerHTML = `
+
+                        <span
+                            class="material-symbols-outlined text-error text-2xl mt-0.5 shrink-0"
+                        >
+                            ${index === 0 ? "warning" : "flag"}
+                        </span>
+
+
+                        <div class="min-w-0">
+
+                            <p class="text-base text-on-surface leading-relaxed">
+
+                                <strong class="font-bold">
+                                    ${escapeHtml(signal)}
+                                </strong>
+
+                                ${
+                                    severity
+                                        ? `
+                                            <span class="text-xs uppercase tracking-wide font-bold text-tertiary ml-2">
+                                                ${escapeHtml(severity)}
+                                            </span>
+                                        `
+                                        : ""
+                                }
+
+                            </p>
+
+
+                            ${
+                                explanation
+                                    ? `
+                                        <p class="text-sm text-on-surface-variant leading-relaxed mt-1">
+                                            ${escapeHtml(explanation)}
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+
+                            ${
+                                matched
+                                    ? `
+                                        <p class="text-sm text-tertiary font-semibold mt-2 break-words">
+                                            Matched: "${escapeHtml(matched)}"
+                                        </p>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    `;
+
+
+                    findingsList.appendChild(
+                        wrapper
+                    );
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * RENDER ACTIONS
+         * ========================================================
+         */
+
+        function renderActions(
+            actions
+        ) {
+
+            actionsList.innerHTML =
+                "";
+
+
+            if (
+                !Array.isArray(actions) ||
+                actions.length === 0
+            ) {
+
+                actionsList.innerHTML = `
+                    <p class="text-base font-semibold">
+                        Verify the sender and message through an official source before taking action.
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+            actions.forEach(
+                (action, index) => {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    item.className =
+                        "flex items-start gap-3";
+
+
+                    item.innerHTML = `
+
+                        <span
+                            class="bg-secondary text-white w-7 h-7 rounded-full flex items-center justify-center font-bold text-sm shrink-0"
+                        >
+                            ${index + 1}
+                        </span>
+
+
+                        <p class="text-base font-semibold">
+                            ${escapeHtml(action)}
+                        </p>
+
+                    `;
+
+
+                    actionsList.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * ERROR
+         * ========================================================
+         */
+
+        function showError(
+            error
+        ) {
+
+            loadingState.classList.add(
+                "hidden"
+            );
+
+            loadingState.classList.remove(
+                "flex"
+            );
+
+
+            resultsSection.classList.add(
+                "hidden"
+            );
+
+
+            emergencySection.classList.add(
+                "hidden"
+            );
+
+
+            errorState.classList.remove(
+                "hidden"
+            );
+
+
+            errorMessage.textContent =
+                getReadableError(
+                    error
+                );
+
+
+            errorState.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+        function getReadableError(
+            error
+        ) {
+
+            const message =
+                error?.message ||
+                "";
+
+
+            if (
+                message.includes(
+                    "Failed to fetch"
+                )
+            ) {
+
+                return (
+                    "ScamSense could not connect to the backend. " +
+                    "Make sure FastAPI is running at http://127.0.0.1:8000 " +
+                    "and that CORS is configured."
+                );
+
+            }
+
+
+            return (
+                message ||
+                "Something went wrong while analyzing the screenshot."
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * UPLOAD ERROR
+         * ========================================================
+         */
+
+        function showUploadError(
+            message
+        ) {
+
+            uploadError.textContent =
+                message;
+
+            uploadError.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        function hideUploadError() {
+
+            uploadError.textContent =
+                "";
+
+            uploadError.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * RESET FILE
+         * ========================================================
+         */
+
+        function resetFileSelection() {
+
+            selectedFile =
+                null;
+
+            fileInput.value =
+                "";
+
+            previewSection.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * FILE SIZE
+         * ========================================================
+         */
+
+        function formatFileSize(
+            bytes
+        ) {
+
+            if (
+                bytes <
+                1024
+            ) {
+
+                return `${bytes} B`;
+
+            }
+
+
+            if (
+                bytes <
+                1024 * 1024
+            ) {
+
+                return `${(bytes / 1024).toFixed(1)} KB`;
+
+            }
+
+
+            return `${(
+                bytes /
+                (1024 * 1024)
+            ).toFixed(1)} MB`;
+
+        }
+
+
+        /*
+         * ========================================================
+         * FORMAT CATEGORY
+         * ========================================================
+         */
+
+        function formatCategory(
+            value
+        ) {
+
+            return String(
+                value
+            )
+                .replaceAll(
+                    "_",
+                    " "
+                )
+                .replace(
+                    /\b\w/g,
+                    (char) =>
+                        char.toUpperCase()
+                );
+
+        }
+
+
+        /*
+         * ========================================================
+         * ESCAPE BACKEND TEXT
+         * ========================================================
+         */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+    </script>
+
+    <script src="scamsense-translate.js"></script>
+</body>
+</html>

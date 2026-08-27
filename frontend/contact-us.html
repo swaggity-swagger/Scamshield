@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Contact Us - ScamSense</title>
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================================
+         TAILWIND CONFIG
+    ========================================================== -->
+    <script>
+        tailwind.config = {
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        "on-tertiary-fixed": "#1e1244",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4f4574",
+
+                        "surface-tint": "#635e56",
+
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+
+                        "inverse-primary": "#cdc5bc",
+
+                        "surface": "#fff8f4",
+                        "surface-container-low": "#fbf2eb",
+
+                        "on-primary-fixed": "#1e1b15",
+
+                        "surface-variant": "#eae1da",
+                        "surface-dim": "#e1d8d2",
+
+                        "on-surface-variant": "#4b463f",
+
+                        "secondary": "#466368",
+
+                        "primary-container": "#f2eae0",
+
+                        "inverse-on-surface": "#f8efe8",
+
+                        "secondary-fixed": "#c9e8ee",
+                        "secondary-fixed-dim": "#adccd2",
+
+                        "on-primary-container": "#6e6961",
+
+                        "primary": "#635e56",
+
+                        "inverse-surface": "#34302b",
+
+                        "primary-fixed": "#e9e1d7",
+
+                        "on-secondary": "#ffffff",
+
+                        "on-tertiary-container": "#6e6298",
+
+                        "surface-bright": "#fff8f4",
+
+                        "error-container": "#ffdad6",
+
+                        "on-surface": "#1f1b17",
+
+                        "surface-container-highest": "#eae1da",
+
+                        "primary-fixed-dim": "#cdc5bc",
+
+                        "outline": "#7c766e",
+
+                        "on-background": "#1f1b17",
+
+                        "on-primary-fixed-variant": "#4a463f",
+
+                        "secondary-container": "#c6e5eb",
+
+                        "surface-container-lowest": "#ffffff",
+
+                        "on-secondary-fixed-variant": "#2e4b50",
+
+                        "on-error-container": "#93000a",
+
+                        "tertiary-fixed": "#e7deff",
+
+                        "surface-container-high": "#f0e7df",
+
+                        "error": "#ba1a1a",
+
+                        "tertiary-fixed-dim": "#ccbefa",
+
+                        "outline-variant": "#cdc5bc",
+
+                        "background": "#fff8f4",
+
+                        "tertiary-container": "#efe7ff",
+
+                        "on-tertiary-fixed-variant": "#4a3f72",
+
+                        "on-secondary-container": "#4a676d",
+
+                        "surface-container": "#f5ece5"
+                    },
+
+                    borderRadius: {
+
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+
+                    },
+
+                    spacing: {
+
+                        "margin-mobile": "24px",
+                        gutter: "28px",
+                        "stack-sm": "16px",
+                        "stack-lg": "56px",
+                        "stack-md": "32px",
+                        unit: "10px",
+                        "container-max": "1320px",
+                        "margin-desktop": "72px"
+
+                    }
+
+                }
+
+            }
+
+        };
+    </script>
+
+
+    <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            font-family: "Hanken Grotesk", sans-serif;
+
+            background-color: #F2EAE0;
+
+            font-size: 18px;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =========================================================
+           MATERIAL ICONS
+        ========================================================== */
+
+        .material-symbols-outlined {
+
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+
+        }
+
+        .icon-filled {
+
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+
+        }
+
+
+        /* =========================================================
+           CARD EFFECT
+        ========================================================== */
+
+        .ambient-card {
+
+            box-shadow:
+                0 4px 24px rgba(74, 69, 64, 0.06);
+
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+
+        }
+
+        .ambient-card:hover {
+
+            box-shadow:
+                0 20px 48px rgba(98, 87, 140, 0.16);
+
+            transform:
+                translateY(-6px);
+
+        }
+
+
+        /* =========================================================
+           BUTTON EFFECT
+        ========================================================== */
+
+        .btn-interactive {
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease;
+
+        }
+
+        .btn-interactive:hover {
+
+            transform:
+                translateY(-2px)
+                scale(1.025);
+
+            border-radius:
+                1.25rem;
+
+        }
+
+        .btn-interactive:active {
+
+            transform:
+                scale(0.97);
+
+        }
+
+
+        /* =========================================================
+           ANIMATIONS
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(14px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromTop {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-40px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromBottom {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(40px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromLeft {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateX(-50px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromRight {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateX(50px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+
+            }
+
+        }
+
+
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(-9px)
+                    rotate(2deg);
+
+            }
+
+        }
+
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+
+                box-shadow:
+                    0 0 0 0
+                    rgba(98, 87, 140, 0.40);
+
+            }
+
+            50% {
+
+                box-shadow:
+                    0 0 28px 8px
+                    rgba(98, 87, 140, 0.20);
+
+            }
+
+        }
+
+
+        .animate-page-load {
+
+            animation:
+                pageFadeIn
+                0.8s
+                ease-out
+                forwards;
+
+        }
+
+
+        .animate-slide-top {
+
+            animation:
+                slideFromTop
+                0.7s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-slide-bottom {
+
+            animation:
+                slideFromBottom
+                0.8s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-slide-left {
+
+            animation:
+                slideFromLeft
+                0.8s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-slide-right {
+
+            animation:
+                slideFromRight
+                0.8s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-float {
+
+            animation:
+                floatSlow
+                4s
+                ease-in-out
+                infinite;
+
+        }
+
+
+        .animate-pulse-glow {
+
+            animation:
+                pulseGlow
+                2.8s
+                infinite
+                ease-in-out;
+
+        }
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        .mobile-menu {
+
+            max-height: 0;
+
+            opacity: 0;
+
+            overflow: hidden;
+
+            transition:
+                max-height 0.35s ease,
+                opacity 0.25s ease;
+
+        }
+
+
+        .mobile-menu.open {
+
+            max-height: 550px;
+
+            opacity: 1;
+
+        }
+
+
+        /* =========================================================
+           SUCCESS MESSAGE
+        ========================================================== */
+
+        .success-message {
+
+            opacity: 0;
+
+            transform:
+                translateY(8px);
+
+            pointer-events:
+                none;
+
+            transition:
+                opacity 0.3s ease,
+                transform 0.3s ease;
+
+        }
+
+
+        .success-message.show {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+
+            pointer-events:
+                auto;
+
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITY
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    0.01ms !important;
+
+                scroll-behavior:
+                    auto !important;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="bg-primary-container text-on-surface min-h-screen flex flex-col antialiased pt-20 animate-page-load"
+>
+
+
+    <!-- =========================================================
+         TOP NAVIGATION
+    ========================================================== -->
+
+    <header
+        id="main-header"
+        class="fixed top-0 left-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b-2 border-secondary-container shadow-sm animate-slide-top"
+    >
+
+        <div
+            class="h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex items-center justify-between"
+        >
+
+            <!-- Logo -->
+
+            <a
+                href="home.html"
+                class="flex items-center gap-2 group"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180 group-hover:scale-110"
+                >
+                    shield
+                </span>
+
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group-hover:text-tertiary transition-colors"
+                >
+                    ScamSense
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Navigation -->
+
+            <nav
+                class="hidden lg:flex items-center gap-2"
+                aria-label="Main navigation"
+            >
+
+                <a
+                    href="home.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="help-desk.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Help Desk
+                </a>
+
+
+                <a
+                    href="resource.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Resources
+                </a>
+
+
+                <a
+                    href="media.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Media
+                </a>
+
+
+                <a
+                    href="awareness%20.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Awareness
+                </a>
+
+
+                <a
+                    href="our-mission.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Our Mission
+                </a>
+
+
+                <a
+                    href="history.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    History
+                </a>
+
+
+                <a
+                    href="contact-us.html"
+                    aria-current="page"
+                    class="px-3 py-2 rounded-xl text-base font-bold text-primary bg-primary-container border-b-2 border-tertiary"
+                >
+                    Contact Us
+                </a>
+
+            </nav>
+
+
+            <!-- Right Actions -->
+
+            <div class="flex items-center gap-3">
+
+                <!-- Language -->
+
+                <select
+                    id="language-selector"
+                    aria-label="Select language"
+                    class="hidden md:block bg-transparent border-0 text-primary font-semibold focus:ring-0 cursor-pointer"
+                >
+
+                    <option value="en">
+                        EN
+                    </option>
+
+                    <option value="hi">
+                        हिन्दी
+                    </option>
+
+                    <option value="mr">
+                        मराठी
+                    </option>
+
+                </select>
+
+
+                <!-- Login -->
+
+                <a
+                    href="login.html"
+                    class="btn-interactive hidden sm:flex items-center justify-center bg-tertiary hover:bg-secondary text-white px-7 py-3 rounded-full font-bold shadow-md"
+                >
+                    Login
+                </a>
+
+
+                <!-- Mobile Menu -->
+
+                <button
+                    id="mobile-menu-btn"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    class="lg:hidden p-2 rounded-xl text-primary hover:bg-surface-variant"
+                >
+
+                    <span
+                        id="mobile-menu-icon"
+                        class="material-symbols-outlined text-3xl"
+                    >
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Mobile Navigation -->
+
+        <div
+            id="mobile-menu"
+            class="mobile-menu lg:hidden border-t border-surface-variant bg-surface"
+        >
+
+            <nav
+                class="px-margin-mobile py-4 flex flex-col gap-2"
+            >
+
+                <a
+                    href="home.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="help-desk.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Help Desk
+                </a>
+
+
+                <a
+                    href="resource.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Resources
+                </a>
+
+
+                <a
+                    href="media.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Media
+                </a>
+
+
+                <a
+                    href="awareness%20.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Awareness
+                </a>
+
+
+                <a
+                    href="our-mission.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Our Mission
+                </a>
+
+
+                <a
+                    href="history.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    History
+                </a>
+
+
+                <a
+                    href="contact-us.html"
+                    class="px-4 py-3 rounded-xl font-bold text-primary bg-primary-container"
+                >
+                    Contact Us
+                </a>
+
+
+                <a
+                    href="login.html"
+                    class="mt-2 text-center bg-tertiary text-white px-5 py-3 rounded-full font-bold"
+                >
+                    Login
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main
+        class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg"
+    >
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section
+            class="relative mb-stack-lg animate-slide-top"
+        >
+
+            <div
+                class="absolute -top-12 -left-12 w-96 h-96 bg-tertiary/10 rounded-full blur-3xl -z-10"
+            ></div>
+
+
+            <div
+                class="max-w-4xl"
+            >
+
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 shadow-sm backdrop-blur-sm"
+                >
+
+                    <span class="relative flex h-3 w-3">
+
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                        ></span>
+
+                        <span
+                            class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                        ></span>
+
+                    </span>
+
+
+                    <span
+                        class="text-xs md:text-sm font-bold text-on-surface-variant tracking-wider uppercase"
+                    >
+                        ScamSense Support
+                    </span>
+
+                </div>
+
+
+                <h1
+                    class="mt-5 text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-tight"
+                >
+                    Get in Touch
+                </h1>
+
+
+                <p
+                    class="mt-4 text-lg md:text-xl lg:text-2xl text-on-surface-variant max-w-3xl leading-relaxed"
+                >
+                    Have a question about ScamSense, need help using a
+                    verification tool, or want to share feedback?
+                    Send us a message and we'll help point you in the
+                    right direction.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONTACT GRID
+        ====================================================== -->
+
+        <section
+            class="grid grid-cols-1 lg:grid-cols-12 gap-gutter"
+        >
+
+
+            <!-- =================================================
+                 CONTACT FORM
+            ================================================== -->
+
+            <div
+                class="lg:col-span-8 ambient-card bg-surface-container-lowest rounded-3xl p-6 md:p-10 border border-surface-variant animate-slide-left"
+            >
+
+                <div
+                    class="flex items-center gap-3 mb-7"
+                >
+
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-tertiary-container text-tertiary flex items-center justify-center"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-3xl"
+                        >
+                            mail
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2
+                            class="text-2xl md:text-3xl font-bold text-primary"
+                        >
+                            Send us a message
+                        </h2>
+
+
+                        <p
+                            class="text-sm text-on-surface-variant"
+                        >
+                            We welcome questions, feedback, and technical
+                            support requests.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    id="contact-form"
+                    class="flex flex-col gap-6"
+                >
+
+
+                    <!-- Name + Email -->
+
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 gap-6"
+                    >
+
+                        <div
+                            class="flex flex-col gap-2"
+                        >
+
+                            <label
+                                for="name"
+                                class="font-bold text-base text-on-surface"
+                            >
+                                Name
+                            </label>
+
+
+                            <input
+                                id="name"
+                                name="name"
+                                type="text"
+                                autocomplete="name"
+                                required
+                                placeholder="Enter your name"
+                                class="h-[58px] rounded-2xl border-2 border-secondary-container bg-white px-5 text-base text-on-surface focus:border-tertiary focus:ring-4 focus:ring-tertiary/20 outline-none transition-all"
+                            >
+
+                        </div>
+
+
+                        <div
+                            class="flex flex-col gap-2"
+                        >
+
+                            <label
+                                for="email"
+                                class="font-bold text-base text-on-surface"
+                            >
+                                Email
+                            </label>
+
+
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                                required
+                                placeholder="you@example.com"
+                                class="h-[58px] rounded-2xl border-2 border-secondary-container bg-white px-5 text-base text-on-surface focus:border-tertiary focus:ring-4 focus:ring-tertiary/20 outline-none transition-all"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Subject -->
+
+                    <div
+                        class="flex flex-col gap-2"
+                    >
+
+                        <label
+                            for="subject"
+                            class="font-bold text-base text-on-surface"
+                        >
+                            Subject
+                        </label>
+
+
+                        <select
+                            id="subject"
+                            name="subject"
+                            required
+                            class="h-[58px] rounded-2xl border-2 border-secondary-container bg-white px-5 text-base text-on-surface focus:border-tertiary focus:ring-4 focus:ring-tertiary/20 outline-none transition-all cursor-pointer"
+                        >
+
+                            <option value="">
+                                Select a topic...
+                            </option>
+
+                            <option value="general">
+                                General Inquiry
+                            </option>
+
+                            <option value="technical">
+                                Technical Support
+                            </option>
+
+                            <option value="feedback">
+                                Product Feedback
+                            </option>
+
+                            <option value="report">
+                                Report a Scam / Safety Concern
+                            </option>
+
+                            <option value="media">
+                                Media & Collaboration
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Message -->
+
+                    <div
+                        class="flex flex-col gap-2"
+                    >
+
+                        <label
+                            for="message"
+                            class="font-bold text-base text-on-surface"
+                        >
+                            Message
+                        </label>
+
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            required
+                            rows="7"
+                            placeholder="Tell us how we can help..."
+                            class="rounded-2xl border-2 border-secondary-container bg-white p-5 text-base text-on-surface focus:border-tertiary focus:ring-4 focus:ring-tertiary/20 outline-none transition-all resize-y min-h-[180px]"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- Privacy Notice -->
+
+                    <div
+                        class="flex items-start gap-3 p-4 rounded-2xl bg-primary-container/60 border border-secondary-container"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-tertiary mt-0.5"
+                        >
+                            lock
+                        </span>
+
+
+                        <p
+                            class="text-sm text-on-surface-variant leading-relaxed"
+                        >
+                            Do not include passwords, OTPs, UPI PINs,
+                            bank credentials, or other highly sensitive
+                            information in this form.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Submit -->
+
+                    <div
+                        class="flex flex-col sm:flex-row items-center justify-between gap-4"
+                    >
+
+                        <p
+                            id="form-status"
+                            class="success-message text-sm font-semibold text-emerald-700"
+                            role="status"
+                            aria-live="polite"
+                        >
+                            Your message has been prepared successfully.
+                        </p>
+
+
+                        <button
+                            type="submit"
+                            class="btn-interactive w-full sm:w-auto bg-tertiary hover:bg-secondary text-white min-h-[58px] px-9 rounded-full font-bold text-base shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+                        >
+
+                            <span
+                                class="material-symbols-outlined"
+                            >
+                                send
+                            </span>
+
+                            Send Message
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- =================================================
+                 SIDEBAR
+            ================================================== -->
+
+            <aside
+                class="lg:col-span-4 flex flex-col gap-gutter animate-slide-right"
+            >
+
+
+                <!-- Direct Contact -->
+
+                <div
+                    class="ambient-card bg-surface rounded-3xl p-7 md:p-8 border border-surface-variant"
+                >
+
+                    <div
+                        class="flex items-center gap-3 mb-6"
+                    >
+
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-secondary-container text-secondary flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-2xl"
+                            >
+                                contact_support
+                            </span>
+
+                        </div>
+
+
+                        <h2
+                            class="text-2xl font-bold text-primary"
+                        >
+                            Contact Options
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="space-y-5"
+                    >
+
+
+                        <!-- Email -->
+
+                        <div
+                            class="flex items-start gap-4"
+                        >
+
+                            <div
+                                class="w-11 h-11 rounded-xl bg-secondary-container text-secondary flex items-center justify-center shrink-0"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined"
+                                >
+                                    mail
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3
+                                    class="font-bold text-lg text-on-surface"
+                                >
+                                    Support Email
+                                </h3>
+
+
+                                <a
+                                    href="mailto:support@scamsense.io"
+                                    class="text-tertiary font-semibold hover:underline break-all"
+                                >
+                                    support@scamsense.io
+                                </a>
+
+
+                                <p
+                                    class="text-xs text-on-surface-variant mt-1"
+                                >
+                                    Replace this placeholder with your
+                                    team's real support email before deployment.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Media -->
+
+                        <div
+                            class="flex items-start gap-4"
+                        >
+
+                            <div
+                                class="w-11 h-11 rounded-xl bg-secondary-container text-secondary flex items-center justify-center shrink-0"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined"
+                                >
+                                    campaign
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3
+                                    class="font-bold text-lg text-on-surface"
+                                >
+                                    Media & Collaboration
+                                </h3>
+
+
+                                <a
+                                    href="mailto:press@scamsense.io"
+                                    class="text-tertiary font-semibold hover:underline break-all"
+                                >
+                                    press@scamsense.io
+                                </a>
+
+
+                                <p
+                                    class="text-xs text-on-surface-variant mt-1"
+                                >
+                                    Placeholder contact for media requests.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Response -->
+
+                        <div
+                            class="flex items-start gap-4"
+                        >
+
+                            <div
+                                class="w-11 h-11 rounded-xl bg-tertiary-container text-tertiary flex items-center justify-center shrink-0"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined"
+                                >
+                                    schedule
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3
+                                    class="font-bold text-lg text-on-surface"
+                                >
+                                    Response Time
+                                </h3>
+
+
+                                <p
+                                    class="text-base text-on-surface-variant"
+                                >
+                                    Support availability depends on
+                                    your team's operating schedule.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Emergency Help -->
+
+                <div
+                    class="ambient-card bg-error-container/70 rounded-3xl p-7 md:p-8 border border-error/20"
+                >
+
+                    <div
+                        class="flex items-center gap-3 mb-4"
+                    >
+
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-error text-white flex items-center justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-2xl"
+                            >
+                                emergency
+                            </span>
+
+                        </div>
+
+
+                        <h2
+                            class="text-2xl font-bold text-on-error-container"
+                        >
+                            Need Immediate Help?
+                        </h2>
+
+                    </div>
+
+
+                    <p
+                        class="text-base text-on-error-container/90 leading-relaxed mb-6"
+                    >
+                        Contacting us should not delay urgent action after
+                        a financial cyber fraud. Use the official emergency
+                        guidance provided by ScamSense and your bank.
+                    </p>
+
+
+                    <a
+                        href="emergency-help.html"
+                        class="btn-interactive w-full bg-error hover:bg-red-800 text-white min-h-[56px] rounded-full font-bold flex items-center justify-center gap-2 shadow-md"
+                    >
+
+                        <span
+                            class="material-symbols-outlined"
+                        >
+                            health_and_safety
+                        </span>
+
+                        Open Emergency Guide
+
+                    </a>
+
+                </div>
+
+
+                <!-- Help Desk -->
+
+                <div
+                    class="ambient-card bg-tertiary-container rounded-3xl p-7 md:p-8 border border-tertiary/20"
+                >
+
+                    <div
+                        class="flex items-center gap-3 mb-4"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-tertiary text-3xl"
+                        >
+                            support_agent
+                        </span>
+
+
+                        <h2
+                            class="text-2xl font-bold text-on-tertiary-container"
+                        >
+                            Explore the Help Desk
+                        </h2>
+
+                    </div>
+
+
+                    <p
+                        class="text-base text-on-surface-variant leading-relaxed mb-6"
+                    >
+                        Find common answers, recovery guidance, security
+                        information, and links to ScamSense verification tools.
+                    </p>
+
+
+                    <a
+                        href="help-desk.html"
+                        class="btn-interactive inline-flex w-full items-center justify-center gap-2 bg-surface text-tertiary min-h-[56px] rounded-full border-2 border-tertiary font-bold"
+                    >
+
+                        Visit Help Desk
+
+                        <span
+                            class="material-symbols-outlined"
+                        >
+                            arrow_forward
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+
+        <!-- =====================================================
+             SAFETY REMINDER
+        ====================================================== -->
+
+        <section
+            class="mt-stack-lg ambient-card bg-surface rounded-3xl p-8 md:p-10 border border-surface-variant animate-slide-bottom"
+        >
+
+            <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center"
+            >
+
+                <div
+                    class="md:col-span-1 flex items-center gap-4"
+                >
+
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-secondary-container text-secondary flex items-center justify-center"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-3xl"
+                        >
+                            verified_user
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2
+                            class="text-2xl font-bold text-primary"
+                        >
+                            Stay Safe
+                        </h2>
+
+
+                        <p
+                            class="text-sm text-on-surface-variant"
+                        >
+                            A support form should never replace official
+                            emergency reporting channels.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-3"
+                >
+
+                    <div
+                        class="bg-primary-container rounded-2xl p-4 text-center"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-tertiary"
+                        >
+                            pause_circle
+                        </span>
+
+
+                        <p
+                            class="mt-1 text-sm font-bold"
+                        >
+                            Pause
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="bg-secondary-container/70 rounded-2xl p-4 text-center"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-secondary"
+                        >
+                            fact_check
+                        </span>
+
+
+                        <p
+                            class="mt-1 text-sm font-bold"
+                        >
+                            Verify
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="bg-error-container rounded-2xl p-4 text-center"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-error"
+                        >
+                            lock
+                        </span>
+
+
+                        <p
+                            class="mt-1 text-sm font-bold"
+                        >
+                            Protect
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="w-full mt-auto bg-surface-container-high border-t border-outline-variant/40 py-stack-lg px-margin-mobile md:px-margin-desktop"
+    >
+
+        <div
+            class="max-w-container-max mx-auto"
+        >
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+            >
+
+                <div>
+
+                    <div
+                        class="flex items-center gap-2"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-primary text-3xl"
+                        >
+                            shield
+                        </span>
+
+
+                        <span
+                            class="text-2xl font-bold text-primary"
+                        >
+                            ScamSense
+                        </span>
+
+                    </div>
+
+
+                    <p
+                        class="mt-2 text-sm text-on-surface-variant max-w-md"
+                    >
+                        Built for security, transparency, and digital trust.
+                        Helping people make safer decisions online.
+                    </p>
+
+                </div>
+
+
+                <nav
+                    class="flex flex-wrap gap-x-7 gap-y-3"
+                    aria-label="Footer navigation"
+                >
+
+                    <a
+                        href="home.html"
+                        class="font-semibold text-on-surface-variant hover:text-primary"
+                    >
+                        Home
+                    </a>
+
+
+                    <a
+                        href="help-desk.html"
+                        class="font-semibold text-on-surface-variant hover:text-primary"
+                    >
+                        Help Desk
+                    </a>
+
+
+                    <a
+                        href="resource.html"
+                        class="font-semibold text-on-surface-variant hover:text-primary"
+                    >
+                        Resources
+                    </a>
+
+
+                    <a
+                        href="media.html"
+                        class="font-semibold text-on-surface-variant hover:text-primary"
+                    >
+                        Media
+                    </a>
+
+
+                    <a
+                        href="awareness%20.html"
+                        class="font-semibold text-on-surface-variant hover:text-primary"
+                    >
+                        Awareness
+                    </a>
+
+
+                    <a
+                        href="our-mission.html"
+                        class="font-semibold text-on-surface-variant hover:text-primary"
+                    >
+                        Our Mission
+                    </a>
+
+
+                    <a
+                        href="history.html"
+                        class="font-semibold text-on-surface-variant hover:text-primary"
+                    >
+                        History
+                    </a>
+
+
+                    <a
+                        href="contact-us.html"
+                        aria-current="page"
+                        class="font-bold text-tertiary"
+                    >
+                        Contact Us
+                    </a>
+
+                </nav>
+
+            </div>
+
+
+            <div
+                class="border-t border-outline-variant/30 mt-6 pt-5 text-sm text-on-surface-variant"
+            >
+                © 2026 ScamSense. All rights reserved. Built for security,
+                transparency, and digital trust.
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+        /* =========================================================
+           LANGUAGE
+        ========================================================== */
+
+        const languageSelector =
+            document.getElementById(
+                "language-selector"
+            );
+
+
+        const savedLanguage =
+            localStorage.getItem(
+                "scamsense-language"
+            );
+
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(
+                savedLanguage
+            )
+        ) {
+
+            languageSelector.value =
+                savedLanguage;
+
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        const mobileMenuBtn =
+            document.getElementById(
+                "mobile-menu-btn"
+            );
+
+
+        const mobileMenu =
+            document.getElementById(
+                "mobile-menu"
+            );
+
+
+        const mobileMenuIcon =
+            document.getElementById(
+                "mobile-menu-icon"
+            );
+
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    mobileMenu.classList.toggle(
+                        "open"
+                    );
+
+
+                mobileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                );
+
+
+                mobileMenuIcon.textContent =
+                    isOpen
+                        ? "close"
+                        : "menu";
+
+            }
+        );
+
+
+        /* =========================================================
+           HEADER SHADOW ON SCROLL
+        ========================================================== */
+
+        const header =
+            document.getElementById(
+                "main-header"
+            );
+
+
+        window.addEventListener(
+            "scroll",
+            () => {
+
+                if (window.scrollY > 10) {
+
+                    header.classList.add(
+                        "shadow-lg"
+                    );
+
+                } else {
+
+                    header.classList.remove(
+                        "shadow-lg"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================================================
+           CONTACT FORM
+           
+           NOTE:
+           This currently provides frontend interaction only.
+           It does NOT send data to a backend.
+        ========================================================== */
+
+        const contactForm =
+            document.getElementById(
+                "contact-form"
+            );
+
+
+        const formStatus =
+            document.getElementById(
+                "form-status"
+            );
+
+
+        contactForm.addEventListener(
+            "submit",
+            (event) => {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById(
+                        "name"
+                    ).value.trim();
+
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    ).value.trim();
+
+
+                const subject =
+                    document.getElementById(
+                        "subject"
+                    ).value;
+
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    ).value.trim();
+
+
+                if (
+                    !name ||
+                    !email ||
+                    !subject ||
+                    !message
+                ) {
+
+                    formStatus.textContent =
+                        "Please complete all required fields.";
+
+                    formStatus.classList.remove(
+                        "text-emerald-700"
+                    );
+
+                    formStatus.classList.add(
+                        "text-error"
+                    );
+
+                    formStatus.classList.add(
+                        "show"
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                    Frontend-only success state.
+                    Connect this form to your FastAPI backend
+                    later for real message submission.
+                */
+
+                formStatus.textContent =
+                    "Thanks, " +
+                    name +
+                    "! Your message has been prepared successfully.";
+
+                formStatus.classList.remove(
+                    "text-error"
+                );
+
+                formStatus.classList.add(
+                    "text-emerald-700"
+                );
+
+                formStatus.classList.add(
+                    "show"
+                );
+
+
+                contactForm.reset();
+
+            }
+        );
+
+    </script>
+
+    <script src="scamsense-translate.js"></script>
+</body>
+
+</html>

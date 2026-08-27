@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Message Checker - ScamSense</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#1e1244",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4f4574",
+                        "surface-tint": "#635e56",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#cdc5bc",
+                        "surface": "#fff8f4",
+                        "surface-container-low": "#fbf2eb",
+                        "on-primary-fixed": "#1e1b15",
+                        "surface-variant": "#eae1da",
+                        "surface-dim": "#e1d8d2",
+                        "on-surface-variant": "#4b463f",
+                        "secondary": "#466368",
+                        "primary-container": "#f2eae0",
+                        "inverse-on-surface": "#f8efe8",
+                        "secondary-fixed": "#c9e8ee",
+                        "secondary-fixed-dim": "#adccd2",
+                        "on-primary-container": "#6e6961",
+                        "primary": "#635e56",
+                        "inverse-surface": "#34302b",
+                        "primary-fixed": "#e9e1d7",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#6e6298",
+                        "surface-bright": "#fff8f4",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1f1b17",
+                        "surface-container-highest": "#eae1da",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "outline": "#7c766e",
+                        "on-background": "#1f1b17",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "secondary-container": "#c6e5eb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e7deff",
+                        "surface-container-high": "#f0e7df",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "outline-variant": "#cdc5bc",
+                        "background": "#fff8f4",
+                        "tertiary-container": "#efe7ff",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "on-secondary-container": "#4a676d",
+                        "surface-container": "#f5ece5"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+                    },
+
+                    spacing: {
+                        "stack-lg": "56px",
+                        "margin-mobile": "24px",
+                        "stack-md": "32px",
+                        "margin-desktop": "72px",
+                        unit: "10px",
+                        "stack-sm": "16px",
+                        gutter: "28px",
+                        "container-max": "1320px"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        /* =========================================================
+           BASE
+        ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: #F2EAE0;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        .filled-icon {
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+        }
+
+        /* =========================================================
+           CARD SHADOW
+        ========================================================= */
+
+        .card-shadow {
+            box-shadow: 0 4px 24px rgba(74, 69, 64, 0.06);
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+        }
+
+        .card-shadow:hover {
+            box-shadow: 0 16px 40px rgba(98, 87, 140, 0.14);
+            transform: translateY(-4px);
+        }
+
+        /* =========================================================
+           SHIMMER
+        ========================================================= */
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .shimmer-element {
+            background: linear-gradient(
+                90deg,
+                #eae1da 25%,
+                #ffffff 50%,
+                #eae1da 75%
+            );
+
+            background-size: 200% 100%;
+            animation: shimmer 1.8s infinite linear;
+        }
+
+        /* =========================================================
+           FLOATING
+        ========================================================= */
+
+        @keyframes floatSlow {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(3deg);
+            }
+        }
+
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        /* =========================================================
+           PULSE
+        ========================================================= */
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(98, 87, 140, 0.4);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 28px 8px rgba(98, 87, 140, 0.22);
+                transform: scale(1.02);
+            }
+        }
+
+        .animate-pulse-glow {
+            animation: pulseGlow 2.8s infinite ease-in-out;
+        }
+
+        /* =========================================================
+           LOADING DOTS
+        ========================================================= */
+
+        @keyframes dotPulse {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.4);
+                opacity: 0.4;
+            }
+
+            40% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .dot-1 {
+            animation: dotPulse 1.4s infinite ease-in-out;
+        }
+
+        .dot-2 {
+            animation: dotPulse 1.4s infinite ease-in-out 0.2s;
+        }
+
+        .dot-3 {
+            animation: dotPulse 1.4s infinite ease-in-out 0.4s;
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .btn-interactive {
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease;
+        }
+
+        .btn-interactive:hover {
+            border-radius: 1.25rem;
+            transform: scale(1.03);
+        }
+
+        .btn-interactive:active {
+            transform: scale(0.97);
+        }
+
+        /* =========================================================
+           SPINNER
+        ========================================================= */
+
+        @keyframes rotateSpinner {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin-circle {
+            animation: rotateSpinner 1.2s linear infinite;
+        }
+
+        /* =========================================================
+           RISK COLORS
+        ========================================================= */
+
+        .risk-low {
+            border-top-color: #059669 !important;
+        }
+
+        .risk-low .risk-icon-box {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #047857;
+        }
+
+        .risk-low .risk-meta {
+            color: #047857;
+        }
+
+        .risk-medium {
+            border-top-color: #d97706 !important;
+        }
+
+        .risk-medium .risk-icon-box {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #b45309;
+        }
+
+        .risk-medium .risk-meta {
+            color: #b45309;
+        }
+
+        .risk-high {
+            border-top-color: #ea580c !important;
+        }
+
+        .risk-high .risk-icon-box {
+            background-color: rgba(249, 115, 22, 0.1);
+            color: #c2410c;
+        }
+
+        .risk-high .risk-meta {
+            color: #c2410c;
+        }
+
+        .risk-critical {
+            border-top-color: #ba1a1a !important;
+        }
+
+        .risk-critical .risk-icon-box {
+            background-color: rgba(186, 26, 26, 0.1);
+            color: #ba1a1a;
+        }
+
+        .risk-critical .risk-meta {
+            color: #ba1a1a;
+        }
+
+        .risk-unknown {
+            border-top-color: #7c766e !important;
+        }
+
+        .risk-unknown .risk-icon-box {
+            background-color: rgba(124, 118, 110, 0.1);
+            color: #4b463f;
+        }
+
+        .risk-unknown .risk-meta {
+            color: #4b463f;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-on-surface bg-primary-container min-h-screen flex flex-col pt-20">
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <nav
+        class="bg-surface/95 backdrop-blur-md shadow-sm fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 transition-all duration-300 border-b border-surface-variant/50"
+    >
+
+        <!-- Logo -->
+        <div class="flex items-center gap-4">
+
+            <a
+                href="home.html"
+                class="flex items-center gap-2 group"
+            >
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight"
+                >
+                    ScamSense
+                </span>
+            </a>
+
+        </div>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex gap-4 items-center">
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all duration-300"
+                href="home.html"
+            >
+                Home
+            </a>
+
+            <a
+                class="text-base font-medium text-primary bg-primary-container/60 px-3 py-2 rounded-xl transition-all duration-300"
+                href="message-checker.html"
+            >
+                Message Checker
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all duration-300"
+                href="help-desk.html"
+            >
+                Help Desk
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all duration-300"
+                href="resource.html"
+            >
+                Resources
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all duration-300"
+                href="media.html"
+            >
+                Media
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all duration-300"
+                href="awareness%20.html"
+            >
+                Awareness
+            </a>
+
+            <a
+                class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all duration-300"
+                href="our-mission.html"
+            >
+                Our Mission
+            </a>
+
+        </div>
+
+        <!-- Right -->
+        <div class="flex items-center gap-4">
+
+            <label
+                for="language-selector"
+                class="sr-only"
+            >
+                Choose analysis language
+            </label>
+
+            <select
+                id="language-selector"
+                class="bg-transparent border-0 text-on-surface-variant font-semibold focus:ring-0 cursor-pointer"
+                aria-label="Choose analysis language"
+            >
+                <option value="en">EN</option>
+                <option value="hi">हिन्दी</option>
+                <option value="mr">मराठी</option>
+            </select>
+
+            <a
+                href="login.html"
+                class="btn-interactive bg-tertiary hover:bg-tertiary-hover text-on-tertiary px-8 py-3 rounded-full font-bold text-base shadow-md hover:shadow-xl flex items-center justify-center"
+            >
+                Login
+            </a>
+
+        </div>
+    </nav>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main
+        class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg"
+    >
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <header class="mb-stack-lg text-center md:text-left relative">
+
+            <div
+                class="absolute -top-10 -left-10 w-72 h-72 bg-tertiary/10 rounded-full blur-3xl -z-10"
+                aria-hidden="true"
+            ></div>
+
+            <!-- Status -->
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/80 border border-outline-variant mb-4 backdrop-blur-sm"
+            >
+                <span class="relative flex h-3 w-3">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                    ></span>
+
+                    <span
+                        class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                    ></span>
+                </span>
+
+                <span
+                    class="text-xs md:text-sm font-semibold text-on-surface-variant tracking-wide uppercase"
+                >
+                    ScamSense Analysis Engine Ready
+                </span>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+
+                <div>
+
+                    <h1
+                        class="text-4xl md:text-5xl font-extrabold text-on-surface tracking-tight mb-3"
+                    >
+                        Message Checker
+                    </h1>
+
+                    <p
+                        class="text-lg md:text-xl text-on-surface-variant max-w-3xl leading-relaxed"
+                    >
+                        Paste a suspicious SMS, WhatsApp message, email, or
+                        payment-related message below. ScamSense will analyze
+                        it for scam patterns, social-engineering signals,
+                        credential requests, suspicious links, and other
+                        fraud indicators.
+                    </p>
+
+                </div>
+
+                <div
+                    class="hidden md:flex items-center justify-center w-20 h-20 rounded-3xl bg-tertiary/15 text-tertiary shadow-inner animate-float"
+                    aria-hidden="true"
+                >
+                    <span class="material-symbols-outlined text-4xl filled-icon">
+                        mark_email_unread
+                    </span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             INPUT
+        ====================================================== -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+
+            <section
+                class="lg:col-span-12 bg-surface rounded-2xl p-6 md:p-10 card-shadow border border-surface-variant relative overflow-hidden"
+            >
+
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+
+                    <label
+                        class="block text-xl md:text-2xl font-bold text-on-surface"
+                        for="message-input"
+                    >
+                        Paste the suspicious message below:
+                    </label>
+
+                    <button
+                        type="button"
+                        id="sample-btn"
+                        class="text-sm font-semibold text-tertiary hover:text-tertiary-hover underline transition-colors"
+                    >
+                        Insert Sample Scam Message
+                    </button>
+
+                </div>
+
+
+                <div class="relative group">
+
+                    <textarea
+                        id="message-input"
+                        class="w-full bg-surface-container-lowest border-2 border-[#B4D3D9] rounded-xl p-5 text-lg md:text-xl text-on-surface placeholder:text-outline/60 focus:border-tertiary focus:ring-4 focus:ring-tertiary/20 focus:outline-none transition-all duration-300 resize-y min-h-[160px]"
+                        placeholder="Paste suspicious SMS, WhatsApp message, email, or payment-related message here..."
+                        rows="6"
+                        maxlength="10000"
+                    ></textarea>
+
+                    <div class="flex justify-between mt-2 px-1">
+
+                        <span
+                            id="input-status"
+                            class="text-sm text-on-surface-variant"
+                        >
+                            Maximum 10,000 characters
+                        </span>
+
+                        <span
+                            id="character-count"
+                            class="text-sm text-on-surface-variant"
+                        >
+                            0 / 10000
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4"
+                >
+
+                    <div class="flex items-center gap-2 text-sm text-on-surface-variant">
+
+                        <span class="material-symbols-outlined text-emerald-600 text-lg">
+                            lock
+                        </span>
+
+                        <span>
+                            Sent to ScamSense for analysis and not displayed publicly.
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="analyze-btn"
+                        class="btn-interactive w-full sm:w-auto bg-tertiary hover:bg-secondary text-on-tertiary min-h-[58px] px-10 rounded-full font-bold text-lg shadow-lg hover:shadow-2xl flex items-center justify-center gap-3"
+                    >
+
+                        <span class="material-symbols-outlined filled-icon text-2xl">
+                            search
+                        </span>
+
+                        <span id="analyze-button-text">
+                            Check Message
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 LOADING
+            ================================================== -->
+
+            <div
+                class="hidden lg:col-span-12 space-y-6"
+                id="loading-state"
+            >
+
+                <div
+                    class="bg-surface rounded-2xl p-8 md:p-10 card-shadow border border-tertiary/30 flex flex-col items-center justify-center text-center"
+                >
+
+                    <div
+                        class="relative w-20 h-20 mb-4 flex items-center justify-center"
+                    >
+
+                        <svg
+                            class="w-full h-full spin-circle"
+                            viewBox="0 0 100 100"
+                            aria-hidden="true"
+                        >
+                            <circle
+                                class="text-surface-variant stroke-current"
+                                stroke-width="8"
+                                cx="50"
+                                cy="50"
+                                r="40"
+                                fill="transparent"
+                            ></circle>
+
+                            <circle
+                                class="text-tertiary stroke-current"
+                                stroke-width="8"
+                                stroke-linecap="round"
+                                cx="50"
+                                cy="50"
+                                r="40"
+                                fill="transparent"
+                                stroke-dasharray="251.2"
+                                stroke-dashoffset="100"
+                            ></circle>
+                        </svg>
+
+                        <span
+                            class="material-symbols-outlined text-tertiary text-3xl absolute animate-pulse"
+                        >
+                            radar
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="text-2xl md:text-3xl font-extrabold text-on-surface mb-2 flex items-center gap-1.5"
+                    >
+                        <span>
+                            Analyzing Message
+                        </span>
+
+                        <span class="inline-flex gap-1 ml-1 text-tertiary">
+                            <span class="w-2 h-2 rounded-full bg-tertiary dot-1"></span>
+                            <span class="w-2 h-2 rounded-full bg-tertiary dot-2"></span>
+                            <span class="w-2 h-2 rounded-full bg-tertiary dot-3"></span>
+                        </span>
+                    </h3>
+
+
+                    <p
+                        class="text-base text-on-surface-variant max-w-md mb-6"
+                    >
+                        Checking the message for scam patterns,
+                        social-engineering signals, credential requests,
+                        suspicious links, and other fraud indicators.
+                    </p>
+
+
+                    <div
+                        class="w-full max-w-md bg-surface-variant h-3.5 rounded-full overflow-hidden p-0.5 border border-outline-variant/30"
+                    >
+                        <div
+                            id="progress-bar-fill"
+                            class="h-full bg-gradient-to-r from-tertiary via-secondary to-tertiary rounded-full transition-all duration-300"
+                            style="width: 10%;"
+                        ></div>
+                    </div>
+
+
+                    <span
+                        id="progress-text"
+                        class="text-sm font-bold text-tertiary mt-2"
+                    >
+                        Analyzing...
+                    </span>
+
+                </div>
+
+
+                <!-- Skeleton -->
+                <div
+                    class="grid grid-cols-1 lg:grid-cols-12 gap-gutter"
+                >
+
+                    <div class="lg:col-span-8 space-y-6">
+
+                        <div
+                            class="bg-surface rounded-2xl p-8 card-shadow border border-surface-variant space-y-4"
+                        >
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full shimmer-element"></div>
+                                <div class="h-8 w-60 rounded-lg shimmer-element"></div>
+                            </div>
+
+                            <div class="h-5 w-full rounded-lg shimmer-element"></div>
+                            <div class="h-5 w-4/5 rounded-lg shimmer-element"></div>
+                            <div class="h-16 w-full rounded-xl shimmer-element mt-4"></div>
+                        </div>
+
+
+                        <div
+                            class="bg-surface rounded-2xl p-8 card-shadow border border-surface-variant space-y-4"
+                        >
+                            <div class="h-7 w-48 rounded-lg shimmer-element mb-4"></div>
+
+                            <div class="space-y-3">
+                                <div class="h-12 w-full rounded-xl shimmer-element"></div>
+                                <div class="h-12 w-full rounded-xl shimmer-element"></div>
+                                <div class="h-12 w-full rounded-xl shimmer-element"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="lg:col-span-4 space-y-6">
+
+                        <div
+                            class="bg-surface rounded-2xl p-8 card-shadow border border-surface-variant space-y-4"
+                        >
+                            <div class="h-7 w-44 rounded-lg shimmer-element"></div>
+                            <div class="h-4 w-full rounded-lg shimmer-element"></div>
+                            <div class="h-4 w-3/4 rounded-lg shimmer-element"></div>
+                            <div class="h-12 w-full rounded-full shimmer-element mt-6"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESULTS
+            ================================================== -->
+
+            <div
+                class="hidden lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-gutter transition-all duration-500"
+                id="results-section"
+            >
+
+                <!-- Main -->
+                <section class="lg:col-span-8 space-y-stack-md">
+
+                    <!-- Risk -->
+                    <div
+                        id="risk-card"
+                        class="bg-surface rounded-2xl p-6 md:p-10 card-shadow border-t-8 risk-unknown relative overflow-hidden transition-all duration-300"
+                    >
+
+                        <div class="flex items-start md:items-center justify-between gap-4 mb-4">
+
+                            <div class="flex items-center gap-4">
+
+                                <div
+                                    id="risk-icon-box"
+                                    class="risk-icon-box w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
+                                >
+                                    <span
+                                        id="risk-icon"
+                                        class="material-symbols-outlined text-4xl filled-icon"
+                                    >
+                                        help
+                                    </span>
+                                </div>
+
+
+                                <div>
+
+                                    <h2
+                                        id="risk-title"
+                                        class="text-2xl md:text-3xl font-extrabold text-on-surface"
+                                    >
+                                        Analysis Complete
+                                    </h2>
+
+                                    <p
+                                        id="risk-meta"
+                                        class="risk-meta text-sm font-semibold uppercase tracking-wider"
+                                    >
+                                        UNKNOWN
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <p
+                            id="risk-explanation"
+                            class="text-lg text-on-surface-variant mb-6 leading-relaxed"
+                        >
+                            -
+                        </p>
+
+
+                        <div
+                            class="bg-surface-container-low rounded-2xl p-5 border border-surface-variant"
+                        >
+
+                            <div class="flex items-start gap-4">
+
+                                <span
+                                    class="material-symbols-outlined text-tertiary text-2xl mt-0.5"
+                                >
+                                    category
+                                </span>
+
+                                <div>
+
+                                    <p
+                                        class="text-base font-bold text-on-surface"
+                                    >
+                                        Scam Category
+                                    </p>
+
+                                    <p
+                                        id="risk-category"
+                                        class="text-base text-on-surface-variant mt-1"
+                                    >
+                                        No specific category
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="mt-4 flex items-center justify-between"
+                        >
+
+                            <span class="text-sm text-on-surface-variant">
+                                Analysis confidence
+                            </span>
+
+                            <span
+                                id="confidence-value"
+                                class="text-sm font-bold text-tertiary"
+                            >
+                                Not available
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Why suspicious -->
+                    <div
+                        class="bg-surface rounded-2xl p-6 md:p-10 card-shadow border border-surface-variant"
+                    >
+
+                        <h3
+                            class="text-2xl font-bold text-on-surface mb-6 flex items-center gap-3"
+                        >
+                            <span class="material-symbols-outlined text-tertiary text-3xl">
+                                psychology_alt
+                            </span>
+
+                            <span>
+                                Why is this flagged as suspicious?
+                            </span>
+                        </h3>
+
+
+                        <div
+                            id="indicators-list"
+                            class="space-y-4"
+                        >
+                            <p class="text-on-surface-variant">
+                                No indicators available yet.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Actions -->
+                    <div
+                        class="bg-surface rounded-2xl p-6 md:p-10 card-shadow border border-surface-variant"
+                    >
+
+                        <h3
+                            class="text-2xl font-bold text-on-surface mb-6 flex items-center gap-3"
+                        >
+                            <span class="material-symbols-outlined text-secondary text-3xl">
+                                task_alt
+                            </span>
+
+                            <span>
+                                What should you do next?
+                            </span>
+                        </h3>
+
+
+                        <div
+                            id="actions-list"
+                            class="space-y-4"
+                        >
+                            <p class="text-on-surface-variant">
+                                No recommendations available yet.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Sidebar -->
+                <aside class="lg:col-span-4 space-y-stack-md">
+
+                    <!-- Incident -->
+                    <div
+                        class="bg-surface rounded-2xl p-6 md:p-8 card-shadow border-t-4 border-tertiary"
+                    >
+
+                        <h3
+                            class="text-2xl font-bold text-on-surface mb-2 flex items-center gap-2"
+                        >
+                            <span class="material-symbols-outlined text-tertiary text-3xl">
+                                local_hospital
+                            </span>
+
+                            Already Interacted?
+                        </h3>
+
+
+                        <p
+                            class="text-base text-on-surface-variant mb-6"
+                        >
+                            If you already clicked a link, shared information,
+                            revealed credentials, or made a payment, take action
+                            immediately.
+                        </p>
+
+
+                        <div class="space-y-4">
+
+                            <a
+                                href="Incident-evidence.html"
+                                class="btn-interactive w-full bg-tertiary text-white h-14 rounded-full font-bold text-base flex items-center justify-center gap-2 shadow-md hover:shadow-xl"
+                            >
+                                <span class="material-symbols-outlined">
+                                    emergency
+                                </span>
+
+                                Start Incident Response
+                            </a>
+
+
+                            <a
+                                href="help-desk.html"
+                                class="btn-interactive w-full bg-surface-container-high border-2 border-tertiary/40 text-primary h-14 rounded-full font-bold text-base flex items-center justify-center"
+                            >
+                                Get Help
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Safety -->
+                    <div
+                        class="bg-surface rounded-2xl p-6 md:p-8 card-shadow border border-surface-variant"
+                    >
+
+                        <div class="flex items-start gap-3">
+
+                            <span class="material-symbols-outlined text-secondary text-2xl">
+                                shield
+                            </span>
+
+                            <div>
+
+                                <h4
+                                    class="text-lg font-bold text-on-surface mb-1"
+                                >
+                                    Remember
+                                </h4>
+
+                                <p
+                                    class="text-base text-on-surface-variant leading-relaxed"
+                                >
+                                    A low-risk result does not guarantee that a
+                                    message is safe. Verify unexpected requests
+                                    using an official channel.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+
+            <!-- =================================================
+                 ERROR
+            ================================================== -->
+
+            <div
+                id="error-state"
+                class="hidden lg:col-span-12"
+            >
+
+                <div
+                    class="bg-surface rounded-2xl p-8 md:p-10 card-shadow border border-error/30"
+                >
+
+                    <div class="flex items-start gap-4">
+
+                        <div
+                            class="w-12 h-12 rounded-full bg-error/10 text-error flex items-center justify-center shrink-0"
+                        >
+                            <span class="material-symbols-outlined text-2xl">
+                                error
+                            </span>
+                        </div>
+
+                        <div>
+
+                            <h3
+                                class="text-xl font-bold text-on-surface"
+                            >
+                                Unable to analyze the message
+                            </h3>
+
+                            <p
+                                id="error-message"
+                                class="text-base text-on-surface-variant mt-1"
+                            >
+                                Please try again.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        id="retry-btn"
+                        class="mt-6 bg-tertiary text-white px-6 py-3 rounded-full font-bold hover:shadow-lg transition-all"
+                    >
+                        Try Again
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="bg-surface-container-high w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col gap-stack-md mt-auto border-t border-outline-variant/30"
+    >
+
+        <div
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-stack-md border-b border-outline-variant/50 pb-stack-md max-w-container-max mx-auto w-full"
+        >
+
+            <div class="flex items-center gap-2">
+
+                <span
+                    class="material-symbols-outlined text-primary text-3xl"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl font-bold text-primary"
+                >
+                    ScamSense
+                </span>
+
+            </div>
+
+
+            <div class="flex flex-wrap gap-4 md:gap-8">
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="home.html"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="our-mission.html"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="help-desk.html"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="resource.html"
+                >
+                    Resources
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="awareness%20.html"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    class="text-base font-semibold text-on-surface-variant hover:text-primary transition-colors"
+                    href="contact-us.html"
+                >
+                    Contact Us
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="max-w-container-max mx-auto w-full text-center md:text-left">
+
+            <p class="text-sm text-on-surface-variant">
+                © 2026 ScamSense AI Security. All rights reserved. Dedicated to public safety and digital literacy.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+        /*
+         * ========================================================
+         * CONFIGURATION
+         * ========================================================
+         *
+         * Change this when you deploy the backend.
+         */
+
+        const API_BASE_URL = "http://127.0.0.1:8000";
+
+
+        /*
+         * ========================================================
+         * ELEMENTS
+         * ========================================================
+         */
+
+        const analyzeBtn =
+            document.getElementById("analyze-btn");
+
+        const analyzeButtonText =
+            document.getElementById("analyze-button-text");
+
+        const sampleBtn =
+            document.getElementById("sample-btn");
+
+        const input =
+            document.getElementById("message-input");
+
+        const languageSelector =
+            document.getElementById("language-selector");
+
+        const characterCount =
+            document.getElementById("character-count");
+
+        const inputStatus =
+            document.getElementById("input-status");
+
+        const loading =
+            document.getElementById("loading-state");
+
+        const results =
+            document.getElementById("results-section");
+
+        const errorState =
+            document.getElementById("error-state");
+
+        const errorMessage =
+            document.getElementById("error-message");
+
+        const retryBtn =
+            document.getElementById("retry-btn");
+
+        const progressBarFill =
+            document.getElementById("progress-bar-fill");
+
+        const progressText =
+            document.getElementById("progress-text");
+
+        const riskCard =
+            document.getElementById("risk-card");
+
+        const riskIconBox =
+            document.getElementById("risk-icon-box");
+
+        const riskIcon =
+            document.getElementById("risk-icon");
+
+        const riskTitle =
+            document.getElementById("risk-title");
+
+        const riskMeta =
+            document.getElementById("risk-meta");
+
+        const riskExplanation =
+            document.getElementById("risk-explanation");
+
+        const riskCategory =
+            document.getElementById("risk-category");
+
+        const confidenceValue =
+            document.getElementById("confidence-value");
+
+        const indicatorsList =
+            document.getElementById("indicators-list");
+
+        const actionsList =
+            document.getElementById("actions-list");
+
+
+        /*
+         * ========================================================
+         * CHARACTER COUNT
+         * ========================================================
+         */
+
+        input.addEventListener("input", () => {
+
+            const length =
+                input.value.length;
+
+            characterCount.textContent =
+                `${length} / 10000`;
+
+            if (length >= 9500) {
+
+                characterCount.classList.add(
+                    "text-error",
+                    "font-bold"
+                );
+
+                inputStatus.textContent =
+                    "Approaching maximum length.";
+
+            } else {
+
+                characterCount.classList.remove(
+                    "text-error",
+                    "font-bold"
+                );
+
+                inputStatus.textContent =
+                    "Maximum 10,000 characters";
+
+            }
+
+        });
+
+
+        /*
+         * ========================================================
+         * SAMPLE SCAM MESSAGE
+         * ========================================================
+         */
+
+        sampleBtn.addEventListener("click", () => {
+
+            input.value =
+                "URGENT ALERT: Your bank account will be blocked today. " +
+                "Send your OTP immediately to complete verification.";
+
+            input.dispatchEvent(
+                new Event("input")
+            );
+
+            input.focus();
+
+        });
+
+
+        /*
+         * ========================================================
+         * LANGUAGE
+         * ========================================================
+         */
+
+        const savedLanguage =
+            localStorage.getItem(
+                "scamsense-language"
+            );
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(savedLanguage)
+        ) {
+            languageSelector.value =
+                savedLanguage;
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+
+            }
+        );
+
+
+        /*
+         * ========================================================
+         * ANALYZE BUTTON
+         * ========================================================
+         */
+
+        analyzeBtn.addEventListener(
+            "click",
+            analyzeMessage
+        );
+
+        retryBtn.addEventListener(
+            "click",
+            analyzeMessage
+        );
+
+
+        async function analyzeMessage() {
+
+            const message =
+                input.value.trim();
+
+            const language =
+                languageSelector.value;
+
+
+            /*
+             * Empty input
+             */
+
+            if (!message) {
+
+                input.focus();
+
+                input.classList.add(
+                    "ring-4",
+                    "ring-error/40"
+                );
+
+                inputStatus.textContent =
+                    "Please enter a message before checking.";
+
+                setTimeout(() => {
+
+                    input.classList.remove(
+                        "ring-4",
+                        "ring-error/40"
+                    );
+
+                    inputStatus.textContent =
+                        "Maximum 10,000 characters";
+
+                }, 1500);
+
+                return;
+
+            }
+
+
+            /*
+             * Reset UI
+             */
+
+            errorState.classList.add(
+                "hidden"
+            );
+
+            results.classList.add(
+                "hidden"
+            );
+
+            loading.classList.remove(
+                "hidden"
+            );
+
+
+            /*
+             * Disable button
+             */
+
+            analyzeBtn.disabled = true;
+
+            analyzeButtonText.textContent =
+                "Analyzing...";
+
+
+            analyzeBtn.classList.add(
+                "opacity-70",
+                "cursor-not-allowed"
+            );
+
+
+            /*
+             * Scroll to loading
+             */
+
+            loading.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+
+            /*
+             * Visual progress only.
+             * The actual result comes from FastAPI.
+             */
+
+            progressBarFill.style.width =
+                "10%";
+
+            progressText.textContent =
+                "Connecting to ScamSense...";
+
+
+            let progress =
+                10;
+
+            const progressInterval =
+                setInterval(() => {
+
+                    if (progress < 80) {
+
+                        progress += 10;
+
+                        progressBarFill.style.width =
+                            `${progress}%`;
+
+                        progressText.textContent =
+                            `${progress}% Complete`;
+
+                    }
+
+                }, 250);
+
+
+            try {
+
+                /*
+                 * =================================================
+                 * REAL BACKEND REQUEST
+                 * =================================================
+                 */
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/analysis/text`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    message,
+                                    language
+                                })
+                        }
+                    );
+
+
+                /*
+                 * Try to parse JSON
+                 */
+
+                let data;
+
+                try {
+
+                    data =
+                        await response.json();
+
+                } catch {
+
+                    throw new Error(
+                        "The backend returned an invalid response."
+                    );
+
+                }
+
+
+                /*
+                 * Backend error
+                 */
+
+                if (!response.ok) {
+
+                    const detail =
+                        data?.detail ||
+                        data?.message ||
+                        "Message analysis failed.";
+
+                    throw new Error(
+                        detail
+                    );
+
+                }
+
+
+                /*
+                 * Complete loading
+                 */
+
+                clearInterval(
+                    progressInterval
+                );
+
+                progressBarFill.style.width =
+                    "100%";
+
+                progressText.textContent =
+                    "100% Complete";
+
+
+                /*
+                 * Render actual result
+                 */
+
+                renderAnalysisResult(
+                    data
+                );
+
+
+                /*
+                 * Show results
+                 */
+
+                setTimeout(() => {
+
+                    loading.classList.add(
+                        "hidden"
+                    );
+
+                    results.classList.remove(
+                        "hidden"
+                    );
+
+                    results.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+
+                }, 350);
+
+
+            } catch (error) {
+
+                clearInterval(
+                    progressInterval
+                );
+
+                showError(
+                    error
+                );
+
+            } finally {
+
+                analyzeBtn.disabled =
+                    false;
+
+                analyzeButtonText.textContent =
+                    "Check Message";
+
+                analyzeBtn.classList.remove(
+                    "opacity-70",
+                    "cursor-not-allowed"
+                );
+
+            }
+
+        }
+
+
+        /*
+         * ========================================================
+         * RENDER ANALYSIS
+         * ========================================================
+         */
+
+        function renderAnalysisResult(
+            data
+        ) {
+
+            /*
+             * Backend compatibility:
+             *
+             * New analyzer:
+             * risk_score
+             * risk_level
+             * confidence
+             * detected_language
+             * scam_categories
+             * summary
+             * evidence
+             *
+             * Earlier API schema:
+             * language
+             * risk_level
+             * category
+             * confidence
+             * indicators
+             * explanation
+             */
+
+            const rawLevel =
+                data?.risk_level ||
+                "UNKNOWN";
+
+            const level =
+                String(
+                    rawLevel
+                ).toUpperCase();
+
+
+            let confidence =
+                data?.confidence;
+
+
+            if (
+                typeof confidence === "number" &&
+                confidence <= 1
+            ) {
+                confidence =
+                    Math.round(
+                        confidence * 100
+                    );
+            }
+
+
+            if (
+                typeof confidence === "number"
+            ) {
+                confidence =
+                    Math.round(
+                        confidence
+                    );
+            }
+
+
+            /*
+             * Risk classes
+             */
+
+            riskCard.classList.remove(
+                "risk-low",
+                "risk-medium",
+                "risk-high",
+                "risk-critical",
+                "risk-unknown"
+            );
+
+
+            let riskClass =
+                "risk-unknown";
+
+            let icon =
+                "help";
+
+            let title =
+                "Risk Could Not Be Determined";
+
+
+            switch (level) {
+
+                case "LOW":
+                    riskClass =
+                        "risk-low";
+
+                    icon =
+                        "check_circle";
+
+                    title =
+                        "Low Risk";
+
+                    break;
+
+
+                case "MEDIUM":
+                    riskClass =
+                        "risk-medium";
+
+                    icon =
+                        "warning";
+
+                    title =
+                        "Medium Risk";
+
+                    break;
+
+
+                case "HIGH":
+                    riskClass =
+                        "risk-high";
+
+                    icon =
+                        "warning";
+
+                    title =
+                        "High Risk";
+
+                    break;
+
+
+                case "CRITICAL":
+                    riskClass =
+                        "risk-critical";
+
+                    icon =
+                        "crisis_alert";
+
+                    title =
+                        "Critical Risk";
+
+                    break;
+
+
+                default:
+                    riskClass =
+                        "risk-unknown";
+
+                    icon =
+                        "help";
+
+                    title =
+                        "Risk Could Not Be Determined";
+
+            }
+
+
+            riskCard.classList.add(
+                riskClass
+            );
+
+
+            riskIcon.textContent =
+                icon;
+
+            riskTitle.textContent =
+                title;
+
+
+            /*
+             * Risk metadata
+             */
+
+            if (
+                confidence !== null &&
+                confidence !== undefined
+            ) {
+
+                riskMeta.textContent =
+                    `${level} • ${confidence}% confidence`;
+
+                confidenceValue.textContent =
+                    `${confidence}%`;
+
+            } else {
+
+                riskMeta.textContent =
+                    `${level} risk`;
+
+                confidenceValue.textContent =
+                    "Not available";
+
+            }
+
+
+            /*
+             * Explanation
+             */
+
+            riskExplanation.textContent =
+                data?.summary ||
+                data?.explanation ||
+                "No explanation was returned by the analysis service.";
+
+
+            /*
+             * Category
+             */
+
+            const categories =
+                data?.scam_categories ||
+                data?.categories;
+
+
+            if (
+                Array.isArray(categories) &&
+                categories.length
+            ) {
+
+                riskCategory.textContent =
+                    categories
+                        .map(formatCategory)
+                        .join(", ");
+
+            } else {
+
+                riskCategory.textContent =
+                    formatCategory(
+                        data?.category ||
+                        "no_specific_category"
+                    );
+
+            }
+
+
+            /*
+             * Evidence / Indicators
+             */
+
+            const evidence =
+                data?.evidence ||
+                data?.indicators ||
+                [];
+
+            renderIndicators(
+                evidence
+            );
+
+
+            /*
+             * Recommended actions
+             */
+
+            renderActions(
+                data?.recommended_actions ||
+                []
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * RENDER INDICATORS
+         * ========================================================
+         */
+
+        function renderIndicators(
+            items
+        ) {
+
+            indicatorsList.innerHTML =
+                "";
+
+
+            if (
+                !Array.isArray(items) ||
+                items.length === 0
+            ) {
+
+                indicatorsList.innerHTML = `
+                    <div class="p-5 rounded-xl bg-surface-container-low">
+                        <p class="text-on-surface-variant">
+                            No specific warning indicators were detected.
+                            Continue verifying unexpected messages through official channels.
+                        </p>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            items.forEach(
+                (item, index) => {
+
+                    let signal =
+                        "";
+
+                    let explanation =
+                        "";
+
+                    let matched =
+                        "";
+
+                    let severity =
+                        "";
+
+
+                    /*
+                     * New Evidence format
+                     */
+
+                    if (
+                        typeof item ===
+                        "object"
+                    ) {
+
+                        signal =
+                            item.signal ||
+                            "Warning sign";
+
+                        explanation =
+                            item.explanation ||
+                            "";
+
+                        matched =
+                            item.matched_text ||
+                            "";
+
+                        severity =
+                            item.severity ||
+                            "";
+
+                    } else {
+
+                        /*
+                         * Older indicator format
+                         */
+
+                        signal =
+                            String(item);
+
+                    }
+
+
+                    const wrapper =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    wrapper.className =
+                        "flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container-low transition-colors duration-200";
+
+
+                    wrapper.innerHTML = `
+
+                        <div class="w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center shrink-0">
+
+                            <span class="material-symbols-outlined text-xl">
+                                ${index === 0 ? "warning" : "flag"}
+                            </span>
+
+                        </div>
+
+
+                        <div class="min-w-0 flex-1">
+
+                            <strong class="text-lg font-bold text-on-surface block mb-1">
+                                ${escapeHtml(signal)}
+                            </strong>
+
+
+                            ${
+                                severity
+                                    ? `
+                                        <span class="inline-flex text-xs font-bold uppercase tracking-wide text-tertiary mb-2">
+                                            ${escapeHtml(severity)}
+                                        </span>
+                                    `
+                                    : ""
+                            }
+
+
+                            ${
+                                explanation
+                                    ? `
+                                        <span class="text-base text-on-surface-variant leading-relaxed block">
+                                            ${escapeHtml(explanation)}
+                                        </span>
+                                    `
+                                    : ""
+                            }
+
+
+                            ${
+                                matched
+                                    ? `
+                                        <span class="text-sm text-tertiary font-semibold mt-2 block break-words">
+                                            Matched: "${escapeHtml(matched)}"
+                                        </span>
+                                    `
+                                    : ""
+                            }
+
+                        </div>
+
+                    `;
+
+
+                    indicatorsList.appendChild(
+                        wrapper
+                    );
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * RENDER ACTIONS
+         * ========================================================
+         */
+
+        function renderActions(
+            actions
+        ) {
+
+            actionsList.innerHTML =
+                "";
+
+
+            if (
+                !Array.isArray(actions) ||
+                actions.length === 0
+            ) {
+
+                actionsList.innerHTML = `
+                    <div class="p-5 rounded-xl bg-surface-container-low">
+                        <p class="text-on-surface-variant">
+                            No specific action recommendations were returned.
+                            Continue verifying unexpected requests through official channels.
+                        </p>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            actions.forEach(
+                (action, index) => {
+
+                    const wrapper =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    wrapper.className =
+                        "flex items-start gap-4 bg-secondary-container/40 hover:bg-secondary-container/60 p-5 rounded-2xl transition-all duration-300";
+
+
+                    wrapper.innerHTML = `
+
+                        <div class="bg-secondary text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-base shrink-0 shadow-sm">
+                            ${index + 1}
+                        </div>
+
+
+                        <p class="text-base md:text-lg text-on-surface font-medium">
+                            ${escapeHtml(action)}
+                        </p>
+
+                    `;
+
+
+                    actionsList.appendChild(
+                        wrapper
+                    );
+
+                }
+            );
+
+        }
+
+
+        /*
+         * ========================================================
+         * ERROR HANDLING
+         * ========================================================
+         */
+
+        function showError(
+            error
+        ) {
+
+            loading.classList.add(
+                "hidden"
+            );
+
+            results.classList.add(
+                "hidden"
+            );
+
+            errorState.classList.remove(
+                "hidden"
+            );
+
+
+            errorMessage.textContent =
+                getReadableError(
+                    error
+                );
+
+
+            errorState.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+        function getReadableError(
+            error
+        ) {
+
+            const message =
+                error?.message ||
+                "";
+
+
+            if (
+                message.includes(
+                    "Failed to fetch"
+                )
+            ) {
+
+                return (
+                    "ScamSense could not connect to the backend. " +
+                    "Make sure FastAPI is running at http://127.0.0.1:8000 " +
+                    "and that CORS is configured."
+                );
+
+            }
+
+
+            return message ||
+                "Something went wrong while analyzing the message.";
+
+        }
+
+
+        /*
+         * ========================================================
+         * FORMAT CATEGORY
+         * ========================================================
+         */
+
+        function formatCategory(
+            value
+        ) {
+
+            return String(
+                value
+            )
+                .replaceAll(
+                    "_",
+                    " "
+                )
+                .replace(
+                    /\b\w/g,
+                    char =>
+                        char.toUpperCase()
+                );
+
+        }
+
+
+        /*
+         * ========================================================
+         * ESCAPE HTML
+         * ========================================================
+         *
+         * The backend supplies text.
+         * Escape it before inserting into innerHTML.
+         */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+    </script>
+
+    <script src="scamsense-translate.js"></script>
+</body>
+</html>

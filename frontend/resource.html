@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resources - ScamSense</title>
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         GOOGLE FONT
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================================
+         TAILWIND CONFIG
+    ========================================================== -->
+    <script>
+
+        tailwind.config = {
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        "on-tertiary-fixed": "#1e1244",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4f4376",
+                        "surface-tint": "#635e56",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#cdc5bc",
+                        "surface": "#fff8f4",
+                        "surface-container-low": "#fbf2eb",
+                        "on-primary-fixed": "#1e1b15",
+                        "surface-variant": "#eae1da",
+                        "surface-dim": "#e1d8d2",
+                        "on-surface-variant": "#4b463f",
+                        "secondary": "#466368",
+                        "primary-container": "#f2eae0",
+                        "inverse-on-surface": "#f8efe8",
+                        "secondary-fixed": "#c9e8ee",
+                        "secondary-fixed-dim": "#adccd2",
+                        "on-primary-container": "#6e6961",
+                        "primary": "#635e56",
+                        "inverse-surface": "#34302b",
+                        "primary-fixed": "#e9e1d7",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#6e6298",
+                        "surface-bright": "#fff8f4",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1f1b17",
+                        "surface-container-highest": "#eae1da",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "outline": "#7c766e",
+                        "on-background": "#1f1b17",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "secondary-container": "#c6e5eb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e7deff",
+                        "surface-container-high": "#f0e7df",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "outline-variant": "#cdc5bc",
+                        "background": "#fff8f4",
+                        "tertiary-container": "#efe7ff",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "on-secondary-container": "#4a676d",
+                        "surface-container": "#f5ece5"
+
+                    },
+
+                    borderRadius: {
+
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+
+                    },
+
+                    spacing: {
+
+                        "margin-mobile": "24px",
+                        "stack-sm": "16px",
+                        "margin-desktop": "72px",
+                        unit: "10px",
+                        "stack-lg": "56px",
+                        "container-max": "1320px",
+                        gutter: "28px",
+                        "stack-md": "32px"
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    </script>
+
+
+    <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            font-family: "Hanken Grotesk", sans-serif;
+
+            background-color: #F2EAE0;
+
+            font-size: 18px;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* =========================================================
+           ICONS
+        ========================================================== */
+
+        .material-symbols-outlined {
+
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+
+        }
+
+        .icon-filled {
+
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+
+        }
+
+
+        /* =========================================================
+           CARDS
+        ========================================================== */
+
+        .resource-card {
+
+            box-shadow:
+                0 4px 24px rgba(74, 69, 64, 0.06);
+
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+
+        }
+
+        .resource-card:hover {
+
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 20px 48px rgba(98, 87, 140, 0.16);
+
+        }
+
+
+        /* =========================================================
+           BUTTONS
+        ========================================================== */
+
+        .btn-interactive {
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-radius 0.35s ease,
+                background-color 0.35s ease,
+                color 0.35s ease;
+
+        }
+
+        .btn-interactive:hover {
+
+            transform:
+                translateY(-2px)
+                scale(1.025);
+
+            border-radius: 1.25rem;
+
+        }
+
+        .btn-interactive:active {
+
+            transform: scale(0.97);
+
+        }
+
+
+        /* =========================================================
+           PAGE ANIMATION
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(14px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromTop {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-40px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromBottom {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(40px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(-8px)
+                    rotate(2deg);
+
+            }
+
+        }
+
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+
+                box-shadow:
+                    0 0 0 0
+                    rgba(98, 87, 140, 0.40);
+
+            }
+
+            50% {
+
+                box-shadow:
+                    0 0 28px 8px
+                    rgba(98, 87, 140, 0.20);
+
+            }
+
+        }
+
+
+        .animate-page-load {
+
+            animation:
+                pageFadeIn
+                0.8s ease-out forwards;
+
+        }
+
+
+        .animate-slide-top {
+
+            animation:
+                slideFromTop
+                0.7s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-slide-bottom {
+
+            animation:
+                slideFromBottom
+                0.8s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-float {
+
+            animation:
+                floatSlow
+                4s
+                ease-in-out
+                infinite;
+
+        }
+
+
+        .animate-pulse-glow {
+
+            animation:
+                pulseGlow
+                2.8s
+                infinite
+                ease-in-out;
+
+        }
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        .mobile-menu {
+
+            max-height: 0;
+
+            opacity: 0;
+
+            overflow: hidden;
+
+            transition:
+                max-height 0.35s ease,
+                opacity 0.25s ease;
+
+        }
+
+
+        .mobile-menu.open {
+
+            max-height: 500px;
+
+            opacity: 1;
+
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITY
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: 0.01ms !important;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="bg-primary-container text-on-surface min-h-screen flex flex-col antialiased pt-20 animate-page-load"
+>
+
+
+    <!-- =========================================================
+         NAVIGATION
+    ========================================================== -->
+
+    <header
+        class="fixed top-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b-2 border-secondary-container shadow-sm animate-slide-top"
+    >
+
+        <div
+            class="h-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex justify-between items-center"
+        >
+
+            <!-- Logo -->
+
+            <a
+                href="home.html"
+                class="flex items-center gap-2 group"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180 group-hover:scale-110"
+                >
+                    shield
+                </span>
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight"
+                >
+                    ScamSense
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Navigation -->
+
+            <nav
+                class="hidden lg:flex items-center gap-2"
+                aria-label="Main navigation"
+            >
+
+                <a
+                    href="home.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="help-desk.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Help Desk
+                </a>
+
+
+                <a
+                    href="resource.html"
+                    class="text-base font-bold text-primary bg-primary-container/50 border-b-2 border-tertiary px-3 py-2 rounded-xl"
+                    aria-current="page"
+                >
+                    Resources
+                </a>
+
+
+                <a
+                    href="media.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Media
+                </a>
+
+
+                <a
+                    href="awareness%20.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Awareness
+                </a>
+
+
+                <a
+                    href="our-mission.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    Our Mission
+                </a>
+
+
+                <a
+                    href="history.html"
+                    class="text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 px-3 py-2 rounded-xl transition-all"
+                >
+                    History
+                </a>
+
+            </nav>
+
+
+            <!-- Right Side -->
+
+            <div
+                class="flex items-center gap-3"
+            >
+
+                <!-- Language -->
+
+                <label
+                    for="language-selector"
+                    class="sr-only"
+                >
+                    Select language
+                </label>
+
+
+                <select
+                    id="language-selector"
+                    class="hidden md:block bg-transparent border-0 text-primary font-semibold focus:ring-0 cursor-pointer"
+                >
+
+                    <option value="en">
+                        EN
+                    </option>
+
+                    <option value="hi">
+                        हिन्दी
+                    </option>
+
+                    <option value="mr">
+                        मराठी
+                    </option>
+
+                </select>
+
+
+                <!-- Login -->
+
+                <a
+                    href="login.html"
+                    class="btn-interactive hidden sm:flex items-center justify-center bg-tertiary hover:bg-secondary text-white px-7 py-3 rounded-full font-bold shadow-md"
+                >
+                    Login
+                </a>
+
+
+                <!-- Mobile Menu Button -->
+
+                <button
+                    id="mobile-menu-btn"
+                    type="button"
+                    class="lg:hidden p-2 rounded-xl text-primary hover:bg-surface-variant"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                >
+
+                    <span
+                        id="mobile-menu-icon"
+                        class="material-symbols-outlined text-3xl"
+                    >
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Mobile Navigation -->
+
+        <div
+            id="mobile-menu"
+            class="mobile-menu lg:hidden border-t border-surface-variant bg-surface"
+        >
+
+            <nav
+                class="px-margin-mobile py-4 flex flex-col gap-2"
+            >
+
+                <a
+                    href="home.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Home
+                </a>
+
+                <a
+                    href="help-desk.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    href="resource.html"
+                    class="px-4 py-3 rounded-xl font-bold text-primary bg-primary-container"
+                >
+                    Resources
+                </a>
+
+                <a
+                    href="media.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Media
+                </a>
+
+                <a
+                    href="awareness%20.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    href="our-mission.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    Our Mission
+                </a>
+
+                <a
+                    href="history.html"
+                    class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container"
+                >
+                    History
+                </a>
+
+                <a
+                    href="login.html"
+                    class="mt-2 text-center bg-tertiary text-white px-5 py-3 rounded-full font-bold"
+                >
+                    Login
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main
+        class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-stack-lg"
+    >
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section
+            class="text-center max-w-4xl mx-auto relative animate-slide-top"
+        >
+
+            <div
+                class="absolute -top-16 left-1/2 -translate-x-1/2 w-96 h-96 bg-tertiary/10 rounded-full blur-3xl -z-10"
+            ></div>
+
+
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 shadow-sm backdrop-blur-sm"
+            >
+
+                <span class="relative flex h-3 w-3">
+
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                    ></span>
+
+                    <span
+                        class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                    ></span>
+
+                </span>
+
+
+                <span
+                    class="text-xs md:text-sm font-bold text-on-surface-variant tracking-wider uppercase"
+                >
+                    Trusted Security Resources
+                </span>
+
+            </div>
+
+
+            <h1
+                class="mt-5 text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary tracking-tight leading-tight"
+            >
+                Official Resources & Reporting
+            </h1>
+
+
+            <p
+                class="mt-5 text-lg md:text-xl text-on-surface-variant leading-relaxed max-w-3xl mx-auto"
+            >
+                Access trusted government, banking, payment-network, and
+                cybersecurity resources for reporting incidents, checking
+                suspicious activity, and improving your digital safety.
+            </p>
+
+        </section>
+
+
+        <!-- =====================================================
+             EMERGENCY BANNER
+        ====================================================== -->
+
+        <section
+            class="bg-secondary-container p-6 md:p-7 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-5 shadow-sm border-l-4 border-secondary animate-slide-bottom"
+        >
+
+            <div
+                class="flex items-start gap-4"
+            >
+
+                <div
+                    class="w-14 h-14 rounded-2xl bg-secondary text-white flex items-center justify-center shrink-0"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-3xl icon-filled"
+                    >
+                        health_and_safety
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <h2
+                        class="text-xl md:text-2xl font-bold text-on-secondary-container"
+                    >
+                        Financial cyber fraud?
+                    </h2>
+
+
+                    <p
+                        class="mt-1 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Report it immediately through the official
+                        channels. The National Cyber Crime Helpline is
+                        <strong class="text-secondary font-extrabold">
+                            1930
+                        </strong>.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="flex flex-wrap justify-center gap-3"
+            >
+
+                <a
+                    href="tel:1930"
+                    class="btn-interactive bg-secondary hover:bg-tertiary text-white px-7 py-3 rounded-full font-bold flex items-center gap-2 shadow-md"
+                >
+
+                    <span class="material-symbols-outlined">
+                        call
+                    </span>
+
+                    Call 1930
+
+                </a>
+
+
+                <a
+                    href="https://www.cybercrime.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-interactive bg-surface text-primary px-7 py-3 rounded-full font-bold border-2 border-secondary/30 flex items-center gap-2"
+                >
+
+                    Report Online
+
+                    <span class="material-symbols-outlined">
+                        open_in_new
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             OFFICIAL RESOURCES
+        ====================================================== -->
+
+        <section
+            class="flex flex-col gap-6 animate-slide-bottom"
+        >
+
+            <div>
+
+                <span
+                    class="text-xs font-bold uppercase tracking-widest text-tertiary"
+                >
+                    Government & Institutional Sources
+                </span>
+
+
+                <h2
+                    class="mt-2 text-3xl md:text-4xl font-extrabold text-on-surface"
+                >
+                    Trusted Resources
+                </h2>
+
+
+                <p
+                    class="mt-2 text-base md:text-lg text-on-surface-variant"
+                >
+                    These links take you directly to official organisations.
+                </p>
+
+            </div>
+
+
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-gutter"
+            >
+
+
+                <!-- =================================================
+                     RESOURCE 1
+                ================================================== -->
+
+                <a
+                    href="https://www.cybercrime.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resource-card bg-surface-container-lowest p-7 md:p-8 rounded-3xl border border-surface-variant group"
+                >
+
+                    <div
+                        class="flex justify-between items-start"
+                    >
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-error-container text-error flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl icon-filled"
+                            >
+                                policy
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            class="material-symbols-outlined text-outline group-hover:text-tertiary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                        >
+                            open_in_new
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="mt-6 text-2xl font-bold text-on-surface group-hover:text-tertiary transition-colors"
+                    >
+                        National Cyber Crime Reporting Portal
+                    </h3>
+
+
+                    <p
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Government of India's portal for reporting
+                        cybercrime, including financial cyber fraud,
+                        tracking complaints, and accessing cybercrime
+                        services.
+                    </p>
+
+
+                    <span
+                        class="inline-flex mt-5 text-sm font-bold text-tertiary"
+                    >
+                        cybercrime.gov.in
+                    </span>
+
+                </a>
+
+
+                <!-- =================================================
+                     RESOURCE 2
+                ================================================== -->
+
+                <a
+                    href="https://www.cybercrime.gov.in/Webform/suspect_search_repository.aspx"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resource-card bg-surface-container-lowest p-7 md:p-8 rounded-3xl border border-surface-variant group"
+                >
+
+                    <div
+                        class="flex justify-between items-start"
+                    >
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-tertiary-container text-tertiary flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl"
+                            >
+                                manage_search
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            class="material-symbols-outlined text-outline group-hover:text-tertiary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                        >
+                            open_in_new
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="mt-6 text-2xl font-bold text-on-surface group-hover:text-tertiary transition-colors"
+                    >
+                        I4C Suspect Repository
+                    </h3>
+
+
+                    <p
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Use the National Cyber Crime Reporting Portal's
+                        suspect repository to check available identifiers
+                        for possible links to cybercrime.
+                    </p>
+
+
+                    <span
+                        class="inline-flex mt-5 text-sm font-bold text-tertiary"
+                    >
+                        Check Suspect Information
+                    </span>
+
+                </a>
+
+
+                <!-- =================================================
+                     RESOURCE 3
+                ================================================== -->
+
+                <a
+                    href="https://www.npci.org.in/fraud-awareness"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resource-card bg-surface-container-lowest p-7 md:p-8 rounded-3xl border border-surface-variant group"
+                >
+
+                    <div
+                        class="flex justify-between items-start"
+                    >
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-secondary-container text-secondary flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl"
+                            >
+                                account_balance
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            class="material-symbols-outlined text-outline group-hover:text-tertiary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                        >
+                            open_in_new
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="mt-6 text-2xl font-bold text-on-surface group-hover:text-secondary transition-colors"
+                    >
+                        NPCI Fraud Awareness
+                    </h3>
+
+
+                    <p
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Official guidance on digital-payment risks including
+                        QR-code scams, fake cashback links, unknown apps,
+                        fake investments, and social-engineering attacks.
+                    </p>
+
+
+                    <span
+                        class="inline-flex mt-5 text-sm font-bold text-secondary"
+                    >
+                        View NPCI Safety Guidance
+                    </span>
+
+                </a>
+
+
+                <!-- =================================================
+                     RESOURCE 4
+                ================================================== -->
+
+                <a
+                    href="https://www.rbi.org.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resource-card bg-surface-container-lowest p-7 md:p-8 rounded-3xl border border-surface-variant group"
+                >
+
+                    <div
+                        class="flex justify-between items-start"
+                    >
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-primary-container text-primary flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl"
+                            >
+                                account_balance
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            class="material-symbols-outlined text-outline group-hover:text-tertiary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                        >
+                            open_in_new
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="mt-6 text-2xl font-bold text-on-surface group-hover:text-primary transition-colors"
+                    >
+                        Reserve Bank of India
+                    </h3>
+
+
+                    <p
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Access RBI financial-awareness information covering
+                        safe banking practices, unauthorized transactions,
+                        passwords, OTPs, and digital-payment safety.
+                    </p>
+
+
+                    <span
+                        class="inline-flex mt-5 text-sm font-bold text-primary"
+                    >
+                        Visit RBI
+                    </span>
+
+                </a>
+
+
+                <!-- =================================================
+                     RESOURCE 5
+                ================================================== -->
+
+                <a
+                    href="https://www.cert-in.org.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resource-card bg-surface-container-lowest p-7 md:p-8 rounded-3xl border border-surface-variant group"
+                >
+
+                    <div
+                        class="flex justify-between items-start"
+                    >
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-tertiary-container text-tertiary flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl"
+                            >
+                                security
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            class="material-symbols-outlined text-outline group-hover:text-tertiary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                        >
+                            open_in_new
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="mt-6 text-2xl font-bold text-on-surface group-hover:text-tertiary transition-colors"
+                    >
+                        CERT-In
+                    </h3>
+
+
+                    <p
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        India's Computer Emergency Response Team and a
+                        useful source for cybersecurity advisories and
+                        incident-related information.
+                    </p>
+
+
+                    <span
+                        class="inline-flex mt-5 text-sm font-bold text-tertiary"
+                    >
+                        Visit CERT-In
+                    </span>
+
+                </a>
+
+
+                <!-- =================================================
+                     RESOURCE 6
+                ================================================== -->
+
+                <a
+                    href="https://www.ceir.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resource-card bg-surface-container-lowest p-7 md:p-8 rounded-3xl border border-surface-variant group"
+                >
+
+                    <div
+                        class="flex justify-between items-start"
+                    >
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-secondary-container text-secondary flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl"
+                            >
+                                smartphone
+                            </span>
+
+                        </div>
+
+
+                        <span
+                            class="material-symbols-outlined text-outline group-hover:text-tertiary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300"
+                        >
+                            open_in_new
+                        </span>
+
+                    </div>
+
+
+                    <h3
+                        class="mt-6 text-2xl font-bold text-on-surface group-hover:text-secondary transition-colors"
+                    >
+                        CEIR – Lost or Stolen Mobile
+                    </h3>
+
+
+                    <p
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Official telecom-government service for reporting
+                        and managing lost or stolen mobile devices.
+                    </p>
+
+
+                    <span
+                        class="inline-flex mt-5 text-sm font-bold text-secondary"
+                    >
+                        Visit CEIR
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             WHAT TO KEEP READY
+        ====================================================== -->
+
+        <section
+            class="ambient-card bg-surface rounded-3xl p-8 md:p-10 border border-surface-variant animate-slide-bottom"
+        >
+
+            <div
+                class="flex flex-col lg:flex-row gap-8 items-start"
+            >
+
+                <div
+                    class="lg:w-1/3"
+                >
+
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-tertiary text-white flex items-center justify-center animate-float"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-3xl"
+                        >
+                            folder
+                        </span>
+
+                    </div>
+
+
+                    <h2
+                        class="mt-5 text-3xl font-extrabold text-primary"
+                    >
+                        Before Filing a Complaint
+                    </h2>
+
+
+                    <p
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Keep important information and evidence ready so
+                        that your report can be completed accurately.
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-4"
+                >
+
+                    <div
+                        class="bg-surface-container-low rounded-2xl p-5"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-tertiary"
+                        >
+                            receipt_long
+                        </span>
+
+
+                        <h3
+                            class="mt-3 font-bold text-lg"
+                        >
+                            Transaction Details
+                        </h3>
+
+
+                        <p
+                            class="mt-1 text-sm text-on-surface-variant"
+                        >
+                            Bank/wallet name, transaction ID or UTR,
+                            date and amount.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="bg-surface-container-low rounded-2xl p-5"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-secondary"
+                        >
+                            screenshot
+                        </span>
+
+
+                        <h3
+                            class="mt-3 font-bold text-lg"
+                        >
+                            Evidence
+                        </h3>
+
+
+                        <p
+                            class="mt-1 text-sm text-on-surface-variant"
+                        >
+                            Screenshots, chat logs, receipts, emails,
+                            and relevant files.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="bg-surface-container-low rounded-2xl p-5"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-error"
+                        >
+                            call
+                        </span>
+
+
+                        <h3
+                            class="mt-3 font-bold text-lg"
+                        >
+                            Suspect Information
+                        </h3>
+
+
+                        <p
+                            class="mt-1 text-sm text-on-surface-variant"
+                        >
+                            Phone numbers, email addresses, URLs,
+                            social-media handles, or account details.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="bg-surface-container-low rounded-2xl p-5"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-primary"
+                        >
+                            schedule
+                        </span>
+
+
+                        <h3
+                            class="mt-3 font-bold text-lg"
+                        >
+                            Time & Date
+                        </h3>
+
+
+                        <p
+                            class="mt-1 text-sm text-on-surface-variant"
+                        >
+                            Record when the suspicious contact or
+                            transaction occurred.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SCAMSense TOOLS
+        ====================================================== -->
+
+        <section
+            class="text-center animate-slide-bottom"
+        >
+
+            <div
+                class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-tertiary"
+            >
+
+                <span class="material-symbols-outlined text-lg">
+                    shield
+                </span>
+
+                Use ScamSense First
+
+            </div>
+
+
+            <h2
+                class="mt-2 text-3xl md:text-4xl font-extrabold text-primary"
+            >
+                Check Before You Act
+            </h2>
+
+
+            <p
+                class="mt-3 text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto"
+            >
+                Analyze suspicious messages, screenshots, URLs, and QR
+                codes before interacting with them.
+            </p>
+
+
+            <div
+                class="mt-7 flex flex-wrap justify-center gap-3"
+            >
+
+                <a
+                    href="message-checker.html"
+                    class="btn-interactive bg-tertiary hover:bg-secondary text-white px-6 py-3 rounded-full font-bold"
+                >
+                    Message Checker
+                </a>
+
+
+                <a
+                    href="screenshot-analyser.html"
+                    class="btn-interactive bg-secondary hover:bg-tertiary text-white px-6 py-3 rounded-full font-bold"
+                >
+                    Screenshot Analyzer
+                </a>
+
+
+                <a
+                    href="url-scanner.html"
+                    class="btn-interactive bg-primary hover:bg-tertiary text-white px-6 py-3 rounded-full font-bold"
+                >
+                    URL Scanner
+                </a>
+
+
+                <a
+                    href="qr-scanner.html"
+                    class="btn-interactive bg-surface border-2 border-secondary-container text-primary px-6 py-3 rounded-full font-bold"
+                >
+                    QR Code Safe
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop bg-surface-container-high border-t border-outline-variant/40"
+    >
+
+        <div
+            class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+        >
+
+            <div>
+
+                <div
+                    class="flex items-center gap-2"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-primary text-3xl"
+                    >
+                        shield
+                    </span>
+
+
+                    <span
+                        class="text-2xl font-bold text-primary"
+                    >
+                        ScamSense
+                    </span>
+
+                </div>
+
+
+                <p
+                    class="mt-2 text-sm text-on-surface-variant max-w-md"
+                >
+                    Built for security, transparency, and digital trust.
+                    Always verify critical information through official
+                    channels.
+                </p>
+
+            </div>
+
+
+            <nav
+                class="flex flex-wrap gap-x-7 gap-y-3"
+                aria-label="Footer navigation"
+            >
+
+                <a
+                    href="home.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="help-desk.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Help Desk
+                </a>
+
+
+                <a
+                    href="resource.html"
+                    class="font-bold text-tertiary"
+                >
+                    Resources
+                </a>
+
+
+                <a
+                    href="media.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Media
+                </a>
+
+
+                <a
+                    href="awareness%20.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Awareness
+                </a>
+
+
+                <a
+                    href="our-mission.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    Our Mission
+                </a>
+
+
+                <a
+                    href="history.html"
+                    class="font-semibold text-on-surface-variant hover:text-primary"
+                >
+                    History
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div
+            class="max-w-container-max mx-auto mt-6 pt-5 border-t border-outline-variant/30 text-sm text-on-surface-variant"
+        >
+            © ScamSense. All rights reserved. Built for security,
+            transparency, and digital trust.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+        /* =========================================================
+           LANGUAGE
+        ========================================================== */
+
+        const languageSelector =
+            document.getElementById(
+                "language-selector"
+            );
+
+
+        const savedLanguage =
+            localStorage.getItem(
+                "scamsense-language"
+            );
+
+
+        if (
+            savedLanguage &&
+            ["en", "hi", "mr"].includes(
+                savedLanguage
+            )
+        ) {
+
+            languageSelector.value =
+                savedLanguage;
+
+        }
+
+
+        languageSelector.addEventListener(
+            "change",
+            () => {
+
+                localStorage.setItem(
+                    "scamsense-language",
+                    languageSelector.value
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        const mobileMenuBtn =
+            document.getElementById(
+                "mobile-menu-btn"
+            );
+
+
+        const mobileMenu =
+            document.getElementById(
+                "mobile-menu"
+            );
+
+
+        const mobileMenuIcon =
+            document.getElementById(
+                "mobile-menu-icon"
+            );
+
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    mobileMenu.classList.toggle(
+                        "open"
+                    );
+
+
+                mobileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                );
+
+
+                mobileMenuIcon.textContent =
+                    isOpen
+                        ? "close"
+                        : "menu";
+
+            }
+        );
+
+    </script>
+
+
+    <script src="scamsense-translate.js"></script>
+</body>
+
+</html>

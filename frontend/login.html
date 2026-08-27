@@ -1,0 +1,2407 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Login - ScamSense</title>
+
+    <!-- =========================================================
+         TAILWIND CSS
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         MATERIAL SYMBOLS
+    ========================================================== -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         TAILWIND CONFIG
+    ========================================================== -->
+    <script>
+        tailwind.config = {
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        "on-tertiary-fixed": "#1e1244",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+
+                        "tertiary": "#62578c",
+                        "tertiary-hover": "#4f4574",
+
+                        "surface-tint": "#635e56",
+
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+
+                        "inverse-primary": "#cdc5bc",
+
+                        "surface": "#fff8f4",
+                        "surface-container-low": "#fbf2eb",
+
+                        "on-primary-fixed": "#1e1b15",
+
+                        "surface-variant": "#eae1da",
+                        "surface-dim": "#e1d8d2",
+
+                        "on-surface-variant": "#4b463f",
+
+                        "secondary": "#466368",
+
+                        "primary-container": "#f2eae0",
+
+                        "inverse-on-surface": "#f8efe8",
+
+                        "secondary-fixed": "#c9e8ee",
+                        "secondary-fixed-dim": "#adccd2",
+
+                        "on-primary-container": "#6e6961",
+
+                        "primary": "#635e56",
+
+                        "inverse-surface": "#34302b",
+
+                        "primary-fixed": "#e9e1d7",
+
+                        "on-secondary": "#ffffff",
+
+                        "on-tertiary-container": "#6e6298",
+
+                        "surface-bright": "#fff8f4",
+
+                        "error-container": "#ffdad6",
+
+                        "on-surface": "#1f1b17",
+
+                        "surface-container-highest": "#eae1da",
+
+                        "primary-fixed-dim": "#cdc5bc",
+
+                        "outline": "#7c766e",
+
+                        "on-background": "#1f1b17",
+
+                        "on-primary-fixed-variant": "#4a463f",
+
+                        "secondary-container": "#c6e5eb",
+
+                        "surface-container-lowest": "#ffffff",
+
+                        "on-secondary-fixed-variant": "#2e4b50",
+
+                        "on-error-container": "#93000a",
+
+                        "tertiary-fixed": "#e7deff",
+
+                        "surface-container-high": "#f0e7df",
+
+                        "error": "#ba1a1a",
+
+                        "tertiary-fixed-dim": "#ccbefa",
+
+                        "outline-variant": "#cdc5bc",
+
+                        "background": "#fff8f4",
+
+                        "tertiary-container": "#efe7ff",
+
+                        "on-tertiary-fixed-variant": "#4a3f72",
+
+                        "on-secondary-container": "#4a676d",
+
+                        "surface-container": "#f5ece5"
+
+                    },
+
+                    borderRadius: {
+
+                        DEFAULT: "0.5rem",
+                        xl: "1rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem",
+                        full: "9999px"
+
+                    },
+
+                    spacing: {
+
+                        "margin-mobile": "24px",
+                        "margin-desktop": "72px",
+
+                        gutter: "28px",
+
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "stack-lg": "56px"
+
+                    }
+
+                }
+
+            }
+
+        };
+    </script>
+
+
+    <!-- =========================================================
+         CUSTOM CSS
+    ========================================================== -->
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: #F2EAE0;
+            font-size: 18px;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================================
+           MATERIAL ICONS
+        ========================================================== */
+
+        .material-symbols-outlined {
+
+            font-variation-settings:
+                "FILL" 0,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+
+        }
+
+        .icon-filled {
+
+            font-variation-settings:
+                "FILL" 1,
+                "wght" 400,
+                "GRAD" 0,
+                "opsz" 28;
+
+        }
+
+
+        /* =========================================================
+           BACKGROUND GLOW
+        ========================================================== */
+
+        .ambient-orb {
+
+            position: absolute;
+
+            border-radius: 9999px;
+
+            filter: blur(70px);
+
+            pointer-events: none;
+
+            z-index: 0;
+
+        }
+
+        .orb-one {
+
+            width: 280px;
+            height: 280px;
+
+            background:
+                rgba(98, 87, 140, 0.12);
+
+            top: 90px;
+            left: -90px;
+
+            animation:
+                orbFloatOne 7s ease-in-out infinite;
+
+        }
+
+        .orb-two {
+
+            width: 240px;
+            height: 240px;
+
+            background:
+                rgba(70, 99, 104, 0.12);
+
+            bottom: 100px;
+            right: -70px;
+
+            animation:
+                orbFloatTwo 8s ease-in-out infinite;
+
+        }
+
+
+        @keyframes orbFloatOne {
+
+            0%,
+            100% {
+                transform:
+                    translate(0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate(25px, 15px)
+                    scale(1.08);
+            }
+
+        }
+
+
+        @keyframes orbFloatTwo {
+
+            0%,
+            100% {
+                transform:
+                    translate(0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate(-20px, -15px)
+                    scale(1.08);
+            }
+
+        }
+
+
+        /* =========================================================
+           PAGE ANIMATION
+        ========================================================== */
+
+        @keyframes pageFadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(14px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        .animate-page-load {
+
+            animation:
+                pageFadeIn
+                0.8s
+                ease-out
+                forwards;
+
+        }
+
+
+        /* =========================================================
+           SLIDE ANIMATIONS
+        ========================================================== */
+
+        @keyframes slideFromTop {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-40px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromBottom {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(40px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromLeft {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateX(-50px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+
+            }
+
+        }
+
+
+        @keyframes slideFromRight {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateX(50px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateX(0);
+
+            }
+
+        }
+
+
+        .animate-slide-top {
+
+            animation:
+                slideFromTop
+                0.7s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-slide-bottom {
+
+            animation:
+                slideFromBottom
+                0.8s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-slide-left {
+
+            animation:
+                slideFromLeft
+                0.8s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        .animate-slide-right {
+
+            animation:
+                slideFromRight
+                0.8s
+                cubic-bezier(0.16, 1, 0.3, 1)
+                forwards;
+
+        }
+
+
+        /* =========================================================
+           FLOATING ICON
+        ========================================================== */
+
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0px)
+                    rotate(0deg);
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(-9px)
+                    rotate(2deg);
+
+            }
+
+        }
+
+
+        .animate-float {
+
+            animation:
+                floatSlow
+                4s
+                ease-in-out
+                infinite;
+
+        }
+
+
+        /* =========================================================
+           PULSE GLOW
+        ========================================================== */
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+
+                box-shadow:
+                    0 0 0 0
+                    rgba(98, 87, 140, 0.40);
+
+            }
+
+            50% {
+
+                box-shadow:
+                    0 0 28px 8px
+                    rgba(98, 87, 140, 0.20);
+
+            }
+
+        }
+
+
+        .animate-pulse-glow {
+
+            animation:
+                pulseGlow
+                2.8s
+                ease-in-out
+                infinite;
+
+        }
+
+
+        /* =========================================================
+           CARD
+        ========================================================== */
+
+        .login-card {
+
+            box-shadow:
+                0 8px 35px
+                rgba(74, 69, 64, 0.08);
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease;
+
+        }
+
+
+        .login-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 22px 55px
+                rgba(98, 87, 140, 0.14);
+
+        }
+
+
+        /* =========================================================
+           INPUT
+        ========================================================== */
+
+        .input-field {
+
+            transition:
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                background-color 0.3s ease,
+                transform 0.25s ease;
+
+        }
+
+
+        .input-field:focus {
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        /* =========================================================
+           PASSWORD STRENGTH
+        ========================================================== */
+
+        .strength-bar {
+
+            height: 5px;
+
+            border-radius:
+                999px;
+
+            background:
+                #eae1da;
+
+            overflow:
+                hidden;
+
+        }
+
+
+        .strength-fill {
+
+            width: 0%;
+
+            height: 100%;
+
+            border-radius:
+                999px;
+
+            transition:
+                width 0.35s ease,
+                background-color 0.35s ease;
+
+        }
+
+
+        /* =========================================================
+           BUTTON
+        ========================================================== */
+
+        .btn-interactive {
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-radius 0.3s ease;
+
+        }
+
+
+        .btn-interactive:hover {
+
+            transform:
+                translateY(-2px)
+                scale(1.02);
+
+            border-radius:
+                1.25rem;
+
+        }
+
+
+        .btn-interactive:active {
+
+            transform:
+                scale(0.97);
+
+        }
+
+
+        /* =========================================================
+           SUCCESS STATE
+        ========================================================== */
+
+        .success-panel {
+
+            opacity: 0;
+
+            visibility:
+                hidden;
+
+            transform:
+                scale(0.96)
+                translateY(15px);
+
+            transition:
+                opacity 0.4s ease,
+                transform 0.4s ease,
+                visibility 0.4s ease;
+
+        }
+
+
+        .success-panel.show {
+
+            opacity: 1;
+
+            visibility:
+                visible;
+
+            transform:
+                scale(1)
+                translateY(0);
+
+        }
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        .mobile-menu {
+
+            max-height:
+                0;
+
+            overflow:
+                hidden;
+
+            opacity:
+                0;
+
+            transition:
+                max-height 0.35s ease,
+                opacity 0.25s ease;
+
+        }
+
+
+        .mobile-menu.open {
+
+            max-height:
+                500px;
+
+            opacity:
+                1;
+
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITY
+        ========================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    0.01ms !important;
+
+                scroll-behavior:
+                    auto !important;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================== */
+
+        @media (max-width: 640px) {
+
+            body {
+
+                font-size:
+                    16px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="bg-primary-container text-on-surface min-h-screen flex flex-col antialiased pt-20 animate-page-load"
+>
+
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================== -->
+
+    <header
+        class="fixed top-0 left-0 w-full z-50 bg-surface/95 backdrop-blur-md border-b-2 border-secondary-container shadow-sm animate-slide-top"
+    >
+
+        <div
+            class="h-20 px-margin-mobile md:px-margin-desktop max-w-[1320px] mx-auto flex items-center justify-between"
+        >
+
+            <!-- Logo -->
+
+            <a
+                href="home.html"
+                class="flex items-center gap-2 group"
+            >
+
+                <span
+                    class="material-symbols-outlined text-tertiary text-3xl transition-transform duration-500 group-hover:rotate-180"
+                >
+                    shield
+                </span>
+
+
+                <span
+                    class="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group-hover:text-tertiary transition-colors"
+                >
+                    ScamSense
+                </span>
+
+            </a>
+
+
+            <!-- Desktop Navigation -->
+
+            <nav
+                class="hidden lg:flex items-center gap-2"
+                aria-label="Main navigation"
+            >
+
+                <a
+                    href="home.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Home
+                </a>
+
+
+                <a
+                    href="help-desk.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Help Desk
+                </a>
+
+
+                <a
+                    href="resource.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Resources
+                </a>
+
+
+                <a
+                    href="media.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Media
+                </a>
+
+
+                <a
+                    href="awareness%20.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Awareness
+                </a>
+
+
+                <a
+                    href="our-mission.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    Our Mission
+                </a>
+
+
+                <a
+                    href="history.html"
+                    class="px-3 py-2 rounded-xl text-base font-medium text-on-surface-variant hover:text-primary hover:bg-primary-container/60 transition-all"
+                >
+                    History
+                </a>
+
+            </nav>
+
+
+            <!-- Right Side -->
+
+            <div
+                class="flex items-center gap-3"
+            >
+
+                <a
+                    href="contact-us.html"
+                    class="hidden sm:flex btn-interactive px-6 py-2.5 rounded-full border-2 border-secondary-container text-primary font-bold hover:border-tertiary hover:bg-tertiary hover:text-white"
+                >
+                    Contact
+                </a>
+
+
+                <button
+                    id="mobile-menu-btn"
+                    class="lg:hidden p-2 rounded-xl text-primary hover:bg-surface-variant"
+                    aria-label="Open navigation menu"
+                    aria-expanded="false"
+                    type="button"
+                >
+
+                    <span
+                        id="menu-icon"
+                        class="material-symbols-outlined text-3xl"
+                    >
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Mobile Navigation -->
+
+        <div
+            id="mobile-menu"
+            class="mobile-menu lg:hidden bg-surface border-t border-surface-variant"
+        >
+
+            <nav
+                class="px-margin-mobile py-4 flex flex-col gap-2"
+            >
+
+                <a href="home.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    Home
+                </a>
+
+                <a href="help-desk.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    Help Desk
+                </a>
+
+                <a href="resource.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    Resources
+                </a>
+
+                <a href="media.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    Media
+                </a>
+
+                <a href="awareness%20.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    Awareness
+                </a>
+
+                <a href="our-mission.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    Our Mission
+                </a>
+
+                <a href="history.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    History
+                </a>
+
+                <a href="contact-us.html" class="px-4 py-3 rounded-xl font-semibold hover:bg-primary-container">
+                    Contact Us
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main
+        class="relative flex-grow flex items-center justify-center px-margin-mobile md:px-margin-desktop py-stack-lg overflow-hidden"
+    >
+
+
+        <!-- Decorative Background Orbs -->
+
+        <div
+            class="ambient-orb orb-one"
+        ></div>
+
+
+        <div
+            class="ambient-orb orb-two"
+        ></div>
+
+
+        <div
+            class="relative z-10 w-full max-w-[1120px]"
+        >
+
+
+            <!-- =================================================
+                 LOGIN LAYOUT
+            ================================================== -->
+
+            <div
+                class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+            >
+
+
+                <!-- =================================================
+                     LEFT INTRODUCTION
+                ================================================== -->
+
+                <section
+                    class="hidden lg:flex flex-col justify-center animate-slide-left"
+                >
+
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60 shadow-sm backdrop-blur-sm w-fit"
+                    >
+
+                        <span
+                            class="relative flex h-3 w-3"
+                        >
+
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+                            ></span>
+
+                            <span
+                                class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"
+                            ></span>
+
+                        </span>
+
+
+                        <span
+                            class="text-xs font-bold text-on-surface-variant tracking-wider uppercase"
+                        >
+                            Secure Access
+                        </span>
+
+                    </div>
+
+
+                    <h1
+                        class="mt-6 text-5xl xl:text-6xl font-extrabold text-primary leading-tight tracking-tight"
+                    >
+                        Welcome back to
+                        <span
+                            class="text-tertiary"
+                        >
+                            ScamSense.
+                        </span>
+                    </h1>
+
+
+                    <p
+                        class="mt-5 text-lg xl:text-xl text-on-surface-variant leading-relaxed max-w-xl"
+                    >
+                        Sign in to continue using your personalized
+                        scam detection tools, review your verification
+                        history, and manage your security activity.
+                    </p>
+
+
+                    <!-- Security Highlights -->
+
+                    <div
+                        class="mt-8 space-y-4"
+                    >
+
+                        <div
+                            class="flex items-center gap-4"
+                        >
+
+                            <div
+                                class="w-11 h-11 rounded-xl bg-secondary-container text-secondary flex items-center justify-center"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined"
+                                >
+                                    verified_user
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3
+                                    class="font-bold text-lg text-primary"
+                                >
+                                    Smarter Scam Detection
+                                </h3>
+
+
+                                <p
+                                    class="text-sm text-on-surface-variant"
+                                >
+                                    Analyze suspicious messages, links,
+                                    screenshots, and QR codes.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="flex items-center gap-4"
+                        >
+
+                            <div
+                                class="w-11 h-11 rounded-xl bg-tertiary-container text-tertiary flex items-center justify-center"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined"
+                                >
+                                    history
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3
+                                    class="font-bold text-lg text-primary"
+                                >
+                                    Your Security History
+                                </h3>
+
+
+                                <p
+                                    class="text-sm text-on-surface-variant"
+                                >
+                                    Keep track of previous checks and
+                                    security-related activity.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="flex items-center gap-4"
+                        >
+
+                            <div
+                                class="w-11 h-11 rounded-xl bg-primary-container text-primary flex items-center justify-center"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined"
+                                >
+                                    lock
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <h3
+                                    class="font-bold text-lg text-primary"
+                                >
+                                    Built Around Safety
+                                </h3>
+
+
+                                <p
+                                    class="text-sm text-on-surface-variant"
+                                >
+                                    Simple guidance designed to help
+                                    you act with confidence.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Floating Shield -->
+
+                    <div
+                        class="mt-10 w-20 h-20 rounded-3xl bg-tertiary text-white flex items-center justify-center shadow-xl animate-float"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-5xl"
+                        >
+                            shield_lock
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     LOGIN CARD
+                ================================================== -->
+
+                <section
+                    class="login-card bg-surface-container-lowest rounded-3xl border border-surface-variant p-6 sm:p-8 md:p-10 animate-slide-right"
+                >
+
+
+                    <!-- Mobile Heading -->
+
+                    <div
+                        class="lg:hidden text-center mb-7"
+                    >
+
+                        <div
+                            class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/60"
+                        >
+
+                            <span
+                                class="w-2.5 h-2.5 rounded-full bg-emerald-500"
+                            ></span>
+
+
+                            <span
+                                class="text-xs font-bold text-on-surface-variant uppercase tracking-wider"
+                            >
+                                Secure Access
+                            </span>
+
+                        </div>
+
+
+                        <h1
+                            class="mt-4 text-4xl font-extrabold text-primary"
+                        >
+                            Welcome Back
+                        </h1>
+
+
+                        <p
+                            class="mt-2 text-base text-on-surface-variant"
+                        >
+                            Continue your safer digital journey.
+                        </p>
+
+                    </div>
+
+
+                    <!-- Desktop Card Heading -->
+
+                    <div
+                        class="hidden lg:block mb-7"
+                    >
+
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-tertiary-container text-tertiary flex items-center justify-center animate-float"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-3xl"
+                            >
+                                login
+                            </span>
+
+                        </div>
+
+
+                        <h2
+                            class="mt-5 text-3xl font-extrabold text-primary"
+                        >
+                            Sign in to ScamSense
+                        </h2>
+
+
+                        <p
+                            class="mt-2 text-base text-on-surface-variant"
+                        >
+                            Access your account and security tools.
+                        </p>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         LOGIN FORM
+                    ================================================== -->
+
+                    <form
+                        id="login-form"
+                        class="space-y-5"
+                        novalidate
+                    >
+
+
+                        <!-- Name -->
+
+                        <div>
+
+                            <label
+                                for="name"
+                                class="block font-bold text-base text-on-surface mb-2"
+                            >
+                                Name
+                            </label>
+
+
+                            <div
+                                class="relative"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant"
+                                >
+                                    person
+                                </span>
+
+
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    autocomplete="name"
+                                    required
+                                    placeholder="Enter your name"
+                                    class="input-field w-full h-[58px] pl-12 pr-4 rounded-2xl border-2 border-secondary-container bg-white text-base text-on-surface focus:outline-none focus:border-tertiary focus:ring-4 focus:ring-tertiary/20"
+                                >
+
+                            </div>
+
+
+                            <p
+                                id="name-error"
+                                class="hidden text-sm text-error font-semibold mt-2"
+                            >
+                                Please enter your name.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Email -->
+
+                        <div>
+
+                            <label
+                                for="email"
+                                class="block font-bold text-base text-on-surface mb-2"
+                            >
+                                Email ID
+                            </label>
+
+
+                            <div
+                                class="relative"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant"
+                                >
+                                    mail
+                                </span>
+
+
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autocomplete="email"
+                                    required
+                                    placeholder="you@example.com"
+                                    class="input-field w-full h-[58px] pl-12 pr-4 rounded-2xl border-2 border-secondary-container bg-white text-base text-on-surface focus:outline-none focus:border-tertiary focus:ring-4 focus:ring-tertiary/20"
+                                >
+
+                            </div>
+
+
+                            <p
+                                id="email-error"
+                                class="hidden text-sm text-error font-semibold mt-2"
+                            >
+                                Enter a valid email address.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Password -->
+
+                        <div>
+
+                            <div
+                                class="flex items-center justify-between mb-2"
+                            >
+
+                                <label
+                                    for="password"
+                                    class="block font-bold text-base text-on-surface"
+                                >
+                                    Password
+                                </label>
+
+
+                                <button
+                                    id="forgot-password"
+                                    type="button"
+                                    class="text-sm font-bold text-tertiary hover:underline"
+                                >
+                                    Forgot password?
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                class="relative"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant"
+                                >
+                                    lock
+                                </span>
+
+
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autocomplete="current-password"
+                                    required
+                                    minlength="6"
+                                    placeholder="Enter your password"
+                                    class="input-field w-full h-[58px] pl-12 pr-14 rounded-2xl border-2 border-secondary-container bg-white text-base text-on-surface focus:outline-none focus:border-tertiary focus:ring-4 focus:ring-tertiary/20"
+                                >
+
+
+                                <button
+                                    id="toggle-password"
+                                    type="button"
+                                    aria-label="Show password"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl text-on-surface-variant hover:bg-surface-variant hover:text-primary transition-all"
+                                >
+
+                                    <span
+                                        id="password-icon"
+                                        class="material-symbols-outlined"
+                                    >
+                                        visibility
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- Password Strength -->
+
+                            <div
+                                class="mt-3"
+                            >
+
+                                <div
+                                    class="flex justify-between items-center mb-1.5"
+                                >
+
+                                    <span
+                                        class="text-xs font-semibold text-on-surface-variant"
+                                    >
+                                        Password strength
+                                    </span>
+
+
+                                    <span
+                                        id="strength-text"
+                                        class="text-xs font-bold text-on-surface-variant"
+                                    >
+                                        —
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    class="strength-bar"
+                                >
+
+                                    <div
+                                        id="strength-fill"
+                                        class="strength-fill"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+
+                            <p
+                                id="password-error"
+                                class="hidden text-sm text-error font-semibold mt-2"
+                            >
+                                Password must contain at least 6 characters.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Remember Me -->
+
+                        <div
+                            class="flex items-center justify-between gap-4"
+                        >
+
+                            <label
+                                class="flex items-center gap-3 cursor-pointer select-none"
+                            >
+
+                                <input
+                                    id="remember"
+                                    name="remember"
+                                    type="checkbox"
+                                    class="w-5 h-5 rounded border-secondary-container text-tertiary focus:ring-tertiary"
+                                >
+
+
+                                <span
+                                    class="text-sm font-semibold text-on-surface-variant"
+                                >
+                                    Remember me
+                                </span>
+
+                            </label>
+
+
+                            <span
+                                class="hidden sm:flex items-center gap-1 text-xs font-semibold text-emerald-700"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined text-sm"
+                                >
+                                    verified_user
+                                </span>
+
+                                Secure sign in
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- Submit -->
+
+                        <button
+                            id="login-btn"
+                            type="submit"
+                            class="btn-interactive animate-pulse-glow w-full min-h-[60px] bg-tertiary hover:bg-secondary text-white rounded-full font-bold text-lg shadow-lg flex items-center justify-center gap-3"
+                        >
+
+                            <span
+                                class="material-symbols-outlined"
+                            >
+                                login
+                            </span>
+
+                            <span>
+                                Sign In
+                            </span>
+
+                        </button>
+
+
+                        <!-- Form Status -->
+
+                        <div
+                            id="form-status"
+                            role="status"
+                            aria-live="polite"
+                            class="hidden rounded-2xl p-4 text-sm font-semibold"
+                        ></div>
+
+
+                    </form>
+
+
+                    <!-- Divider -->
+
+                    <div
+                        class="flex items-center gap-4 my-7"
+                    >
+
+                        <div
+                            class="h-px bg-surface-variant flex-1"
+                        ></div>
+
+
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-on-surface-variant"
+                        >
+                            ScamSense
+                        </span>
+
+
+                        <div
+                            class="h-px bg-surface-variant flex-1"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- New Account -->
+
+                    <div
+                        class="text-center"
+                    >
+
+                        <p
+                            class="text-sm text-on-surface-variant"
+                        >
+                            Don't have a ScamSense account?
+                        </p>
+
+
+                        <a
+                            href="#"
+                            id="create-account-link"
+                            class="inline-flex items-center gap-1 mt-2 text-tertiary font-bold hover:underline"
+                        >
+
+                            Create an account
+
+                            <span
+                                class="material-symbols-outlined text-lg"
+                            >
+                                arrow_forward
+                            </span>
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Security Notice -->
+
+                    <div
+                        class="mt-7 p-4 rounded-2xl bg-secondary-container/50 border border-secondary-container"
+                    >
+
+                        <div
+                            class="flex items-start gap-3"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-secondary text-xl mt-0.5"
+                            >
+                                security
+                            </span>
+
+
+                            <p
+                                class="text-xs sm:text-sm text-on-surface-variant leading-relaxed"
+                            >
+                                Never share your password, OTP, UPI PIN,
+                                or banking credentials with anyone.
+                                ScamSense will never ask for them.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </section>
+
+            </div>
+
+
+            <!-- =================================================
+                 SUCCESS PANEL
+            ================================================== -->
+
+            <div
+                id="success-panel"
+                class="success-panel fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center p-5"
+            >
+
+                <div
+                    class="bg-surface rounded-3xl p-8 md:p-10 max-w-md w-full text-center shadow-2xl border border-surface-variant"
+                >
+
+                    <div
+                        class="w-20 h-20 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto"
+                    >
+
+                        <span
+                            class="material-symbols-outlined text-5xl icon-filled"
+                        >
+                            check_circle
+                        </span>
+
+                    </div>
+
+
+                    <h2
+                        class="mt-6 text-3xl font-extrabold text-primary"
+                    >
+                        Welcome to ScamSense
+                    </h2>
+
+
+                    <p
+                        id="success-message"
+                        class="mt-3 text-base text-on-surface-variant leading-relaxed"
+                    >
+                        Sign-in successful.
+                    </p>
+
+
+                    <button
+                        id="continue-btn"
+                        type="button"
+                        class="btn-interactive mt-7 w-full min-h-[56px] bg-tertiary hover:bg-secondary text-white rounded-full font-bold shadow-lg"
+                    >
+                        Continue to ScamSense
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer
+        class="relative z-10 bg-surface-container-high border-t border-outline-variant/40"
+    >
+
+        <div
+            class="max-w-[1320px] mx-auto px-margin-mobile md:px-margin-desktop py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left"
+        >
+
+            <div
+                class="flex items-center gap-2"
+            >
+
+                <span
+                    class="material-symbols-outlined text-primary text-2xl"
+                >
+                    shield
+                </span>
+
+
+                <span
+                    class="font-bold text-primary"
+                >
+                    ScamSense
+                </span>
+
+            </div>
+
+
+            <p
+                class="text-sm text-on-surface-variant"
+            >
+                © 2026 ScamSense. Built for security, transparency, and digital trust.
+            </p>
+
+
+            <a
+                href="help-desk.html"
+                class="text-sm font-bold text-tertiary hover:underline"
+            >
+                Need Help?
+            </a>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script>
+
+        /* =========================================================
+           ELEMENTS
+        ========================================================== */
+
+        const loginForm =
+            document.getElementById(
+                "login-form"
+            );
+
+        const nameInput =
+            document.getElementById(
+                "name"
+            );
+
+        const emailInput =
+            document.getElementById(
+                "email"
+            );
+
+        const passwordInput =
+            document.getElementById(
+                "password"
+            );
+
+        const togglePassword =
+            document.getElementById(
+                "toggle-password"
+            );
+
+        const passwordIcon =
+            document.getElementById(
+                "password-icon"
+            );
+
+        const strengthFill =
+            document.getElementById(
+                "strength-fill"
+            );
+
+        const strengthText =
+            document.getElementById(
+                "strength-text"
+            );
+
+        const formStatus =
+            document.getElementById(
+                "form-status"
+            );
+
+        const successPanel =
+            document.getElementById(
+                "success-panel"
+            );
+
+        const successMessage =
+            document.getElementById(
+                "success-message"
+            );
+
+        const continueBtn =
+            document.getElementById(
+                "continue-btn"
+            );
+
+        const mobileMenuBtn =
+            document.getElementById(
+                "mobile-menu-btn"
+            );
+
+        const mobileMenu =
+            document.getElementById(
+                "mobile-menu"
+            );
+
+        const menuIcon =
+            document.getElementById(
+                "menu-icon"
+            );
+
+
+        /* =========================================================
+           MOBILE MENU
+        ========================================================== */
+
+        mobileMenuBtn.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    mobileMenu.classList.toggle(
+                        "open"
+                    );
+
+                mobileMenuBtn.setAttribute(
+                    "aria-expanded",
+                    String(isOpen)
+                );
+
+                menuIcon.textContent =
+                    isOpen
+                        ? "close"
+                        : "menu";
+
+            }
+        );
+
+
+        /* =========================================================
+           SHOW / HIDE PASSWORD
+        ========================================================== */
+
+        togglePassword.addEventListener(
+            "click",
+            () => {
+
+                const showing =
+                    passwordInput.type ===
+                    "text";
+
+
+                passwordInput.type =
+                    showing
+                        ? "password"
+                        : "text";
+
+
+                passwordIcon.textContent =
+                    showing
+                        ? "visibility"
+                        : "visibility_off";
+
+
+                togglePassword.setAttribute(
+                    "aria-label",
+                    showing
+                        ? "Show password"
+                        : "Hide password"
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           PASSWORD STRENGTH
+        ========================================================== */
+
+        function updatePasswordStrength(
+            password
+        ) {
+
+            let score = 0;
+
+
+            if (password.length >= 6) {
+                score++;
+            }
+
+
+            if (password.length >= 10) {
+                score++;
+            }
+
+
+            if (
+                /[A-Z]/.test(password)
+            ) {
+                score++;
+            }
+
+
+            if (
+                /[0-9]/.test(password)
+            ) {
+                score++;
+            }
+
+
+            if (
+                /[^A-Za-z0-9]/.test(password)
+            ) {
+                score++;
+            }
+
+
+            const percentage =
+                (score / 5) * 100;
+
+
+            strengthFill.style.width =
+                percentage + "%";
+
+
+            if (!password) {
+
+                strengthFill.style.backgroundColor =
+                    "#eae1da";
+
+                strengthText.textContent =
+                    "—";
+
+                strengthText.style.color =
+                    "#4b463f";
+
+                return;
+
+            }
+
+
+            if (score <= 2) {
+
+                strengthText.textContent =
+                    "Weak";
+
+                strengthText.style.color =
+                    "#ba1a1a";
+
+                strengthFill.style.backgroundColor =
+                    "#ba1a1a";
+
+            } else if (score <= 4) {
+
+                strengthText.textContent =
+                    "Good";
+
+                strengthText.style.color =
+                    "#466368";
+
+                strengthFill.style.backgroundColor =
+                    "#466368";
+
+            } else {
+
+                strengthText.textContent =
+                    "Strong";
+
+                strengthText.style.color =
+                    "#2e7d32";
+
+                strengthFill.style.backgroundColor =
+                    "#2e7d32";
+
+            }
+
+        }
+
+
+        passwordInput.addEventListener(
+            "input",
+            () => {
+
+                updatePasswordStrength(
+                    passwordInput.value
+                );
+
+                clearFieldError(
+                    passwordInput
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           FIELD VALIDATION
+        ========================================================== */
+
+        function showFieldError(
+            input,
+            errorId,
+            message
+        ) {
+
+            const error =
+                document.getElementById(
+                    errorId
+                );
+
+
+            if (message) {
+                error.textContent =
+                    message;
+            }
+
+
+            error.classList.remove(
+                "hidden"
+            );
+
+
+            input.classList.remove(
+                "border-secondary-container"
+            );
+
+
+            input.classList.add(
+                "border-error",
+                "ring-4",
+                "ring-error/10"
+            );
+
+        }
+
+
+        function clearFieldError(
+            input
+        ) {
+
+            const errorId =
+                input.id +
+                "-error";
+
+
+            const error =
+                document.getElementById(
+                    errorId
+                );
+
+
+            if (error) {
+
+                error.classList.add(
+                    "hidden"
+                );
+
+            }
+
+
+            input.classList.remove(
+                "border-error",
+                "ring-4",
+                "ring-error/10"
+            );
+
+
+            input.classList.add(
+                "border-secondary-container"
+            );
+
+        }
+
+
+        nameInput.addEventListener(
+            "input",
+            () => clearFieldError(
+                nameInput
+            )
+        );
+
+
+        emailInput.addEventListener(
+            "input",
+            () => clearFieldError(
+                emailInput
+            )
+        );
+
+
+        /* =========================================================
+           LOGIN SUBMIT
+           
+           CURRENTLY FRONTEND-ONLY.
+           
+           Later connect this to your FastAPI
+           authentication endpoint.
+        ========================================================== */
+
+        loginForm.addEventListener(
+            "submit",
+            (event) => {
+
+                event.preventDefault();
+
+
+                const name =
+                    nameInput.value.trim();
+
+                const email =
+                    emailInput.value.trim();
+
+                const password =
+                    passwordInput.value;
+
+
+                formStatus.classList.add(
+                    "hidden"
+                );
+
+
+                let valid = true;
+
+
+                /* Name */
+
+                if (!name) {
+
+                    showFieldError(
+                        nameInput,
+                        "name-error",
+                        "Please enter your name."
+                    );
+
+                    valid = false;
+
+                } else {
+
+                    clearFieldError(
+                        nameInput
+                    );
+
+                }
+
+
+                /* Email */
+
+                const emailPattern =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+                if (
+                    !emailPattern.test(
+                        email
+                    )
+                ) {
+
+                    showFieldError(
+                        emailInput,
+                        "email-error",
+                        "Enter a valid email address."
+                    );
+
+                    valid = false;
+
+                } else {
+
+                    clearFieldError(
+                        emailInput
+                    );
+
+                }
+
+
+                /* Password */
+
+                if (
+                    password.length < 6
+                ) {
+
+                    showFieldError(
+                        passwordInput,
+                        "password-error",
+                        "Password must contain at least 6 characters."
+                    );
+
+                    valid = false;
+
+                } else {
+
+                    clearFieldError(
+                        passwordInput
+                    );
+
+                }
+
+
+                if (!valid) {
+
+                    formStatus.textContent =
+                        "Please correct the highlighted fields.";
+
+                    formStatus.className =
+                        "rounded-2xl p-4 text-sm font-semibold bg-error-container text-on-error-container";
+
+                    return;
+
+                }
+
+
+                /* ===============================================
+                   FRONTEND DEMO SUCCESS STATE
+                ================================================ */
+
+                const userSession =
+                    JSON.stringify(
+                        {
+                            name,
+                            email,
+                            initial: name.charAt(0).toUpperCase(),
+                            signedInAt: new Date().toISOString()
+                        }
+                    );
+
+                if (
+                    document.getElementById("remember").checked
+                ) {
+
+                    localStorage.setItem(
+                        "scamsense-user",
+                        userSession
+                    );
+
+                    sessionStorage.removeItem(
+                        "scamsense-user"
+                    );
+
+                } else {
+
+                    sessionStorage.setItem(
+                        "scamsense-user",
+                        userSession
+                    );
+
+                    localStorage.removeItem(
+                        "scamsense-user"
+                    );
+
+                }
+
+                successMessage.textContent =
+                    "Welcome back, " +
+                    name +
+                    ". Your ScamSense dashboard is ready.";
+
+
+                successPanel.classList.add(
+                    "show"
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           CONTINUE BUTTON
+        ========================================================== */
+
+        continueBtn.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "home.html";
+
+            }
+        );
+
+
+        /* =========================================================
+           FORGOT PASSWORD
+        ========================================================== */
+
+        document
+            .getElementById(
+                "forgot-password"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    formStatus.textContent =
+                        "Password recovery will be available when the authentication backend is connected.";
+
+                    formStatus.className =
+                        "rounded-2xl p-4 text-sm font-semibold bg-tertiary-container text-on-tertiary-container";
+
+                }
+            );
+
+
+        /* =========================================================
+           CREATE ACCOUNT
+        ========================================================== */
+
+        document
+            .getElementById(
+                "create-account-link"
+            )
+            .addEventListener(
+                "click",
+                (event) => {
+
+                    event.preventDefault();
+
+
+                    formStatus.textContent =
+                        "Registration will be connected to the ScamSense authentication flow.";
+
+                    formStatus.className =
+                        "rounded-2xl p-4 text-sm font-semibold bg-secondary-container text-on-secondary-container";
+
+                }
+            );
+
+    </script>
+
+    <script src="scamsense-translate.js"></script>
+</body>
+
+</html>

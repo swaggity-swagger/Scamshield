@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ScamSense - Home</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#1e1244",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#001f24",
+                        "tertiary": "#62578c",
+                        "surface-tint": "#635e56",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#cdc5bc",
+                        "surface": "#fff8f4",
+                        "surface-container-low": "#fbf2eb",
+                        "on-primary-fixed": "#1e1b15",
+                        "surface-variant": "#eae1da",
+                        "surface-dim": "#e1d8d2",
+                        "on-surface-variant": "#4b463f",
+                        "secondary": "#466368",
+                        "primary-container": "#f2eae0",
+                        "inverse-on-surface": "#f8efe8",
+                        "secondary-fixed": "#c9e8ee",
+                        "secondary-fixed-dim": "#adccd2",
+                        "on-primary-container": "#6e6961",
+                        "primary": "#635e56",
+                        "inverse-surface": "#34302b",
+                        "primary-fixed": "#e9e1d7",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#6e6298",
+                        "surface-bright": "#fff8f4",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1f1b17",
+                        "surface-container-highest": "#eae1da",
+                        "primary-fixed-dim": "#cdc5bc",
+                        "outline": "#7c766e",
+                        "on-background": "#1f1b17",
+                        "on-primary-fixed-variant": "#4a463f",
+                        "secondary-container": "#c6e5eb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#2e4b50",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e7deff",
+                        "surface-container-high": "#f0e7df",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ccbefa",
+                        "outline-variant": "#cdc5bc",
+                        "background": "#fff8f4",
+                        "tertiary-container": "#efe7ff",
+                        "on-tertiary-fixed-variant": "#4a3f72",
+                        "on-secondary-container": "#4a676d",
+                        "surface-container": "#f5ece5"
+                    },
+
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        full: "9999px"
+                    },
+
+                    spacing: {
+                        "stack-lg": "48px",
+                        "margin-mobile": "20px",
+                        "stack-md": "24px",
+                        "margin-desktop": "64px",
+                        unit: "8px",
+                        "stack-sm": "12px",
+                        gutter: "24px",
+                        "container-max": "1280px"
+                    },
+
+                    fontFamily: {
+                        headline: ["Hanken Grotesk", "sans-serif"],
+                        body: ["Hanken Grotesk", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+    /* =========================================================
+       BASE
+    ========================================================= */
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Hanken Grotesk", sans-serif;
+        background-color: #F2EAE0;
+        overflow-x: hidden;
+        font-size: 18px;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    a,
+    button {
+        transition:
+            transform 0.35s ease,
+            box-shadow 0.35s ease,
+            background-color 0.35s ease,
+            color 0.35s ease,
+            border-radius 0.35s ease,
+            opacity 0.35s ease;
+    }
+
+
+    /* =========================================================
+       TYPOGRAPHY
+       ========================================================= */
+
+    .hero-title,
+    h1 {
+        font-size: 4.2rem;
+        line-height: 1.12;
+        letter-spacing: -0.025em;
+        font-weight: 800;
+    }
+
+    .hero-description {
+        font-size: 1.45rem;
+        line-height: 1.75;
+        font-weight: 500;
+    }
+
+    .hero-button {
+        font-size: 1.2rem;
+    }
+
+    h2 {
+        font-size: 2.35rem;
+        line-height: 1.25;
+        font-weight: 800;
+        letter-spacing: -0.015em;
+    }
+
+    .tool-card h3 {
+        font-size: 1.55rem;
+        line-height: 1.35;
+        font-weight: 800;
+    }
+
+    .tool-card p {
+        font-size: 1.15rem;
+        line-height: 1.7;
+    }
+
+    .trust-section h2 {
+        font-size: 2.75rem;
+        line-height: 1.2;
+        font-weight: 800;
+    }
+
+    .trust-section p {
+        font-size: 1.25rem;
+        line-height: 1.75;
+    }
+
+    footer p,
+    footer a {
+        font-size: 1.05rem;
+    }
+
+    footer .text-xl {
+        font-size: 1.4rem;
+    }
+
+
+    /* =========================================================
+       AMBIENT SHADOW
+       ========================================================= */
+
+    .ambient-shadow {
+        box-shadow:
+            0 5px 24px rgba(74, 69, 64, 0.06);
+    }
+
+    .ambient-shadow-hover\:hover {
+        box-shadow:
+            0 22px 50px rgba(98, 87, 140, 0.20);
+
+        transform:
+            translateY(-10px)
+            scale(1.025);
+    }
+
+
+    /* =========================================================
+       PAGE ENTRANCE
+       ========================================================= */
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+
+    @keyframes slideFromTop {
+        from {
+            opacity: 0;
+            transform:
+                translateY(-70px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateY(0);
+        }
+    }
+
+
+    @keyframes slideFromBottom {
+        from {
+            opacity: 0;
+            transform:
+                translateY(70px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateY(0);
+        }
+    }
+
+
+    @keyframes slideFromLeft {
+        from {
+            opacity: 0;
+            transform:
+                translateX(-80px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateX(0);
+        }
+    }
+
+
+    @keyframes slideFromRight {
+        from {
+            opacity: 0;
+            transform:
+                translateX(80px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateX(0);
+        }
+    }
+
+
+    /* =========================================================
+       FLOATING
+       ========================================================= */
+
+    @keyframes float {
+        0%,
+        100% {
+            transform:
+                translateY(0);
+        }
+
+        50% {
+            transform:
+                translateY(-15px);
+        }
+    }
+
+
+    @keyframes floatRotate {
+        0%,
+        100% {
+            transform:
+                translateY(0)
+                rotate(0deg);
+        }
+
+        50% {
+            transform:
+                translateY(-12px)
+                rotate(2deg);
+        }
+    }
+
+
+    /* =========================================================
+       GLOW
+       ========================================================= */
+
+    @keyframes pulseGlow {
+        0%,
+        100% {
+            box-shadow:
+                0 0 0 0 rgba(98, 87, 140, 0.25);
+
+            transform:
+                scale(1);
+        }
+
+        50% {
+            box-shadow:
+                0 0 35px 10px rgba(98, 87, 140, 0.18);
+
+            transform:
+                scale(1.035);
+        }
+    }
+
+
+    @keyframes softGlow {
+        0%,
+        100% {
+            box-shadow:
+                0 0 0 rgba(98, 87, 140, 0);
+        }
+
+        50% {
+            box-shadow:
+                0 0 30px rgba(98, 87, 140, 0.18);
+        }
+    }
+
+
+    /* =========================================================
+       HERO BACKGROUND ZOOM
+       ========================================================= */
+
+    @keyframes heroZoom {
+        0% {
+            transform:
+                scale(1);
+        }
+
+        100% {
+            transform:
+                scale(1.09);
+        }
+    }
+
+
+    /* =========================================================
+       SHIMMER
+       ========================================================= */
+
+    @keyframes shimmer {
+        0% {
+            background-position:
+                -200% 0;
+        }
+
+        100% {
+            background-position:
+                200% 0;
+        }
+    }
+
+
+    /* =========================================================
+       CARD FLOAT
+       ========================================================= */
+
+    @keyframes cardFloat {
+        0%,
+        100% {
+            transform:
+                translateY(0);
+        }
+
+        50% {
+            transform:
+                translateY(-5px);
+        }
+    }
+
+
+    /* =========================================================
+       STAGGERED ENTRANCE
+       ========================================================= */
+
+    .animate-fade-in {
+        animation:
+            fadeIn
+            0.9s
+            ease-out
+            forwards;
+    }
+
+    .animate-slide-top {
+        animation:
+            slideFromTop
+            0.9s
+            cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+    }
+
+    .animate-slide-bottom {
+        animation:
+            slideFromBottom
+            0.9s
+            cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+    }
+
+    .animate-slide-left {
+        animation:
+            slideFromLeft
+            0.9s
+            cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+    }
+
+    .animate-slide-right {
+        animation:
+            slideFromRight
+            0.9s
+            cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+    }
+
+
+    .animate-float {
+        animation:
+            float
+            4s
+            ease-in-out
+            infinite;
+    }
+
+    .animate-pulse-glow {
+        animation:
+            pulseGlow
+            3s
+            ease-in-out
+            infinite;
+    }
+
+    .animate-soft-glow {
+        animation:
+            softGlow
+            3s
+            ease-in-out
+            infinite;
+    }
+
+
+    /* =========================================================
+       DELAYS
+       ========================================================= */
+
+    .delay-100 {
+        animation-delay: 100ms;
+    }
+
+    .delay-200 {
+        animation-delay: 200ms;
+    }
+
+    .delay-300 {
+        animation-delay: 300ms;
+    }
+
+    .delay-400 {
+        animation-delay: 400ms;
+    }
+
+    .delay-500 {
+        animation-delay: 500ms;
+    }
+
+    .delay-600 {
+        animation-delay: 600ms;
+    }
+
+
+    /* =========================================================
+       NAVBAR
+       ========================================================= */
+
+    nav a {
+        position: relative;
+    }
+
+    nav a::after {
+        content: "";
+
+        position: absolute;
+
+        left: 50%;
+        bottom: -2px;
+
+        width: 0;
+        height: 3px;
+
+        background:
+            #62578c;
+
+        border-radius:
+            999px;
+
+        transform:
+            translateX(-50%);
+
+        transition:
+            width 0.35s ease;
+    }
+
+    nav a:hover::after {
+        width: 75%;
+    }
+
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .hero-background {
+        animation:
+            fadeIn 1.2s ease-out,
+            heroZoom 10s ease-in-out infinite alternate;
+    }
+
+
+    .hero-title {
+        animation:
+            slideFromTop
+            1s
+            cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+    }
+
+
+    .hero-title::after {
+        content: "";
+
+        display: block;
+
+        width: 90px;
+        height: 5px;
+
+        margin:
+            18px auto 0;
+
+        border-radius:
+            999px;
+
+        background:
+            #62578c;
+
+        opacity:
+            0.7;
+
+        animation:
+            expandLine
+            1s
+            1s
+            ease-out
+            forwards;
+
+        transform:
+            scaleX(0);
+
+        transform-origin:
+            center;
+    }
+
+
+    @keyframes expandLine {
+        from {
+            transform:
+                scaleX(0);
+        }
+
+        to {
+            transform:
+                scaleX(1);
+        }
+    }
+
+
+    .hero-description {
+        animation:
+            slideFromBottom
+            1s
+            0.2s
+            cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+
+        opacity:
+            0;
+    }
+
+
+    .hero-button {
+        animation:
+            slideFromBottom
+            1s
+            0.45s
+            cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+
+        opacity:
+            0;
+    }
+
+
+    /* =========================================================
+       HERO BUTTON
+       ========================================================= */
+
+    .hero-button a {
+        position:
+            relative;
+
+        overflow:
+            hidden;
+
+        box-shadow:
+            0 10px 30px
+            rgba(98, 87, 140, 0.20);
+    }
+
+
+    .hero-button a::before {
+        content: "";
+
+        position:
+            absolute;
+
+        top: 0;
+        left: -120%;
+
+        width: 80%;
+        height: 100%;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.35),
+                transparent
+            );
+
+        transform:
+            skewX(-20deg);
+
+        transition:
+            left 0.7s ease;
+    }
+
+
+    .hero-button a:hover::before {
+        left:
+            150%;
+    }
+
+
+    .hero-button a:hover {
+        transform:
+            translateY(-4px)
+            scale(1.04);
+    }
+
+
+    /* =========================================================
+       TOOL CARDS
+       ========================================================= */
+
+    .tool-card {
+        position:
+            relative;
+
+        overflow:
+            hidden;
+
+        isolation:
+            isolate;
+    }
+
+
+    .tool-card::before {
+        content: "";
+
+        position:
+            absolute;
+
+        top: 0;
+        left: -120%;
+
+        width: 75%;
+        height: 100%;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.48),
+                transparent
+            );
+
+        transform:
+            skewX(-20deg);
+
+        transition:
+            left 0.7s ease;
+
+        z-index:
+            0;
+    }
+
+
+    .tool-card:hover::before {
+        left:
+            150%;
+    }
+
+
+    .tool-card > * {
+        position:
+            relative;
+
+        z-index:
+            1;
+    }
+
+
+    .tool-card:hover .tool-icon {
+        transform:
+            scale(1.18)
+            rotate(8deg)
+            translateY(-3px);
+    }
+
+
+    .tool-icon {
+        transition:
+            transform 0.45s
+            cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        box-shadow:
+            0 8px 18px rgba(74, 69, 64, 0.07);
+    }
+
+
+    .tool-card:hover h3 {
+        transform:
+            translateX(4px);
+    }
+
+
+    .tool-card h3 {
+        transition:
+            transform 0.3s ease,
+            color 0.3s ease;
+    }
+
+
+    /* =========================================================
+       TOOL ARROW
+       ========================================================= */
+
+    .tool-card > .material-symbols-outlined {
+        transition:
+            transform 0.35s ease,
+            opacity 0.35s ease;
+    }
+
+
+    .tool-card:hover > .material-symbols-outlined {
+        transform:
+            translateX(5px)
+            scale(1.15);
+    }
+
+
+    /* =========================================================
+       TRUST SECTION
+       ========================================================= */
+
+    .trust-section {
+        position:
+            relative;
+
+        overflow:
+            hidden;
+
+        box-shadow:
+            0 12px 40px
+            rgba(98, 87, 140, 0.10);
+    }
+
+
+    .trust-section::before,
+    .trust-section::after {
+        content: "";
+
+        position:
+            absolute;
+
+        width: 220px;
+        height: 220px;
+
+        border-radius:
+            50%;
+
+        background:
+            rgba(255, 255, 255, 0.22);
+
+        pointer-events:
+            none;
+
+        filter:
+            blur(2px);
+    }
+
+
+    .trust-section::before {
+        top:
+            -110px;
+
+        left:
+            -90px;
+
+        animation:
+            floatRotate
+            6s
+            ease-in-out
+            infinite;
+    }
+
+
+    .trust-section::after {
+        right:
+            -100px;
+
+        bottom:
+            -110px;
+
+        animation:
+            floatRotate
+            7s
+            ease-in-out
+            infinite reverse;
+    }
+
+
+    .trust-section > * {
+        position:
+            relative;
+
+        z-index:
+            2;
+    }
+
+
+    /* =========================================================
+       TRUST BUTTONS
+       ========================================================= */
+
+    .trust-section a {
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            border-radius 0.3s ease;
+    }
+
+
+    .trust-section a:hover {
+        transform:
+            translateY(-4px)
+            scale(1.03);
+
+        box-shadow:
+            0 12px 28px
+            rgba(74, 69, 64, 0.12);
+    }
+
+
+    /* =========================================================
+       AI ASSISTANT
+       ========================================================= */
+
+    .ai-button {
+        animation:
+            float 4s ease-in-out infinite,
+            softGlow 3s ease-in-out infinite;
+
+        box-shadow:
+            0 10px 35px
+            rgba(70, 99, 104, 0.25);
+    }
+
+
+    .ai-button:hover {
+        transform:
+            scale(1.15)
+            rotate(-5deg);
+
+        box-shadow:
+            0 16px 45px
+            rgba(70, 99, 104, 0.35);
+    }
+
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer a {
+        position:
+            relative;
+
+        transition:
+            transform 0.25s ease,
+            color 0.25s ease;
+    }
+
+
+    footer a:hover {
+        transform:
+            translateX(5px);
+
+        color:
+            #62578c;
+    }
+
+
+    /* =========================================================
+       SCROLL REVEAL FEEL
+       ========================================================= */
+
+    section {
+        scroll-margin-top:
+            80px;
+    }
+
+
+    /* =========================================================
+       RESPONSIVE - DESKTOP
+       ========================================================= */
+
+    @media (min-width: 1200px) {
+
+        .hero-title,
+        h1 {
+            font-size:
+                5.15rem;
+        }
+
+
+        .hero-description {
+            font-size:
+                1.65rem;
+
+            max-width:
+                860px;
+        }
+
+
+        h2 {
+            font-size:
+                2.75rem;
+        }
+
+
+        .tool-card h3 {
+            font-size:
+                1.75rem;
+        }
+
+
+        .tool-card p {
+            font-size:
+                1.15rem;
+        }
+
+
+        .trust-section h2 {
+            font-size:
+                3rem;
+        }
+
+
+        .trust-section p {
+            font-size:
+                1.3rem;
+        }
+
+    }
+
+
+    /* =========================================================
+       TABLET
+       ========================================================= */
+
+    @media (min-width: 768px) and (max-width: 1199px) {
+
+        .hero-title,
+        h1 {
+            font-size:
+                4rem;
+        }
+
+
+        .hero-description {
+            font-size:
+                1.4rem;
+        }
+
+
+        h2 {
+            font-size:
+                2.3rem;
+        }
+
+
+        .tool-card h3 {
+            font-size:
+                1.6rem;
+        }
+
+
+        .tool-card p {
+            font-size:
+                1.1rem;
+        }
+
+    }
+
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 767px) {
+
+        body {
+            font-size:
+                16px;
+        }
+
+
+        .hero-title,
+        h1 {
+            font-size:
+                2.55rem;
+
+            line-height:
+                1.18;
+        }
+
+
+        .hero-title::after {
+            width:
+                60px;
+
+            height:
+                4px;
+
+            margin-top:
+                14px;
+        }
+
+
+        .hero-description {
+            font-size:
+                1.08rem;
+
+            line-height:
+                1.65;
+        }
+
+
+        .hero-button {
+            font-size:
+                1rem;
+        }
+
+
+        h2 {
+            font-size:
+                1.95rem;
+        }
+
+
+        .tool-card h3 {
+            font-size:
+                1.35rem;
+        }
+
+
+        .tool-card p {
+            font-size:
+                1.02rem;
+
+            line-height:
+                1.65;
+        }
+
+
+        .trust-section h2 {
+            font-size:
+                2rem;
+        }
+
+
+        .trust-section p {
+            font-size:
+                1.05rem;
+        }
+
+
+        footer p,
+        footer a {
+            font-size:
+                0.98rem;
+        }
+
+
+        .ai-button {
+            width:
+                58px;
+
+            height:
+                58px;
+
+            right:
+                18px;
+
+            bottom:
+                18px;
+        }
+
+
+        .ai-button .material-symbols-outlined {
+            font-size:
+                28px;
+        }
+
+
+        .animate-slide-left,
+        .animate-slide-right {
+            animation-name:
+                slideFromBottom;
+        }
+
+
+        .hero-background {
+            animation:
+                fadeIn 1s ease-out;
+        }
+
+    }
+
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        *,
+        *::before,
+        *::after {
+
+            animation-duration:
+                0.01ms !important;
+
+            animation-iteration-count:
+                1 !important;
+
+            transition-duration:
+                0.01ms !important;
+
+            scroll-behavior:
+                auto !important;
+        }
+
+    }
+
+</style>
+</head>
+
+<body class="bg-background text-on-background min-h-screen flex flex-col pt-14 relative">
+
+    <!-- Navbar -->
+    <header
+        class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-14 bg-surface/90 backdrop-blur-md shadow-sm border-b-2 border-secondary-container animate-slide-top"
+    >
+        <div class="flex items-center gap-gutter">
+
+            <a
+                class="text-2xl font-bold text-primary transition-all duration-300 hover:tracking-wide active:scale-95 flex items-center gap-1 group"
+                href="home.html"
+            >
+                <span class="material-symbols-outlined text-tertiary transition-transform duration-500 group-hover:rotate-180">
+                    shield
+                </span>
+
+                ScamSense
+            </a>
+
+            <nav class="hidden md:flex gap-stack-md items-center h-full pt-1">
+
+                <a
+                    class="text-sm font-semibold text-primary border-b-4 border-tertiary pb-1 h-full flex items-center px-3 hover:bg-primary-container/60 hover:rounded-t-lg transition-all duration-300"
+                    href="#"
+                >
+                    Home
+                </a>
+
+                <a
+                    class="text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-primary-container/60 hover:rounded-t-lg transition-all duration-300 px-3 h-full flex items-center pb-1 border-b-4 border-transparent hover:border-primary/40"
+                    href="help-desk.html"
+                >
+                    Help Desk
+                </a>
+
+                <a
+                    class="text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-primary-container/60 hover:rounded-t-lg transition-all duration-300 px-3 h-full flex items-center pb-1 border-b-4 border-transparent hover:border-primary/40"
+                    href="resource.html"
+                >
+                    Resources
+                </a>
+
+                <a
+                    class="text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-primary-container/60 hover:rounded-t-lg transition-all duration-300 px-3 h-full flex items-center pb-1 border-b-4 border-transparent hover:border-primary/40"
+                    href="media.html"
+                >
+                    Media
+                </a>
+
+                <a
+                    class="text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-primary-container/60 hover:rounded-t-lg transition-all duration-300 px-3 h-full flex items-center pb-1 border-b-4 border-transparent hover:border-primary/40"
+                    href="history.html"
+                >
+                    History
+                </a>
+
+                <a
+                    class="text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-primary-container/60 hover:rounded-t-lg transition-all duration-300 px-3 h-full flex items-center pb-1 border-b-4 border-transparent hover:border-primary/40"
+                    href="awareness%20.html"
+                >
+                    Awareness
+                </a>
+
+                <a
+                    class="text-sm font-semibold text-on-surface-variant hover:text-primary hover:bg-primary-container/60 hover:rounded-t-lg transition-all duration-300 px-3 h-full flex items-center pb-1 border-b-4 border-transparent hover:border-primary/40"
+                    href="our-mission.html"
+                >
+                    Our Mission
+                </a>
+            </nav>
+        </div>
+
+        <div class="flex items-center gap-stack-sm">
+
+            <!-- Language -->
+            <label class="sr-only" for="languageSelector">
+                Select language
+            </label>
+
+            <select
+                id="languageSelector"
+                class="bg-transparent border-0 text-primary font-semibold cursor-pointer focus:ring-0"
+                aria-label="Select language"
+            >
+                <option value="en">EN</option>
+                <option value="hi">हिन्दी</option>
+                <option value="mr">मराठी</option>
+            </select>
+
+            <!-- Login -->
+            <a
+                href="login.html"
+                class="bg-tertiary text-on-tertiary font-semibold text-sm px-6 py-2 rounded-full hover:rounded-xl h-[40px] flex items-center justify-center hover:bg-tertiary/90 hover:shadow-md transition-all duration-300 active:scale-95"
+            >
+                Login
+            </a>
+        </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex-grow flex flex-col items-center w-full">
+
+        <!-- Hero Section -->
+<section
+    class="relative w-full min-h-[65vh] flex items-center justify-center px-margin-mobile md:px-margin-desktop py-stack-lg overflow-hidden"
+>
+    <!-- Cybersecurity Background -->
+    <div
+        class="absolute inset-0 z-0 hero-background"
+        style="
+            background-image: url('scamsense-bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        "
+        aria-hidden="true"
+    ></div>
+
+    <!-- Soft Overlay for Readability -->
+    <div
+        class="absolute inset-0 z-0 bg-white/30 backdrop-blur-[1px]"
+        aria-hidden="true"
+    ></div>
+
+    <!-- Hero Content -->
+    <div
+        class="relative z-10 max-w-container-max w-full flex flex-col items-center text-center gap-stack-sm"
+    >
+        <h1
+            class="hero-title text-3xl md:text-5xl font-bold text-on-surface max-w-4xl leading-tight"
+        >
+            Think It's a Scam?
+            <br class="hidden md:block">
+            Check Before You Act.
+        </h1>
+
+        <p
+            class="hero-description text-base md:text-lg max-w-3xl mt-4 bg-white/65 backdrop-blur-md text-on-surface p-5 md:p-6 rounded-2xl border border-white/50 shadow-lg" style="background-color: rgba(255, 255, 255, 0.2);"
+        >
+            Stay safe with our easy-to-use tools. Verify suspicious messages,
+            links, screenshots, and QR codes before you click, share, or pay.
+        </p>
+
+        <div class="mt-8 flex gap-4 hero-button">
+            <a
+                href="message-checker.html"
+                class="bg-tertiary text-on-tertiary font-bold text-base px-8 py-4 rounded-full hover:rounded-2xl min-h-[56px] flex items-center justify-center ambient-shadow-hover animate-pulse-glow active:scale-95"
+            >
+                Start Checking Now
+
+                <span class="material-symbols-outlined ml-2">
+                    arrow_forward
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
+
+        <!-- Verification Tools -->
+        <section
+            class="w-full max-w-container-max px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col gap-stack-md z-10"
+        >
+            <div class="animate-slide-left">
+                <h2 class="text-2xl md:text-3xl font-bold text-on-surface mb-2">
+                    Verification Tools
+                </h2>
+
+                <p class="text-base text-gray-600 max-w-3xl">
+                    Pick whatever you have in hand. Every check gives you a risk score,
+                    simple reasons, and the next step.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter w-full">
+
+                <!-- Message -->
+                <a
+                    class="tool-card group bg-surface-container-lowest p-8 rounded-xl hover:rounded-2xl ambient-shadow ambient-shadow-hover flex flex-col items-start gap-4 min-h-[230px] relative border border-surface-variant animate-slide-left delay-100"
+                    href="message-checker.html"
+                >
+                    <div class="tool-icon w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-2">
+                        <span class="material-symbols-outlined text-[28px]">
+                            chat
+                        </span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-on-surface group-hover:text-primary">
+                        Message Checker
+                    </h3>
+
+                    <p class="text-sm text-on-surface-variant">
+                        Paste suspicious SMS or WhatsApp messages to scan for fraud patterns and risk signals.
+                    </p>
+
+                    <span class="material-symbols-outlined absolute bottom-6 right-6 text-on-surface-variant opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0">
+                        arrow_forward
+                    </span>
+                </a>
+
+                <!-- Screenshot -->
+                <a
+                    class="tool-card group bg-surface-container-lowest p-8 rounded-xl hover:rounded-2xl ambient-shadow ambient-shadow-hover flex flex-col items-start gap-4 min-h-[230px] relative border border-surface-variant animate-slide-bottom delay-200"
+                    href="screenshot-analyser.html"
+                >
+                    <div class="tool-icon w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container mb-2">
+                        <span class="material-symbols-outlined text-[28px]">
+                            image
+                        </span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-on-surface group-hover:text-tertiary">
+                        Screenshot Scan
+                    </h3>
+
+                    <p class="text-sm text-on-surface-variant">
+                        Upload a suspicious screenshot and let OCR extract the text for scam analysis.
+                    </p>
+
+                    <span class="material-symbols-outlined absolute bottom-6 right-6 text-on-surface-variant opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0">
+                        arrow_forward
+                    </span>
+                </a>
+
+                <!-- URL -->
+                <a
+                    class="tool-card group bg-surface-container-lowest p-8 rounded-xl hover:rounded-2xl ambient-shadow ambient-shadow-hover flex flex-col items-start gap-4 min-h-[230px] relative border border-surface-variant animate-slide-bottom delay-300"
+                    href="url-scanner.html"
+                >
+                    <div class="tool-icon w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container mb-2">
+                        <span class="material-symbols-outlined text-[28px]">
+                            link
+                        </span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-on-surface group-hover:text-primary">
+                        Link Scanner
+                    </h3>
+
+                    <p class="text-sm text-on-surface-variant">
+                        Check suspicious URLs for risky patterns before opening them.
+                    </p>
+
+                    <span class="material-symbols-outlined absolute bottom-6 right-6 text-on-surface-variant opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0">
+                        arrow_forward
+                    </span>
+                </a>
+
+                <!-- QR -->
+                <a
+                    class="tool-card group bg-surface-container-lowest p-8 rounded-xl hover:rounded-2xl ambient-shadow ambient-shadow-hover flex flex-col items-start gap-4 min-h-[230px] relative border border-surface-variant animate-slide-right delay-400"
+                    href="qr-scanner.html"
+                >
+                    <div class="tool-icon w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container mb-2">
+                        <span class="material-symbols-outlined text-[28px]">
+                            qr_code_scanner
+                        </span>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-on-surface group-hover:text-error">
+                        QR Code Safe
+                    </h3>
+
+                    <p class="text-sm text-on-surface-variant">
+                        Decode QR codes safely and inspect their destination before interacting.
+                    </p>
+
+                    <span class="material-symbols-outlined absolute bottom-6 right-6 text-on-surface-variant opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0">
+                        arrow_forward
+                    </span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Trust / Awareness -->
+        <section class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex justify-center mt-stack-lg">
+            <div
+                class="trust-section max-w-container-max w-full p-8 md:p-12 flex flex-col items-center text-center gap-stack-md rounded-[36px] hover:rounded-[48px] transition-all duration-500 shadow-lg animate-slide-bottom"
+                style="background: linear-gradient(135deg, rgb(224, 231, 255) 0%, rgb(221, 214, 254) 50%, rgb(196, 181, 253) 100%);"
+            >
+                <span class="material-symbols-outlined text-4xl text-tertiary animate-float">
+                    verified_user
+                </span>
+
+                <h2 class="text-2xl md:text-4xl font-bold text-on-surface max-w-3xl leading-tight">
+                    Scams move fast.
+                    <br>
+                    Take a second before you act.
+                </h2>
+
+                <p class="text-base md:text-lg text-on-surface-variant max-w-2xl">
+                    ScamSense gives you a second opinion before you tap, share, or pay.
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-4 mt-4">
+
+                    <a
+                        href="awareness%20.html"
+                        class="bg-primary-container text-on-primary-container font-semibold text-sm px-8 py-4 rounded-full hover:rounded-2xl min-h-[56px] flex items-center justify-center hover:bg-white hover:shadow-md active:scale-95"
+                    >
+                        See common scams
+                    </a>
+
+                    <a
+                        href="resource.html"
+                        class="bg-tertiary text-on-tertiary font-semibold text-sm px-8 py-4 rounded-full hover:rounded-2xl min-h-[56px] flex items-center justify-center hover:bg-tertiary/90 hover:shadow-md active:scale-95"
+                    >
+                        How to report officially
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Assistant -->
+    <a
+        href="help-desk.html"
+        aria-label="Open AI Assistant"
+        class="ai-button fixed bottom-8 right-8 w-16 h-16 bg-secondary text-on-secondary rounded-full shadow-2xl flex items-center justify-center hover:bg-secondary/90 hover:scale-110 active:scale-95 z-40 focus:outline-none focus:ring-4 focus:ring-secondary/50"
+    >
+        <span class="material-symbols-outlined text-[32px]">
+            smart_toy
+        </span>
+    </a>
+
+    <!-- Footer -->
+    <footer class="w-full py-stack-lg px-margin-mobile md:px-margin-desktop flex flex-col gap-stack-md bg-surface-container-high z-10 mt-auto animate-fade-in">
+
+        <div class="flex flex-col md:flex-row justify-between items-start gap-stack-md border-b border-surface-variant pb-stack-md w-full max-w-container-max mx-auto">
+
+            <div class="flex flex-col gap-3 max-w-sm">
+                <a
+                    href="home.html"
+                    class="text-xl font-bold text-primary"
+                >
+                    ScamSense
+                </a>
+
+                <p class="text-sm text-on-surface">
+                    Protecting you with intuitive, easy-to-use security tools designed for peace of mind.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-x-gutter gap-y-3">
+
+                <a class="text-sm font-semibold text-tertiary" href="#">
+                    Home
+                </a>
+
+                <a class="text-sm text-on-surface-variant hover:text-primary" href="our-mission.html">
+                    Our Mission
+                </a>
+
+                <a class="text-sm text-on-surface-variant hover:text-primary" href="help-desk.html">
+                    Help Desk
+                </a>
+
+                <a class="text-sm text-on-surface-variant hover:text-primary" href="resource.html">
+                    Resources
+                </a>
+
+                <a class="text-sm text-on-surface-variant hover:text-primary" href="media.html">
+                    Media
+                </a>
+
+                <a class="text-sm text-on-surface-variant hover:text-primary" href="awareness%20.html">
+                    Awareness
+                </a>
+
+                <a class="text-sm text-on-surface-variant hover:text-primary" href="history.html">
+                    History
+                </a>
+
+                <a class="text-sm text-on-surface-variant hover:text-primary" href="contact-us.html">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+
+        <div class="w-full max-w-container-max mx-auto flex items-center justify-center pt-2">
+            <p class="text-xs text-on-surface-variant text-center">
+                © ScamSense. All rights reserved. Built for security and trust.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const languageSelector = document.getElementById("languageSelector");
+
+        const translations = {
+            hi: {
+                "Home": "होम",
+                "Message Checker": "संदेश जाँच",
+                "Help Desk": "सहायता केंद्र",
+                "Resources": "संसाधन",
+                "Media": "मीडिया",
+                "Awareness": "जागरूकता",
+                "Our Mission": "हमारा मिशन",
+                "History": "इतिहास",
+                "Login": "लॉग इन",
+                "Think It's a Scam?": "क्या यह धोखाधड़ी है?",
+                "Check Before You Act.": "कार्रवाई से पहले जाँचें।",
+                "Stay safe with our easy-to-use tools. Verify suspicious messages,\n            links, screenshots, and QR codes before you click, share, or pay.": "हमारे आसान उपकरणों के साथ सुरक्षित रहें। क्लिक, साझा या भुगतान करने से पहले संदिग्ध संदेश, लिंक, स्क्रीनशॉट और QR कोड की जाँच करें।",
+                "Start Checking Now": "अभी जाँच शुरू करें",
+                "Verification Tools": "जाँच उपकरण",
+                "Pick whatever you have in hand. Every check gives you a risk score,\n                    simple reasons, and the next step.": "जो भी जानकारी आपके पास हो उसे जाँचें। हर जाँच जोखिम स्कोर, सरल कारण और अगला कदम बताती है।",
+                "Paste suspicious SMS or WhatsApp messages to scan for fraud patterns and risk signals.": "धोखाधड़ी के पैटर्न और जोखिम संकेतों के लिए संदिग्ध SMS या WhatsApp संदेश चिपकाएँ।",
+                "Screenshot Scan": "स्क्रीनशॉट जाँच",
+                "Upload a suspicious screenshot and let OCR extract the text for scam analysis.": "संदिग्ध स्क्रीनशॉट अपलोड करें और OCR को धोखाधड़ी विश्लेषण के लिए पाठ निकालने दें।",
+                "Link Scanner": "लिंक जाँच",
+                "Check suspicious URLs for risky patterns before opening them.": "संदिग्ध URL खोलने से पहले जोखिम वाले पैटर्न की जाँच करें।",
+                "QR Code Safe": "QR कोड जाँच",
+                "Decode QR codes safely and inspect their destination before interacting.": "QR कोड को सुरक्षित रूप से डिकोड करें और उपयोग से पहले उनका गंतव्य जाँचें।",
+                "Scams move fast.": "धोखाधड़ी तेजी से फैलती है।",
+                "Take a second before you act.": "कार्रवाई से पहले एक पल रुकें।",
+                "ScamSense gives you a second opinion before you tap, share, or pay.": "ScamSense टैप, साझा या भुगतान करने से पहले आपको दूसरी राय देता है।",
+                "See common scams": "आम धोखाधड़ी देखें",
+                "How to report officially": "आधिकारिक रिपोर्ट कैसे करें",
+                "Protecting you with intuitive, easy-to-use security tools designed for peace of mind.": "मन की शांति के लिए बने सहज और आसान सुरक्षा उपकरणों से आपकी सुरक्षा।",
+                "Contact Us": "संपर्क करें"
+            },
+            mr: {
+                "Home": "मुख्यपृष्ठ",
+                "Message Checker": "संदेश तपासणी",
+                "Help Desk": "मदत केंद्र",
+                "Resources": "संसाधने",
+                "Media": "माध्यमे",
+                "Awareness": "जागरूकता",
+                "Our Mission": "आमचे ध्येय",
+                "History": "इतिहास",
+                "Login": "लॉग इन",
+                "Think It's a Scam?": "ही फसवणूक आहे का?",
+                "Check Before You Act.": "कृती करण्यापूर्वी तपासा.",
+                "Stay safe with our easy-to-use tools. Verify suspicious messages,\n            links, screenshots, and QR codes before you click, share, or pay.": "आमच्या सोप्या साधनांसह सुरक्षित राहा. क्लिक, शेअर किंवा पैसे देण्यापूर्वी संशयास्पद संदेश, लिंक, स्क्रीनशॉट आणि QR कोड तपासा.",
+                "Start Checking Now": "आता तपासणी सुरू करा",
+                "Verification Tools": "तपासणी साधने",
+                "Pick whatever you have in hand. Every check gives you a risk score,\n                    simple reasons, and the next step.": "तुमच्याकडे असलेली कोणतीही माहिती तपासा. प्रत्येक तपासणी धोका गुण, सोपी कारणे आणि पुढची पायरी देते.",
+                "Paste suspicious SMS or WhatsApp messages to scan for fraud patterns and risk signals.": "फसवणुकीचे नमुने आणि जोखीम संकेत तपासण्यासाठी संशयास्पद SMS किंवा WhatsApp संदेश पेस्ट करा.",
+                "Screenshot Scan": "स्क्रीनशॉट तपासणी",
+                "Upload a suspicious screenshot and let OCR extract the text for scam analysis.": "संशयास्पद स्क्रीनशॉट अपलोड करा आणि फसवणूक विश्लेषणासाठी OCR ला मजकूर काढू द्या.",
+                "Link Scanner": "लिंक तपासणी",
+                "Check suspicious URLs for risky patterns before opening them.": "संशयास्पद URL उघडण्यापूर्वी जोखमीचे नमुने तपासा.",
+                "QR Code Safe": "QR कोड तपासणी",
+                "Decode QR codes safely and inspect their destination before interacting.": "QR कोड सुरक्षितपणे डिकोड करा आणि वापरण्यापूर्वी त्यांचे गंतव्य तपासा.",
+                "Scams move fast.": "फसवणूक वेगाने पसरते.",
+                "Take a second before you act.": "कृती करण्यापूर्वी क्षणभर थांबा.",
+                "ScamSense gives you a second opinion before you tap, share, or pay.": "ScamSense टॅप, शेअर किंवा पैसे देण्यापूर्वी तुम्हाला दुसरे मत देते.",
+                "See common scams": "सामान्य फसवणूक पहा",
+                "How to report officially": "अधिकृत तक्रार कशी करावी",
+                "Protecting you with intuitive, easy-to-use security tools designed for peace of mind.": "मनःशांतीसाठी तयार केलेल्या सोप्या सुरक्षा साधनांनी तुमचे संरक्षण.",
+                "Contact Us": "आमच्याशी संपर्क साधा"
+            }
+        };
+
+        const textNodes = [];
+        const textWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        let currentNode;
+
+        while ((currentNode = textWalker.nextNode())) {
+            if (currentNode.parentElement.closest("script, style")) {
+                continue;
+            }
+
+            textNodes.push([currentNode, currentNode.nodeValue]);
+        }
+
+        function applyLanguage(language) {
+            const dictionary = translations[language] || {};
+
+            textNodes.forEach(([node, originalText]) => {
+                const key = originalText.trim();
+                const translatedText = dictionary[key] || key;
+                node.nodeValue = originalText.replace(key, translatedText);
+            });
+
+            document.documentElement.lang = language;
+        }
+
+        languageSelector.addEventListener("change", () => {
+            localStorage.setItem("scamsense-language", languageSelector.value);
+            applyLanguage(languageSelector.value);
+        });
+
+        const savedLanguage = localStorage.getItem("scamsense-language");
+
+        if (savedLanguage) {
+            languageSelector.value = savedLanguage;
+        }
+
+        applyLanguage(languageSelector.value);
+    </script>
+
+    <script src="scamsense-translate.js"></script>
+</body>
+</html>
