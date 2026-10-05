@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Patient Registration Validation</title>
+</head>
+
+<body>
+
+<h1>City Care Hospital</h1>
+
+<h2>Patient Registration Validation</h2>
+
+<script>
+
+let name = "Yash";
+let mobile = "9876543225410";
+let patientId = "YR-1234";
+let email = "yashgmail.com";
+
+let namePattern = /^[A-Za-z ]+$/;
+let mobilePattern = /^[0-9]{10}$/;
+let idPattern = /^YR-[0-9]{4}$/;
+let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (namePattern.test(name))
+    document.write("Patient Name is valid<br>");
+else
+    document.write("Invalid Patient Name<br>");
+
+if (mobilePattern.test(mobile))
+    document.write("Mobile Number is valid<br>");
+else
+    document.write("Invalid Mobile Number<br>");
+
+if (idPattern.test(patientId))
+    document.write("Patient ID is valid<br>");
+else
+    document.write("Invalid Patient ID<br>");
+
+if (emailPattern.test(email))
+    document.write("Email is valid<br>");
+else
+    document.write("Invalid Email<br>");
+
+document.write("<br>Patient registration successful!");
+
+</script>
+
+</body>
+
+</html>

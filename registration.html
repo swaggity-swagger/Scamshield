@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>City Care Hospital - Patient Registration</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>City Care Hospital</h1>
+
+<hr>
+
+<nav>
+
+<a href="index.html">Home</a> |
+<a href="index.html#signin">Sign In</a> |
+<a href="index.html#signup">Sign Up</a> |
+<a href="index.html#facilities">Facilities</a> |
+<a href="registration.html">Patient Registration</a>
+
+</nav>
+
+<hr>
+
+</header>
+
+
+<main>
+
+<h2>Patient Registration</h2>
+
+
+<form id="form">
+
+<fieldset>
+
+<legend>Patient Details</legend>
+
+
+<label for="name">Patient Name</label>
+
+<input
+type="text"
+id="name"
+name="name"
+>
+
+<span class="error" id="nameError"></span>
+
+
+<label for="dob">Date of Birth</label>
+
+<input
+type="date"
+id="dob"
+name="dob"
+>
+
+<span class="error" id="dobError"></span>
+
+
+<label>Gender</label>
+
+<div class="radio">
+
+<input
+type="radio"
+name="gender"
+value="Male"
+> Male
+
+<input
+type="radio"
+name="gender"
+value="Female"
+> Female
+
+</div>
+
+<span class="error" id="genderError"></span>
+
+
+<label for="blood">Blood Group</label>
+
+<select id="blood" name="blood">
+
+<option value="">Select Blood Group</option>
+
+<option>A+</option>
+<option>B+</option>
+<option>AB+</option>
+<option>O+</option>
+<option>A-</option>
+<option>B-</option>
+<option>AB-</option>
+<option>O-</option>
+
+</select>
+
+<span class="error" id="bloodError"></span>
+
+</fieldset>
+
+
+<fieldset>
+
+<legend>Contact Details</legend>
+
+
+<label for="mobile">Mobile Number</label>
+
+<input
+type="text"
+id="mobile"
+name="mobile"
+>
+
+<span class="error" id="mobileError"></span>
+
+
+<label for="email">Email</label>
+
+<input
+type="email"
+id="email"
+name="email"
+>
+
+<span class="error" id="emailError"></span>
+
+
+<label for="address">Address</label>
+
+<textarea
+id="address"
+name="address"
+></textarea>
+
+<span class="error" id="addressError"></span>
+
+</fieldset>
+
+
+<fieldset>
+
+<legend>Appointment Details</legend>
+
+
+<label for="department">Department</label>
+
+<select
+id="department"
+name="department"
+>
+
+<option value="">Select Department</option>
+
+<option>General Medicine</option>
+<option>Cardiology</option>
+<option>Orthopedics</option>
+<option>Pediatrics</option>
+
+</select>
+
+<span class="error" id="departmentError"></span>
+
+
+<label for="regDate">Registration Date</label>
+
+<input
+type="date"
+id="regDate"
+name="regDate"
+>
+
+<span class="error" id="dateError"></span>
+
+</fieldset>
+
+
+<div class="form-buttons">
+
+<button type="submit">Submit</button>
+
+<button type="reset">Reset</button>
+
+</div>
+
+
+<p id="success"></p>
+
+
+<!-- Exp 5 Output -->
+
+<div id="exp5Output"></div>
+
+<div id="priorityOutput"></div>
+
+<div id="patientOutput"></div>
+
+<div id="ageOutput"></div>
+
+<div id="regexOutput"></div>
+
+
+</form>
+
+</main>
+
+
+<footer>
+
+<hr>
+
+<p>
+
+<small>Copyright City Care Hospital 2026</small>
+
+</p>
+
+</footer>
+
+
+<script src="script1.js"></script>
+
+</body>
+
+</html>
